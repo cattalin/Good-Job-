@@ -1,0 +1,23 @@
+.panel-primary{
+  position: relative;
+  width: 27%;
+  margin-top: -10px;
+}
+.panel-heading{
+  height:30px;
+}
+.panel-body{
+  height: 50px;
+}
+#commentBox{
+  position: absolute;
+  top:50%;
+  width: 92%;
+  height:30px;
+  margin:'solid 1px grey';
+}
+#commentBoxHead{
+  position: absolute;
+  left: 5%;
+  top:5%;
+}
