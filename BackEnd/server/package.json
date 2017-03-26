@@ -15,7 +15,8 @@
     "jsonwebtoken":"*",
     "body-parser":"*",
     "passport":"*",
-    "passport-jwt":"*"
+    "passport-jwt":"*", 
+    "morgan":"*"
   },
   "author": "MEAN Team",
   "license": "ISC"
