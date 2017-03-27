@@ -10,6 +10,14 @@ import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FeedComponent } from './components/feed/feed.component';
 import { VideoComponent } from './components/video/video.component';
+
+
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FlashMessagesModule } from 'angular2-flash-messages';
+
+
+import { ValidateService } from './services/validate.service';
+import { AuthenticateService } from './services/authenticate.service';
 import { VideoFeedService } from './services/videofeed/video-feed.service';
 
 const appRoutes: Routes =  [
@@ -23,6 +31,7 @@ const appRoutes: Routes =  [
 @NgModule({
   declarations: [
     AppComponent,
+    NavbarComponent,
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
@@ -33,9 +42,10 @@ const appRoutes: Routes =  [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    FlashMessagesModule
   ],
-  providers: [VideoFeedService],
+  providers: [VideoFeedService, AuthenticateService, ValidateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
