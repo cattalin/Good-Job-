@@ -14,7 +14,7 @@ import { VideoComponent } from './components/video/video.component';
 
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FlashMessagesModule } from 'angular2-flash-messages';
-
+import { AuthGuard } from './guards/auth.guard';
 
 import { ValidateService } from './services/validate.service';
 import { AuthenticateService } from './services/authenticate.service';
@@ -24,8 +24,8 @@ const appRoutes: Routes =  [
   {path:'', component: FeedComponent},
   {path:'register', component: RegisterComponent},
   {path:'login', component: LoginComponent},
-  /*{path:'profile', component: ProfileComponent, canActivate:[AuthGuard]},
-  {path:'feed', component: FeedComponent, canActivate:[AuthGuard]}*/
+  {path:'profile', component: ProfileComponent, canActivate:[AuthGuard]},
+ /* {path:'feed', component: FeedComponent, canActivate:[AuthGuard]}*/
 ]
 
 @NgModule({
@@ -45,7 +45,7 @@ const appRoutes: Routes =  [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule
   ],
-  providers: [VideoFeedService, AuthenticateService, ValidateService],
+  providers: [VideoFeedService, AuthenticateService, AuthGuard, ValidateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
