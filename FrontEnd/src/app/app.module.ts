@@ -16,9 +16,12 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthGuard } from './guards/auth.guard';
 
-import { ValidateService } from './services/validate.service';
+import { ValidateService } from './services/validate.service'; 
 import { AuthenticateService } from './services/authenticate.service';
+import { CheckVideoService } from './services/check-video.service';
+import { SubmitVideoService } from './services/submit-video.service';
 import { VideoFeedService } from './services/videofeed/video-feed.service';
+import { SubmitVideoComponent } from './components/submit-video/submit-video.component';
 
 const appRoutes: Routes =  [
   {path:'', component: FeedComponent},
@@ -36,7 +39,8 @@ const appRoutes: Routes =  [
     RegisterComponent,
     ProfileComponent,
     FeedComponent,
-    VideoComponent
+    VideoComponent,
+    SubmitVideoComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,7 @@ const appRoutes: Routes =  [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule
   ],
-  providers: [VideoFeedService, AuthenticateService, AuthGuard, ValidateService],
+  providers: [VideoFeedService, AuthenticateService, AuthGuard, ValidateService,CheckVideoService,SubmitVideoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
