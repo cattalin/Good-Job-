@@ -24,12 +24,13 @@ import { VideoFeedService } from './services/videofeed/video-feed.service';
 import { SubmitVideoComponent } from './components/submit-video/submit-video.component';
 
 const appRoutes: Routes =  [
-  {path:'', component: FeedComponent},
+  {path:'', component: FeedComponent, canActivate:[AuthGuard]},
   {path:'register', component: RegisterComponent},
   {path:'login', component: LoginComponent},
   {path:'profile', component: ProfileComponent, canActivate:[AuthGuard]},
- /* {path:'feed', component: FeedComponent, canActivate:[AuthGuard]}*/
+  {path:'upload', component: SubmitVideoComponent, canActivate:[AuthGuard]}
 ]
+  
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ const appRoutes: Routes =  [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule
   ],
-  providers: [VideoFeedService, AuthenticateService, AuthGuard, ValidateService,CheckVideoService,SubmitVideoService],
+  providers: [VideoFeedService, AuthenticateService, AuthGuard, ValidateService, 
+  CheckVideoService, SubmitVideoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

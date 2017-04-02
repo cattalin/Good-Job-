@@ -16,15 +16,15 @@ export class AuthenticateService {
   registerUser(user){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    let ep = this.prepEndpoint('users/register');
-    return this.http.post(ep, user,{headers: headers})
+    let ep = this.prepEndpoint('routes/register');
+    return this.http.post(ep, user, {headers: headers})
       .map(res => res.json());
   }
 
   authenticateUser(user){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    let ep = this.prepEndpoint('users/authenticate');
+    let ep = this.prepEndpoint('routes/authenticate');
     return this.http.post(ep, user,{headers: headers})
       .map(res => res.json());
   }
@@ -34,7 +34,7 @@ export class AuthenticateService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type','application/json');
-    let ep = this.prepEndpoint('users/profile');
+    let ep = this.prepEndpoint('routes/profile');
     return this.http.get(ep,{headers: headers})
       .map(res => res.json());
   }
