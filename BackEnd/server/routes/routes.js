@@ -4,6 +4,26 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const User = require('../models/user');
+const Video = require('../models/video');
+
+//post a video
+router.post('/upload', (req, res, next) => {
+  let newVideo = new Video({
+    link: req.body.link, 
+    description: req.body.description,
+    userId: req.body.userId, 
+    rating: req.body.rating
+  })
+
+  Video.addVideo(newVideo, (err, video) => {
+    if(err){
+      res.json({success: false, msg:'Failed to upload video'});
+    } else {
+    }
+  })
+});
+
+
 
 // Register
 router.post('/register', (req, res, next) => {
@@ -33,7 +53,6 @@ router.post('/authenticate', (req, res, next) => {
     if(!user){
       return res.json({success: false, msg: 'User not found'});
     }
-
     User.comparePassword(password, user.password, (err, isMatch) => {
       if(err) throw err;
       if(isMatch){
