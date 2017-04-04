@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticateService } from '../../services/authenticate.service';
 import { ValidateService } from '../../services/validate.service';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormsModule, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
 
