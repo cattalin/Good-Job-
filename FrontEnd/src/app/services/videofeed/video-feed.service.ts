@@ -32,13 +32,13 @@ export class VideoFeedService {
     let ep = this.prepEndpoint('routes/feed');
     return this.http.get(ep, options).map(res => {
       let data = res.json();
-      let i=0;
+
         if(data.success){
           data['videos'].forEach(video => {
                //console.log("##"+video.link+ video.description);
                var vid: VideoData = new VideoData(video.link, video.description,
                video.title, video.username, video.rating);
-               this.videos[i++]=vid;
+               this.videos.push(vid);
           });
           return this.videos;
         } 
