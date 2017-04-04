@@ -56,7 +56,7 @@ export class SubmitVideoComponent implements OnInit {
       }
       this.submitVideoService.submitVideo(toSend).subscribe((data)=>{
         if(data.success){
-          this.flashMessage.show('Uplod successful', 
+          this.flashMessage.show('Upload successful', 
           {cssClass: 'alert-success', timeout: 1000});
         } 
         else{

@@ -1,0 +1,9 @@
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+<form autocomplete="on">
+   <span class="icon"><i class="fa fa-search"></i></span>
+   <span class="separator">xddd</span>
+   <input class="searchbox" (focus)="checktags()" placeholder="Tags..." type="text" [(ngModel)]="search_text" name="search_text" class="search_control">
+   <div *ngFor="let Tag of Tags" id="testBOX">{{Tag.name}}</div>
+</form>
+</div>

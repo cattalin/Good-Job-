@@ -12,25 +12,28 @@ import { FeedComponent } from './components/feed/feed.component';
 import { VideoComponent } from './components/video/video.component';
 
 
+
+// --WIP--Sebi
+import { SearchComponent } from './components/search/search.component';
+import {SearchService} from './services/search.service';
+// --ENDWIP--Sebi
+
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FlashMessagesModule } from 'angular2-flash-messages';
-import { AuthGuard } from './guards/auth.guard';
 
-import { ValidateService } from './services/validate.service'; 
+
+import { ValidateService } from './services/validate.service';
 import { AuthenticateService } from './services/authenticate.service';
-import { CheckVideoService } from './services/check-video.service';
-import { SubmitVideoService } from './services/submit-video.service';
 import { VideoFeedService } from './services/videofeed/video-feed.service';
-import { SubmitVideoComponent } from './components/submit-video/submit-video.component';
 
 const appRoutes: Routes =  [
-  {path:'', component: FeedComponent, canActivate:[AuthGuard]},
+  {path:'', component: FeedComponent},
   {path:'register', component: RegisterComponent},
   {path:'login', component: LoginComponent},
-  {path:'profile', component: ProfileComponent, canActivate:[AuthGuard]},
-  {path:'upload', component: SubmitVideoComponent, canActivate:[AuthGuard]}
+  //{path:'search',component: SearchComponent} -- Ignorati, Sebi nu stie sa adauge componenta la index :)
+  /*{path:'profile', component: ProfileComponent, canActivate:[AuthGuard]},
+  {path:'feed', component: FeedComponent, canActivate:[AuthGuard]}*/
 ]
-  
 
 @NgModule({
   declarations: [
@@ -41,7 +44,7 @@ const appRoutes: Routes =  [
     ProfileComponent,
     FeedComponent,
     VideoComponent,
-    SubmitVideoComponent
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -50,8 +53,7 @@ const appRoutes: Routes =  [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule
   ],
-  providers: [VideoFeedService, AuthenticateService, AuthGuard, ValidateService, 
-  CheckVideoService, SubmitVideoService],
+  providers: [VideoFeedService, AuthenticateService, ValidateService, SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
