@@ -1,3 +1,52 @@
-<p>
-  profile works!
-</p>
+<!-- forms tutorial:
+https://www.youtube.com/watch?v=Yfebo2mFrTU 
+https://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.html
+-->
+
+
+<!-- DISPLAY DATA -->
+<div *ngIf="user">
+  <h2 class="page-header">Welcome, {{user.name}}</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Rating: not implemented yet </li>
+    <li class="list-group-item">Username: {{user.username}}</li>
+    <li class="list-group-item">Name: {{user.name}}
+
+      <button (click)="toggleName()" *ngIf="!editPassword && !editName && !editEmail"> Edit </button>
+
+      <!-- EDIT NAME -->
+      <div *ngIf="editName">
+        <br>
+        <form [formGroup]="nameForm" autocomplete="off" novalidate>
+          <div class="form-field">
+            <label>New name:</label>
+            <input formControlName="name" type="text" class="form-control" id="name" [(ngModel)]="user.name" name="name">
+            <div [hidden]="nameForm.valid" class="alert alert-danger">
+              Name must be between 4-25 characters long.
+            </div>
+          </div>
+
+          <button type="button" [disabled]="!isValidNameForm()" (click)="saveName()" class="save button">Save</button>
+        </form>
+      </div>
+
+    </li>
+
+    <li class="list-group-item">Email: {{user.email}}
+      <button (click)="toggleEmail()" *ngIf="!editPassword && !editName && !editEmail" required> Edit </button>
+
+      <!-- EDIT E-MAIL -->
+
+      <div *ngIf="editEmail">
+        <br>
+
+
+      </div>
+    </li>
+
+  </ul>
+  <button (click)="togglePassword() " *ngIf="!editPassword && !editName && !editEmail "> Edit password </button>
+  <button *ngIf="!editPassword && !editName && !editEmail "> My Videos </button>
+  <button *ngIf="!editPassword && !editName && !editEmail "> Favourites </button>
+  <button *ngIf="!editPassword && !editName && !editEmail "> Following </button>
+</div>
