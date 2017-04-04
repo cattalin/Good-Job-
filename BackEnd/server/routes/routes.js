@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const User = require('../models/user');
 const Video = require('../models/video');
+const Tag = require('../models/tag');
 
 //post a video
 router.post('/upload', (req, res, next) => {
@@ -26,7 +27,18 @@ router.post('/upload', (req, res, next) => {
   })
 });
 
-
+// Search
+router.post('/search',(req,res,next)=>{
+  /*Tag.addTag({name:'test1',videos:'NOTHING'});
+  Tag.addTag({name:'test2',videos:'NOTHING2'});*/
+  if(req.body.type=='reqTags')
+  {
+    Tag.getAllTags((err, tags)=>{
+      res.json({tags: tags});
+    })
+    
+  }
+});
 
 // Register
 router.post('/register', (req, res, next) => {
@@ -87,6 +99,7 @@ router.get('/profile', passport.authenticate('jwt', {session:false}), (req, res,
 });
 
 
+
 router.get('/feed', (req, res) => { 
   const query = {
     skip: req.query.skip,
@@ -107,6 +120,7 @@ router.get('/feed', (req, res) => {
       
     res.json({success: true, videos: videos});
   })
+
 
   
 });
