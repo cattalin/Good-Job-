@@ -12,6 +12,11 @@ import { FeedComponent } from './components/feed/feed.component';
 import { VideoComponent } from './components/video/video.component';
 
 
+
+// --WIP--Sebi
+import { SearchComponent } from './components/search/search.component';
+// --ENDWIP--Sebi
+
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 
@@ -24,6 +29,7 @@ const appRoutes: Routes =  [
   {path:'', component: FeedComponent},
   {path:'register', component: RegisterComponent},
   {path:'login', component: LoginComponent},
+  //{path:'search',component: SearchComponent} -- Ignorati, Sebi nu stie sa adauge componenta la index :)
   /*{path:'profile', component: ProfileComponent, canActivate:[AuthGuard]},
   {path:'feed', component: FeedComponent, canActivate:[AuthGuard]}*/
 ]
@@ -36,7 +42,8 @@ const appRoutes: Routes =  [
     RegisterComponent,
     ProfileComponent,
     FeedComponent,
-    VideoComponent
+    VideoComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
