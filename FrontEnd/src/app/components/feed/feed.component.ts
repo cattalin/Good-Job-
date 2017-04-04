@@ -17,10 +17,14 @@ export class FeedComponent implements OnInit {
   to:     null
 };
 
-  videos: VideoData[];
-  constructor(private adService: VideoFeedService) {}
+  videos: VideoData[] = [];
+  constructor(private videoService: VideoFeedService) {}
+
+
   ngOnInit() {
-    this.videos = this.adService.getVideos(this.q);
+    this.videoService.getVideos(this.q).subscribe(vids => {this.videos=vids;});
+
+    
   }
 
 }

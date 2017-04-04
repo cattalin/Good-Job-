@@ -9,11 +9,12 @@ import { URLSearchParams, RequestOptions } from '@angular/http';
 @Injectable()
 export class VideoFeedService {
 
+  videos: VideoData[] = [];
 
-  constructor(private http:Http) { 
+  constructor(private http:Http) { }
+ 
 
-  }
-
+  
   getVideos(query: any){
     let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
     let headers = new Headers();
@@ -26,16 +27,41 @@ export class VideoFeedService {
     //this.loadToken();
     //headers.append('Authorization', this.authToken);
     //headers.append('Content-Type','application/json');
+
+
     let ep = this.prepEndpoint('routes/feed');
-    this.http.get(ep, options)
-      .map(res => {console.log(res); res.json()});
+    return this.http.get(ep, options).map(res => {
+      let data = res.json();
+      let i=0;
+        if(data.success){
+          data['videos'].forEach(video => {
+               //console.log("##"+video.link+ video.description);
+               var vid: VideoData = new VideoData(video.link, video.description,
+               video.title, video.username, video.rating);
+               this.videos[i++]=vid;
+          });
+          return this.videos;
+        } 
+        else{
+          console.log("Nice error")
+        }
+      },
+      err=>{
+
+      });
     
-    return [
+
+
+
+    //res.forEach(element => {
+      
+    //});
+    /*return [
       new VideoData("oprrx0Yjy4U",  "podcastul secolului"),
       new VideoData("Gazp4GpbcAM",  "tutorialu secolului"),
       new VideoData("oprrx0Yjy4U",  "podcastul secolului"),
       new VideoData("Gazp4GpbcAM",  "tutorialu secolului")
-    ]
+    ]*/
   }
 
   private prepEndpoint(ep){

@@ -14,6 +14,7 @@ export class SubmitVideoComponent implements OnInit {
   description :String;
   rating : number;
   userId: number;
+  username: String;
 
 
   constructor(private authService:AuthenticateService,
@@ -24,6 +25,7 @@ export class SubmitVideoComponent implements OnInit {
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
       this.userId=profile.user._id;
+      this.username=profile.user.username;
     },
     err => {
       console.log(err);
@@ -52,9 +54,10 @@ export class SubmitVideoComponent implements OnInit {
         title: this.title,
         link: this.getCode(this.link),
         description: this.description,
-        rating: this.rating
+        rating: this.rating, 
+        username: this.username
       }
-      this.submitVideoService.submitVideo(toSend).subscribe((data)=>{
+      this.submitVideoService.submitVideo(toSend).subscribe(data=>{
         if(data.success){
           this.flashMessage.show('Uplod successful', 
           {cssClass: 'alert-success', timeout: 1000});
@@ -71,7 +74,7 @@ export class SubmitVideoComponent implements OnInit {
   getCode(link:String){
     var n = link.indexOf("watch?v=");
 
-    return link.substring(n, n+11);
+    return link.substring(n+8, n+19);
   }
 
 }

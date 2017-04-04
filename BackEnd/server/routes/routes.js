@@ -13,6 +13,7 @@ router.post('/upload', (req, res, next) => {
     title: req.body.title,
     description: req.body.description,
     userId: req.body.userId, 
+    username: req.body.username,
     rating: req.body.rating
   })
 
@@ -86,16 +87,28 @@ router.get('/profile', passport.authenticate('jwt', {session:false}), (req, res,
 });
 
 
-router.get('/feed', (req, res) => {
-  let q = {};
-  let skip = req.query.skip;
-  let limit = req.query.limit;
-  let sort  = req.query.sort;
-  q.from = req.query.from;
-  q.to = req.query.to;
+router.get('/feed', (req, res) => { 
+  const query = {
+    skip: req.query.skip,
+    limit: req.query.limit,
+    sort: req.query.sort,
+    from: req.query.from,
+    to: req.query.to
+}
+  
+  Video.getVideos(query, (err, videos) =>{
+    if(err) throw err;
+    if(!videos){
+      return res.json({success: false, msg: 'Videos not found'});
+    }
+      videos.forEach(function(element) {
+      console.log(element);
+    }, this);
+      
+    res.json({success: true, videos: videos});
+  })
 
-  console.log(limit)
-  res.json({success: "true"});
+  
 });
 
 module.exports = router;
