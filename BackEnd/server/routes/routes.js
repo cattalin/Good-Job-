@@ -10,6 +10,7 @@ const Video = require('../models/video');
 router.post('/upload', (req, res, next) => {
   let newVideo = new Video({
     link: req.body.link, 
+    title: req.body.title,
     description: req.body.description,
     userId: req.body.userId, 
     rating: req.body.rating
@@ -19,6 +20,7 @@ router.post('/upload', (req, res, next) => {
     if(err){
       res.json({success: false, msg:'Failed to upload video'});
     } else {
+      res.json({success: true, msg:'Video saved'});
     }
   })
 });
@@ -53,6 +55,7 @@ router.post('/authenticate', (req, res, next) => {
     if(!user){
       return res.json({success: false, msg: 'User not found'});
     }
+    console.log('+'+password+'+ +'+ user.password+'+');
     User.comparePassword(password, user.password, (err, isMatch) => {
       if(err) throw err;
       if(isMatch){
@@ -80,6 +83,19 @@ router.post('/authenticate', (req, res, next) => {
 // Profile
 router.get('/profile', passport.authenticate('jwt', {session:false}), (req, res, next) => {
   res.json({user: req.user});
+});
+
+
+router.get('/feed', (req, res) => {
+  let q = {};
+  let skip = req.query.skip;
+  let limit = req.query.limit;
+  let sort  = req.query.sort;
+  q.from = req.query.from;
+  q.to = req.query.to;
+
+  console.log(limit)
+  res.json({success: "true"});
 });
 
 module.exports = router;

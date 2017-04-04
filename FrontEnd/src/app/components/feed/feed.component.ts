@@ -8,10 +8,19 @@ import { VideoData } from '../../models/video-data';
 })
 export class FeedComponent implements OnInit {
 
+  private q = {
+  sort:   '-id',
+  select: null,
+  limit:  1000,
+  skip:   0,
+  from:   null,
+  to:     null
+};
+
   videos: VideoData[];
   constructor(private adService: VideoFeedService) {}
   ngOnInit() {
-    this.videos = this.adService.getVideos();
+    this.videos = this.adService.getVideos(this.q);
   }
 
 }

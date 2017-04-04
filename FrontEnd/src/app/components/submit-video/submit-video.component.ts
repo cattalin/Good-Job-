@@ -9,10 +9,13 @@ import { FlashMessagesService } from 'angular2-flash-messages';
   styleUrls: ['./submit-video.component.css']
 })
 export class SubmitVideoComponent implements OnInit {
-  url: String;
+  link: String;
+  title: String;
   description :String;
   rating : number;
   userId: number;
+
+
   constructor(private authService:AuthenticateService,
   private checkVideoService :CheckVideoService, 
   private submitVideoService :SubmitVideoService,
@@ -33,7 +36,12 @@ export class SubmitVideoComponent implements OnInit {
     if(this.rating==undefined)
       this.flashMessage.show('Please select a rating for the link', 
       {cssClass: 'alert-danger', timeout: 3000});
-    if(!this.checkVideoService.checkURL(this.url)){
+    if(this.title==undefined){
+      //insert the link video title here
+      this.flashMessage.show('Please insert a title for the link', 
+      {cssClass: 'alert-danger', timeout: 3000});
+    }
+    if(!this.checkVideoService.checkURL(this.link)){
       this.flashMessage.show('Please insert a valid link', 
       {cssClass: 'alert-danger', timeout: 3000});
     }
@@ -41,7 +49,8 @@ export class SubmitVideoComponent implements OnInit {
       console.log(Date());
       var toSend={
         userId: this.userId,
-        link: this.getCode(this.url),
+        title: this.title,
+        link: this.getCode(this.link),
         description: this.description,
         rating: this.rating
       }

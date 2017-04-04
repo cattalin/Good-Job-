@@ -3,6 +3,7 @@ const config = require('../config/database');
 
 VideoSchema = mongoose.Schema({
     link: String,
+    title: String,
     description: String,
     rating: Number,
     userId:{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }
