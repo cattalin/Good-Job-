@@ -7,61 +7,69 @@ import { tokenNotExpired } from 'angular2-jwt';
 export class AuthenticateService {
   authToken: any;
   user: any;
-  isDev:boolean;
+  isDev: boolean;
 
-  constructor(private http:Http) {
+  constructor(private http: Http) {
     //this.isDev = true; // Change to false before deployment
   }
 
-  registerUser(user){
+  registerUser(user) {
     let headers = new Headers();
-    headers.append('Content-Type','application/json');
+    headers.append('Content-Type', 'application/json');
     let ep = this.prepEndpoint('routes/register');
-    return this.http.post(ep, user, {headers: headers})
+    return this.http.post(ep, user, { headers: headers })
       .map(res => res.json());
   }
 
-  authenticateUser(user){
+  updateUser(user) {
     let headers = new Headers();
-    headers.append('Content-Type','application/json');
-    let ep = this.prepEndpoint('routes/authenticate');
-    return this.http.post(ep, user,{headers: headers})
+    headers.append('Content-Type', 'application/json');
+    let ep = this.prepEndpoint('users/updateProfile');
+    return this.http.post(ep, user, { headers: headers })
       .map(res => res.json());
   }
 
-  getProfile(){
+  authenticateUser(user) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let ep = this.prepEndpoint('routes/authenticate');
+    return this.http.post(ep, user, { headers: headers })
+      .map(res => res.json());
+  }
+
+  getProfile() {
     let headers = new Headers();
     this.loadToken();
     headers.append('Authorization', this.authToken);
-    headers.append('Content-Type','application/json');
+    headers.append('Content-Type', 'application/json');
     let ep = this.prepEndpoint('routes/profile');
-    return this.http.get(ep,{headers: headers})
+    return this.http.get(ep, { headers: headers })
       .map(res => res.json());
   }
 
-  storeUserData(token, user){
+  storeUserData(token, user) {
     localStorage.setItem('id_token', token);
     localStorage.setItem('user', JSON.stringify(user));
     this.authToken = token;
     this.user = user;
   }
 
-  loadToken(){
+  loadToken() {
     const token = localStorage.getItem('id_token');
     this.authToken = token;
   }
 
-  loggedIn(){
+  loggedIn() {
     return tokenNotExpired();
   }
 
-  logout(){
+  logout() {
     this.authToken = null;
     this.user = null;
     localStorage.clear();
   }
 
-  prepEndpoint(ep){
-    return 'http://localhost:8000/'+ep;
+  prepEndpoint(ep) {
+    return 'http://localhost:8000/' + ep;
   }
 }
