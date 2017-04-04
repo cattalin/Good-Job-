@@ -15,6 +15,7 @@ import { VideoComponent } from './components/video/video.component';
 
 // --WIP--Sebi
 import { SearchComponent } from './components/search/search.component';
+import {SearchService} from './services/search.service';
 // --ENDWIP--Sebi
 
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -52,7 +53,7 @@ const appRoutes: Routes =  [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule
   ],
-  providers: [VideoFeedService, AuthenticateService, ValidateService],
+  providers: [VideoFeedService, AuthenticateService, ValidateService, SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
