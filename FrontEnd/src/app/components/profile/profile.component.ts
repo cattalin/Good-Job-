@@ -28,8 +28,10 @@ export class ProfileComponent implements OnInit {
   constructor(private authService: AuthenticateService, private router: Router, private nf: FormBuilder, //
     private flashMessage: FlashMessagesService) {
 
+    let nameRegex = '([A-Za-z\- ]+)';
+
     this.nameForm = this.nf.group({
-      name: ['', [Validators.minLength(4), Validators.maxLength(25)]]
+      name: ['', [Validators.minLength(4), Validators.maxLength(25), Validators.pattern(nameRegex)]]
     });
 
   };

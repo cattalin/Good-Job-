@@ -24,7 +24,7 @@ export class AuthenticateService {
   updateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    let ep = this.prepEndpoint('users/updateProfile');
+    let ep = this.prepEndpoint('routes/updateProfile');
     return this.http.post(ep, user, { headers: headers })
       .map(res => res.json());
   }
