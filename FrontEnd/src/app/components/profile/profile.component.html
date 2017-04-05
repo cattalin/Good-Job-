@@ -20,13 +20,13 @@ https://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.ht
         <form [formGroup]="nameForm" autocomplete="off" novalidate>
           <div class="form-field">
             <label>New name:</label>
-            <input formControlName="name" type="text" class="form-control" id="name" [(ngModel)]="user.name" name="name">
+            <input formControlName="name" type="text" class="form-control" [(ngModel)]="newName" name="newName">
             <div [hidden]="nameForm.valid" class="alert alert-danger">
               Name must be between 4-25 characters long and must contain only letters and '-'.
             </div>
           </div>
 
-          <button type="button" [disabled]="!isValidNameForm()" (click)="saveName()" class="save button">Save</button>
+          <button [disabled]="!isValidNameForm()" type="button" (click)="updateUserName()">Save</button>
         </form>
       </div>
 
@@ -36,10 +36,26 @@ https://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.ht
       <button (click)="toggleEmail()" *ngIf="!editPassword && !editName && !editEmail" required> Edit </button>
 
       <!-- EDIT E-MAIL -->
+      <div *ngIf="editEmail"><br>
+        <form [formGroup]="emailForm" autocomplete="off" novalidate>
 
-      <div *ngIf="editEmail">
-        <br>
+          <div class="form-field">
+            <label>New e-mail:</label>
+            <input formControlName="n_email" type="email" class="form-control" [(ngModel)]="newEmail" name="newEmail">
+            <div [hidden]="emailForm.valid" class=" alert alert-danger ">
+              Make sure you enter a valid e-mail address.
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Confirm:</label>
+            <input formControlName="c_email" type="email" class="form-control" [(ngModel)]="confEmail" name="confEmail">
+            <div *ngIf="!checkEmail()" class=" alert alert-danger ">
+              The emails don't match.
+            </div>
+          </div>
 
+          <button type="button" [disabled]="!checkEmail()" (click)="updateUserEmail()">Save</button>
+        </form>
 
       </div>
     </li>

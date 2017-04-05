@@ -21,10 +21,18 @@ export class AuthenticateService {
       .map(res => res.json());
   }
 
-  updateUser(user) {
+  updateUserName(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    let ep = this.prepEndpoint('routes/updateProfile');
+    let ep = this.prepEndpoint('routes/updateName');
+    return this.http.post(ep, user, { headers: headers })
+      .map(res => res.json());
+  }
+
+  updateUserEmail(user) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let ep = this.prepEndpoint('routes/updateEmail');
     return this.http.post(ep, user, { headers: headers })
       .map(res => res.json());
   }

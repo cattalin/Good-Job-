@@ -27,9 +27,12 @@ module.exports.getUserById = function (id, callback) {
   User.findById(id, callback);
 }
 
-module.exports.updateUser = function (newUser, callback) {
-  console.log(newUser.name);
-  User.update({ id: newUser._id }, { name: newUser.name }, callback);
+module.exports.updateName = function (update, callback) {
+  User.update({ _id: update.id }, { name: update.name }, callback);
+}
+
+module.exports.updateEmail = function (update, callback) {
+  User.update({ _id: update.id }, { email: update.email }, callback);
 }
 
 module.exports.getUserByUsername = function (username, callback) {

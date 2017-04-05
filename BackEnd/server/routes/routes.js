@@ -57,19 +57,27 @@ router.post('/register', (req, res, next) => {
   });
 });
 
-
-// Update User
-router.post('/updateProfile', (req, res, next) => {
-  User.updateUser({ id: req.body._id, name: req.body.name }, (err, user) => {
+// Update User: Name
+router.post('/updateName', (req, res, next) => {
+  User.updateName({ id: req.body._id, name: req.body.name }, (err, user) => {
     if (err) {
-      res.json({ success: false, msg: 'Failed to update profile' });
+      res.json({ success: false, msg: 'Failed to update name' });
     } else {
-      res.json({ success: true, msg: 'Profile updated' });
+      res.json({ success: true, msg: 'Name updated' });
     }
   });
-
 });
 
+// Update User: Email
+router.post('/updateEmail', (req, res, next) => {
+  User.updateEmail({ id: req.body._id, email: req.body.email }, (err, user) => {
+    if (err) {
+      res.json({ success: false, msg: 'Failed to update e-mail' });
+    } else {
+      res.json({ success: true, msg: 'E-mail updated' });
+    }
+  });
+});
 
 // Authenticate
 router.post('/authenticate', (req, res, next) => {
@@ -111,8 +119,6 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req, r
   res.json({ user: req.user });
 });
 
-
-
 router.get('/feed', (req, res) => {
   const query = {
     skip: req.query.skip,
@@ -133,9 +139,6 @@ router.get('/feed', (req, res) => {
 
     res.json({ success: true, videos: videos });
   })
-
-
-
 });
 
 module.exports = router;
