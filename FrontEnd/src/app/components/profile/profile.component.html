@@ -22,7 +22,7 @@ https://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.ht
             <label>New name:</label>
             <input formControlName="name" type="text" class="form-control" id="name" [(ngModel)]="user.name" name="name">
             <div [hidden]="nameForm.valid" class="alert alert-danger">
-              Name must be between 4-25 characters long.
+              Name must be between 4-25 characters long and must contain only letters and '-'.
             </div>
           </div>
 
