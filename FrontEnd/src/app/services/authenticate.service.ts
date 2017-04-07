@@ -37,6 +37,14 @@ export class AuthenticateService {
       .map(res => res.json());
   }
 
+  updateUserPassword(user) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let ep = this.prepEndpoint('routes/updatePassword');
+    return this.http.post(ep, user, { headers: headers })
+      .map(res => res.json());
+  }
+
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');

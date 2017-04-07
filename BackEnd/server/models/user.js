@@ -35,6 +35,15 @@ module.exports.updateEmail = function (update, callback) {
   User.update({ _id: update.id }, { email: update.email }, callback);
 }
 
+module.exports.updatePassword = function (update, callback) {
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(update.password, salt, (err, hash) => {
+      if (err) throw err;
+      User.update({ _id: update.id }, { password: hash }, callback);
+    });
+  });
+}
+
 module.exports.getUserByUsername = function (username, callback) {
   const query = { username: username }
   User.findOne(query, callback);

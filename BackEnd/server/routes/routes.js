@@ -79,6 +79,34 @@ router.post('/updateEmail', (req, res, next) => {
   });
 });
 
+// Update User: Password
+router.post('/updatePassword', (req, res, next) => {
+  User.getUserById(req.body._id, (err, user) => {
+    if (err) throw err;
+    if (!user) {
+      console.log('aici');
+      return res.json({ success: false, msg: 'User not found' });
+    }
+
+    User.comparePassword(req.body.oldPassword, user.password, (err, isMatch) => {
+      if (err) throw err;
+      if (isMatch) {
+
+        User.updatePassword({ id: req.body._id, password: req.body.password }, (err, user) => {
+          if (err) {
+            res.json({ success: false, msg: 'Failed to update password' });
+          } else {
+            res.json({ success: true, msg: 'Password updated' });
+          }
+        });
+
+      } else {
+        return res.json({ success: false, msg: 'Wrong password' });
+      }
+    });
+  });
+});
+
 // Authenticate
 router.post('/authenticate', (req, res, next) => {
   const username = req.body.username;
@@ -89,7 +117,7 @@ router.post('/authenticate', (req, res, next) => {
     if (!user) {
       return res.json({ success: false, msg: 'User not found' });
     }
-    console.log('+' + password + '+ +' + user.password + '+');
+
     User.comparePassword(password, user.password, (err, isMatch) => {
       if (err) throw err;
       if (isMatch) {
@@ -117,6 +145,16 @@ router.post('/authenticate', (req, res, next) => {
 // Profile
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   res.json({ user: req.user });
+});
+
+router.get('/viewprofile', (req, res, next) => {
+  User.getUserByUsername(req.username, (err, user) => {
+    if (err) throw err;
+    if (!user) {
+      return res.json({ success: false, msg: 'User not found' });
+    }
+
+  });
 });
 
 router.get('/feed', (req, res) => {

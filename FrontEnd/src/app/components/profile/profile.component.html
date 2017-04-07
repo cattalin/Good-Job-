@@ -5,7 +5,7 @@ https://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.ht
 
 
 <!-- DISPLAY DATA -->
-<div *ngIf="user">
+<div *ngIf="user && !editPassword">
   <h2 class="page-header">Welcome, {{user.name}}</h2>
   <ul class="list-group">
     <li class="list-group-item">Rating: not implemented yet </li>
@@ -27,13 +27,14 @@ https://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.ht
           </div>
 
           <button [disabled]="!isValidNameForm()" type="button" (click)="updateUserName()">Save</button>
+          <button type="button" (click)="cancel()" *ngIf="editPassword || editName || editEmail"> Cancel </button>
         </form>
       </div>
 
     </li>
 
     <li class="list-group-item">Email: {{user.email}}
-      <button (click)="toggleEmail()" *ngIf="!editPassword && !editName && !editEmail" required> Edit </button>
+      <button (click)="toggleEmail()" *ngIf="!editPassword && !editName && !editEmail"> Edit </button>
 
       <!-- EDIT E-MAIL -->
       <div *ngIf="editEmail"><br>
@@ -55,14 +56,47 @@ https://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.ht
           </div>
 
           <button type="button" [disabled]="!checkEmail()" (click)="updateUserEmail()">Save</button>
+          <button type="button" (click)="cancel()" *ngIf="editPassword || editName || editEmail"> Cancel </button>
         </form>
 
       </div>
     </li>
-
   </ul>
-  <button (click)="togglePassword() " *ngIf="!editPassword && !editName && !editEmail "> Edit password </button>
+</div>
+
+<div>
+  <button (click)="togglePassword() " *ngIf="!editPassword && !editName && !editEmail "> Change password </button>
   <button *ngIf="!editPassword && !editName && !editEmail "> My Videos </button>
   <button *ngIf="!editPassword && !editName && !editEmail "> Favourites </button>
   <button *ngIf="!editPassword && !editName && !editEmail "> Following </button>
+</div>
+
+<div *ngIf="editPassword"><br>
+  <p> Change your password:</p>
+  <form [formGroup]="passwordForm" autocomplete="off" novalidate>
+
+    <div class="form-field">
+      <label>Old password:</label>
+      <input formControlName="o_pass" type="password" class="form-control" [(ngModel)]="oldPassword" name="oldPassword">
+    </div>
+
+    <div class="form-field">
+      <label>New password:</label>
+      <input formControlName="n_pass" type="password" class="form-control" [(ngModel)]="newPassword" name="newPassword">
+      <div [hidden]="passwordForm.valid" class=" alert alert-danger ">
+        Your password must be between 5-15 characters long.
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Confirm:</label>
+      <input formControlName="c_pass" type="password" class="form-control" [(ngModel)]="confPassword" name="confPassword">
+      <div *ngIf="!checkPassword()" class=" alert alert-danger ">
+        The passwords don't match.
+      </div>
+    </div>
+
+    <button type="button" [disabled]="!checkPassword()" (click)="updateUserPassword()">Save</button>
+    <button type="button" (click)="cancel()" *ngIf="editPassword || editName || editEmail"> Cancel </button>
+  </form>
+
 </div>

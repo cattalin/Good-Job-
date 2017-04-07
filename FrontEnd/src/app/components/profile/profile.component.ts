@@ -19,6 +19,9 @@ export class ProfileComponent implements OnInit {
   newName: String;
   newEmail: String;
   confEmail: String;
+  oldPassword: String;
+  newPassword: String;
+  confPassword: String;
 
   editName = false;
   editEmail = false;
@@ -26,11 +29,12 @@ export class ProfileComponent implements OnInit {
 
   nameForm: FormGroup;
   emailForm: FormGroup;
+  passwordForm: FormGroup;
 
   //-----------------------------------------------------------------------------------------------//
 
   constructor(private authService: AuthenticateService, private router: Router, private nf: FormBuilder,
-    private ef: FormBuilder, private flashMessage: FlashMessagesService) { }
+    private ef: FormBuilder, private pf: FormBuilder, private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
@@ -47,6 +51,12 @@ export class ProfileComponent implements OnInit {
         c_email: ['']
       });
 
+      this.passwordForm = this.pf.group({
+        o_pass: [''],
+        n_pass: ['', [Validators.required, Validators.maxLength(15), Validators.minLength(5)]],
+        c_pass: ['']
+      });
+
     },
       err => {
         console.log(err);
@@ -58,11 +68,10 @@ export class ProfileComponent implements OnInit {
   //-----------------------------------------------------------------------------------------------//
 
   updateUserName() {
-    const toSend =
-      { _id: this.user._id, name: this.newName }
-    this.authService.updateUserName(toSend).subscribe(data => {
+
+    this.authService.updateUserName({ _id: this.user._id, name: this.newName }).subscribe(data => {
       if (data.success) {
-        this.flashMessage.show('Name updated sucessfuly. Please refresh.', { cssClass: 'alert-success', timeout: 3000 });
+        this.flashMessage.show('Name updated sucessfuly.', { cssClass: 'alert-success', timeout: 3000 });
         this.user.name = this.newName;
       } else {
         this.flashMessage.show('Something went wrong', { cssClass: 'alert-danger', timeout: 3000 });
@@ -76,18 +85,38 @@ export class ProfileComponent implements OnInit {
 
     this.authService.updateUserEmail({ _id: this.user._id, email: this.newEmail }).subscribe(data => {
       if (data.success) {
-        this.flashMessage.show('Email updated sucessfuly. Please refresh.', { cssClass: 'alert-success', timeout: 3000 });
+        this.flashMessage.show('Email updated sucessfuly.', { cssClass: 'alert-success', timeout: 3000 });
         this.user.email = this.newEmail;
       }
       else {
         this.flashMessage.show('Something went wrong', { cssClass: 'alert-danger', timeout: 3000 });
       }
     });
+
     this.editEmail = false;
+  }
+
+  updateUserPassword() {
+
+    this.authService.updateUserPassword({ _id: this.user._id, oldPassword: this.oldPassword, password: this.newPassword }).subscribe(data => {
+      if (data.success) {
+        this.flashMessage.show('Password updated sucessfuly.', { cssClass: 'alert-success', timeout: 3000 });
+      }
+      else {
+        this.flashMessage.show('The old password does not match', { cssClass: 'alert-danger', timeout: 3000 });
+      }
+    });
+
+    this.editPassword = false;
   }
 
   //Utils
   //-----------------------------------------------------------------------------------------------//
+
+  checkPassword() {
+    if (this.newPassword === this.confPassword) return true;
+    return false;
+  }
 
   checkEmail() {
     if (this.newEmail === this.confEmail) return true;
@@ -100,6 +129,20 @@ export class ProfileComponent implements OnInit {
 
   //Toggles
   //-----------------------------------------------------------------------------------------------//
+
+  cancel() {
+
+    this.newName = "";
+    this.newEmail = "";
+    this.confEmail = "";
+    this.oldPassword = "";
+    this.newPassword = "";
+    this.confPassword = "";
+
+    this.editName = false;
+    this.editEmail = false;
+    this.editPassword = false;
+  }
 
   toggleName() {
     if (this.editName === true)
@@ -117,6 +160,7 @@ export class ProfileComponent implements OnInit {
   togglePassword() {
     if (this.editPassword === true)
       this.editPassword = false;
-    else this.editPassword = true;
+    else
+      this.editPassword = true;
   }
 }
