@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticateService } from '../../services/authenticate.service';
 import { ValidateService } from '../../services/validate.service';
 import { Router } from '@angular/router';
-import { FormsModule, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormsModule, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+
 import { FlashMessagesService } from 'angular2-flash-messages';
 
 
@@ -14,65 +15,112 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 
 export class ProfileComponent implements OnInit {
 
-  user: Object;
+  user: any;
+
+  newName: String;
+  newEmail: String;
+  confEmail: String;
+  oldPassword: String;
+  newPassword: String;
+  confPassword: String;
 
   editName = false;
   editEmail = false;
   editPassword = false;
 
   nameForm: FormGroup;
-
+  emailForm: FormGroup;
+  passwordForm: FormGroup;
 
   //-----------------------------------------------------------------------------------------------//
 
-  constructor(private authService: AuthenticateService, private router: Router, private nf: FormBuilder, //
-    private flashMessage: FlashMessagesService) {
-
-    let nameRegex = '([A-Za-z\- ]+)';
-
-    this.nameForm = this.nf.group({
-      name: ['', [Validators.minLength(4), Validators.maxLength(25), Validators.pattern(nameRegex)]]
-    });
-
-  };
+  constructor(private authService: AuthenticateService, private router: Router, private nf: FormBuilder,
+    private ef: FormBuilder, private pf: FormBuilder, private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
       this.user = profile.user;
-      console.log(this.user);
+
+      let nameRegex = '([a-z A-z\-]+)';
+
+      this.nameForm = this.nf.group({
+        name: [this.user.name, [Validators.required, Validators.minLength(4), Validators.maxLength(25), Validators.pattern(nameRegex)]]
+      });
+
+      this.emailForm = this.ef.group({
+        n_email: [this.user.email, [Validators.required, Validators.email]],
+        c_email: ['']
+      });
+
+      this.passwordForm = this.pf.group({
+        o_pass: [''],
+        n_pass: ['', [Validators.required, Validators.maxLength(15), Validators.minLength(5)]],
+        c_pass: ['']
+      });
+
     },
       err => {
         console.log(err);
         return false;
       });
-
   };
 
   //POSTS
   //-----------------------------------------------------------------------------------------------//
 
-  saveName() {
+  updateUserName() {
 
-    console.log(this.user);
-
-    this.authService.updateUser(this.user).subscribe(data => {
+    this.authService.updateUserName({ _id: this.user._id, name: this.newName }).subscribe(data => {
       if (data.success) {
-        this.flashMessage.show('Profile updated sucessfuly.', { cssClass: 'alert-success', timeout: 3000 });
-        this.router.navigate(['/profile']);
+        this.flashMessage.show('Name updated sucessfuly.', { cssClass: 'alert-success', timeout: 3000 });
+        this.user.name = this.newName;
       } else {
         this.flashMessage.show('Something went wrong', { cssClass: 'alert-danger', timeout: 3000 });
-        this.router.navigate(['/profile']);
       }
     });
 
-    //turn off edit mode
     this.editName = false;
+  }
+
+  updateUserEmail() {
+
+    this.authService.updateUserEmail({ _id: this.user._id, email: this.newEmail }).subscribe(data => {
+      if (data.success) {
+        this.flashMessage.show('Email updated sucessfuly.', { cssClass: 'alert-success', timeout: 3000 });
+        this.user.email = this.newEmail;
+      }
+      else {
+        this.flashMessage.show('Something went wrong', { cssClass: 'alert-danger', timeout: 3000 });
+      }
+    });
+
+    this.editEmail = false;
+  }
+
+  updateUserPassword() {
+
+    this.authService.updateUserPassword({ _id: this.user._id, oldPassword: this.oldPassword, password: this.newPassword }).subscribe(data => {
+      if (data.success) {
+        this.flashMessage.show('Password updated sucessfuly.', { cssClass: 'alert-success', timeout: 3000 });
+      }
+      else {
+        this.flashMessage.show('The old password does not match', { cssClass: 'alert-danger', timeout: 3000 });
+      }
+    });
+
+    this.editPassword = false;
   }
 
   //Utils
   //-----------------------------------------------------------------------------------------------//
-  isEmailConfirmed(newEmail, confirmedEmail) {
-    if (newEmail === confirmedEmail) return true;
+
+  checkPassword() {
+    if (this.newPassword === this.confPassword) return true;
+    return false;
+  }
+
+  checkEmail() {
+    if (this.newEmail === this.confEmail) return true;
     return false;
   }
 
@@ -83,6 +131,20 @@ export class ProfileComponent implements OnInit {
   //Toggles
   //-----------------------------------------------------------------------------------------------//
 
+  cancel() {
+
+    this.newName = "";
+    this.newEmail = "";
+    this.confEmail = "";
+    this.oldPassword = "";
+    this.newPassword = "";
+    this.confPassword = "";
+
+    this.editName = false;
+    this.editEmail = false;
+    this.editPassword = false;
+  }
+
   toggleName() {
     if (this.editName === true)
       this.editName = false;
@@ -92,13 +154,14 @@ export class ProfileComponent implements OnInit {
   toggleEmail() {
     if (this.editEmail === true)
       this.editEmail = false;
-    else this.editEmail = true;
-
+    else
+      this.editEmail = true;
   }
 
   togglePassword() {
     if (this.editPassword === true)
       this.editPassword = false;
-    else this.editPassword = true;
+    else
+      this.editPassword = true;
   }
 }

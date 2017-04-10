@@ -57,19 +57,55 @@ router.post('/register', (req, res, next) => {
   });
 });
 
-
-// Update User
-router.post('/updateProfile', (req, res, next) => {
-  User.updateUser({ id: req.body._id, name: req.body.name }, (err, user) => {
+// Update User: Name
+router.post('/updateName', (req, res, next) => {
+  User.updateName({ id: req.body._id, name: req.body.name }, (err, user) => {
     if (err) {
-      res.json({ success: false, msg: 'Failed to update profile' });
+      res.json({ success: false, msg: 'Failed to update name' });
     } else {
-      res.json({ success: true, msg: 'Profile updated' });
+      res.json({ success: true, msg: 'Name updated' });
     }
   });
-
 });
 
+// Update User: Email
+router.post('/updateEmail', (req, res, next) => {
+  User.updateEmail({ id: req.body._id, email: req.body.email }, (err, user) => {
+    if (err) {
+      res.json({ success: false, msg: 'Failed to update e-mail' });
+    } else {
+      res.json({ success: true, msg: 'E-mail updated' });
+    }
+  });
+});
+
+// Update User: Password
+router.post('/updatePassword', (req, res, next) => {
+  User.getUserById(req.body._id, (err, user) => {
+    if (err) throw err;
+    if (!user) {
+      console.log('aici');
+      return res.json({ success: false, msg: 'User not found' });
+    }
+
+    User.comparePassword(req.body.oldPassword, user.password, (err, isMatch) => {
+      if (err) throw err;
+      if (isMatch) {
+
+        User.updatePassword({ id: req.body._id, password: req.body.password }, (err, user) => {
+          if (err) {
+            res.json({ success: false, msg: 'Failed to update password' });
+          } else {
+            res.json({ success: true, msg: 'Password updated' });
+          }
+        });
+
+      } else {
+        return res.json({ success: false, msg: 'Wrong password' });
+      }
+    });
+  });
+});
 
 // Authenticate
 router.post('/authenticate', (req, res, next) => {
@@ -81,7 +117,7 @@ router.post('/authenticate', (req, res, next) => {
     if (!user) {
       return res.json({ success: false, msg: 'User not found' });
     }
-    console.log('+' + password + '+ +' + user.password + '+');
+
     User.comparePassword(password, user.password, (err, isMatch) => {
       if (err) throw err;
       if (isMatch) {
@@ -111,7 +147,15 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req, r
   res.json({ user: req.user });
 });
 
+router.get('/viewprofile', (req, res, next) => {
+  User.getUserByUsername(req.username, (err, user) => {
+    if (err) throw err;
+    if (!user) {
+      return res.json({ success: false, msg: 'User not found' });
+    }
 
+  });
+});
 
 router.get('/feed', (req, res) => {
   const query = {
@@ -133,9 +177,6 @@ router.get('/feed', (req, res) => {
 
     res.json({ success: true, videos: videos });
   })
-
-
-
 });
 
 module.exports = router;
