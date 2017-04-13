@@ -30,6 +30,7 @@ import { AuthenticateService } from './services/authenticate.service';
 import { VideoFeedService } from './services/videofeed/video-feed.service';
 import { CheckVideoService } from './services/check-video.service';
 import { SubmitVideoService } from './services/submit-video.service';
+import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 
 const appRoutes: Routes = [
   { path: '', component: FeedComponent, canActivate: [AuthGuard] },
@@ -50,7 +51,8 @@ const appRoutes: Routes = [
     FeedComponent,
     VideoComponent,
     SubmitVideoComponent,
-    SearchComponent
+    SearchComponent,
+    ViewProfileComponent
   ],
   imports: [
     BrowserModule,

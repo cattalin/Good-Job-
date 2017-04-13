@@ -28,8 +28,23 @@ module.exports.getUserById = function (id, callback) {
   User.findById(id, callback);
 }
 
-module.exports.updateUser = function (newUser, callback) {
-  User.update({ _id: newUser._id }, { name: newUser.name }, callback);
+
+module.exports.updateName = function (update, callback) {
+  User.update({ _id: update.id }, { name: update.name }, callback);
+}
+
+module.exports.updateEmail = function (update, callback) {
+  User.update({ _id: update.id }, { email: update.email }, callback);
+}
+
+module.exports.updatePassword = function (update, callback) {
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(update.password, salt, (err, hash) => {
+      if (err) throw err;
+      User.update({ _id: update.id }, { password: hash }, callback);
+    });
+  });
+
 }
 
 module.exports.getUserByUsername = function (username, callback) {
