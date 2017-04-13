@@ -35,8 +35,7 @@ export class VideoFeedService {
 
         if(data.success){
           data['videos'].forEach(video => {
-               //console.log("##"+video.link+ video.description);
-               var vid: VideoData = new VideoData(video.link, video.description,
+               var vid: VideoData = new VideoData(video._id, video.link, video.description,
                video.title, video.username, video.rating);
                this.videos.push(vid);
           });
@@ -49,19 +48,13 @@ export class VideoFeedService {
       err=>{
 
       });
-    
-
-
-
-    //res.forEach(element => {
-      
-    //});
-    /*return [
-      new VideoData("oprrx0Yjy4U",  "podcastul secolului"),
-      new VideoData("Gazp4GpbcAM",  "tutorialu secolului"),
-      new VideoData("oprrx0Yjy4U",  "podcastul secolului"),
-      new VideoData("Gazp4GpbcAM",  "tutorialu secolului")
-    ]*/
+  }
+  rate(rate){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let ep = this.prepEndpoint('routes/rate');
+    return this.http.post(ep, rate, { headers: headers })
+      .map(res => res.json());
   }
 
   private prepEndpoint(ep){

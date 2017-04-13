@@ -37,7 +37,7 @@ export class AuthenticateService {
       .map(res => res.json());
   }
 
-  getProfile() {
+  getProfile() { 
     let headers = new Headers();
     this.loadToken();
     headers.append('Authorization', this.authToken);

@@ -27,6 +27,34 @@ router.post('/upload', (req, res, next) => {
   })
 });
 
+  //rate a video
+  router.post('/rate', (req, res, next) => {
+    let conditions = {
+      _id: req.body._id
+    }
+    let data = {
+      voterId: req.body.userId, 
+      rating: req.body.rating
+    }
+    User.getClassById(data.voterId, (err, cls) => {
+      data.class=cls.class;
+      if (err) 
+        res.json({ success: false, msg: 'Failed' });
+
+      else {
+        Video.rateVideo(conditions, data, (err2, result) => {
+          if (err2) {
+            res.json({ success: false, msg: 'Failed to upload video' });
+          } else {
+            res.json({ success: true, msg: 'Video saved' });
+          }
+        })
+      }
+      
+    });
+    
+  })
+
 // Search
 router.post('/search', (req, res, next) => {
   /*Tag.addTag({name:'test1',videos:'NOTHING'});
@@ -60,7 +88,8 @@ router.post('/register', (req, res, next) => {
 
 // Update User
 router.post('/updateProfile', (req, res, next) => {
-  User.updateUser({ id: req.body._id, name: req.body.name }, (err, user) => {
+  
+  User.updateUser({ _id: req.body.id, name: req.body.name }, (err, user) => {
     if (err) {
       res.json({ success: false, msg: 'Failed to update profile' });
     } else {
@@ -101,7 +130,7 @@ router.post('/authenticate', (req, res, next) => {
         });
       } else {
         return res.json({ success: false, msg: 'Wrong password' });
-      }
+      } 
     });
   });
 });
@@ -111,7 +140,28 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req, r
   res.json({ user: req.user });
 });
 
+/*
+router.get('/feed',function(req,res,next){
+const query = {
+    skip: req.query.skip,
+    limit: req.query.limit,
+    sort: req.query.sort,
+    from: req.query.from,
+    to: req.query.to
+  }
 
+  Video.getVideos(query, (err, videos) => {
+    if (err) throw err;
+    if (!videos) {
+      res.render("feed");
+    }
+    videos.forEach(function (element) {
+      //console.log(element);
+    }, this);
+
+    res.render("feed");
+  })
+});*/
 
 router.get('/feed', (req, res) => {
   const query = {
@@ -128,7 +178,7 @@ router.get('/feed', (req, res) => {
       return res.json({ success: false, msg: 'Videos not found' });
     }
     videos.forEach(function (element) {
-      console.log(element);
+      //console.log(element);
     }, this);
 
     res.json({ success: true, videos: videos });
