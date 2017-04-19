@@ -147,6 +147,16 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req, r
   res.json({ user: req.user });
 });
 
+router.get('/viewprofile', (req, res, next) => {
+  User.getUserByUsername(req.username, (err, user) => {
+    if (err) throw err;
+    if (!user) {
+      return res.json({ success: false, msg: 'User not found' });
+    }
+
+  });
+});
+
 router.get('/feed', (req, res) => {
   const query = {
     skip: req.query.skip,
@@ -162,25 +172,10 @@ router.get('/feed', (req, res) => {
       return res.json({ success: false, msg: 'Videos not found' });
     }
     videos.forEach(function (element) {
-      //console.log(element);
+      console.log(element);
     }, this);
 
     res.json({ success: true, videos: videos });
-  })
-});
-
-router.get('/userprofile', (req, res) => {
-
-  User.getUserByUsername(req.query.username, (err, user) => {
-
-    if (err) throw err;
-    if (!user) {
-      return res.json({ success: false, msg: 'User not found' });
-    }
-
-    res.json({ success: true, user: user });
-    //console.log(user);
-
   })
 });
 
