@@ -37,7 +37,8 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   //{path:'search',component: SearchComponent} -- Ignorati, Sebi nu stie sa adauge componenta la index :)
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'upload', component: SubmitVideoComponent, canActivate: [AuthGuard] }
+  { path: 'upload', component: SubmitVideoComponent, canActivate: [AuthGuard] },
+  { path: 'userprofile', component: ViewProfileComponent, canActivate: [AuthGuard] }
 ]
 
 @NgModule({
