@@ -18,7 +18,8 @@ const UserSchema = mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  class: String
 });
 
 const User = module.exports = mongoose.model('User', UserSchema);
@@ -26,6 +27,7 @@ const User = module.exports = mongoose.model('User', UserSchema);
 module.exports.getUserById = function (id, callback) {
   User.findById(id, callback);
 }
+
 
 module.exports.updateName = function (update, callback) {
   User.update({ _id: update.id }, { name: update.name }, callback);
@@ -42,6 +44,7 @@ module.exports.updatePassword = function (update, callback) {
       User.update({ _id: update.id }, { password: hash }, callback);
     });
   });
+
 }
 
 module.exports.getUserByUsername = function (username, callback) {
@@ -49,9 +52,15 @@ module.exports.getUserByUsername = function (username, callback) {
   User.findOne(query, callback);
 }
 
+
 module.exports.getUserByEmail = function (email, callback) {
   const query = { email: email }
   User.findOne(query, callback);
+}
+
+module.exports.getClassById = function (id, callback){
+  User.findOne({_id:id}, callback).select('class -_id');
+
 }
 
 module.exports.addUser = function (newUser, callback) {

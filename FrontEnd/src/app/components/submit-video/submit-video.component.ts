@@ -12,7 +12,7 @@ export class SubmitVideoComponent implements OnInit {
   link: String;
   title: String;
   description :String;
-  rating : number;
+  rating : number = 5;
   userId: number;
   username: String;
 

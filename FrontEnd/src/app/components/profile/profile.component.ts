@@ -3,6 +3,7 @@ import { AuthenticateService } from '../../services/authenticate.service';
 import { ValidateService } from '../../services/validate.service';
 import { Router } from '@angular/router';
 import { FormsModule, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+
 import { FlashMessagesService } from 'angular2-flash-messages';
 
 
