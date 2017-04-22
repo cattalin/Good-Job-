@@ -184,4 +184,19 @@ router.get('/userprofile', (req, res) => {
   })
 });
 
+router.get('/userprofilebyemail', (req, res) => {
+
+  User.getUserByEmail(req.query.email, (err, user) => {
+
+    if (err) throw err;
+    if (!user) {
+      return res.json({ success: false, msg: 'User not found' });
+    }
+
+    res.json({ success: true, user: user });
+    //console.log(user);
+
+  })
+});
+
 module.exports = router;

@@ -30,6 +30,7 @@ import { VideoFeedService } from './services/videofeed/video-feed.service';
 import { CheckVideoService } from './services/check-video.service';
 import { SubmitVideoService } from './services/submit-video.service';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
+import { UserProfileService } from './services/user-profile.service';
 
 const appRoutes: Routes = [
   { path: '', component: FeedComponent, canActivate: [AuthGuard] },
@@ -63,7 +64,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule
   ],
   providers: [VideoFeedService, AuthenticateService, AuthGuard, ValidateService, SearchService,
-    CheckVideoService, SubmitVideoService],
+    CheckVideoService, SubmitVideoService, UserProfileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

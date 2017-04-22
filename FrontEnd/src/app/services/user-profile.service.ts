@@ -36,8 +36,24 @@ export class UserProfileService {
     }, err => {
       console.log('error');
     });
+  }
 
+  getProfileByEmail(email: any) {
 
+    let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
+    let headers = new Headers();
+    let params: URLSearchParams = new URLSearchParams();
+    params.set("email", email);
+    options.search = params;
+    let ep = this.prepEndpoint('routes/userprofilebyemail');
+    return this.http.get(ep, options).map(res => {
+      let data = res.json();
+      if (data.success) {
+        return data;
+      } else console.log('User not found.');
+    }, err => {
+      console.log('error');
+    });
   }
 
   prepEndpoint(ep) {
