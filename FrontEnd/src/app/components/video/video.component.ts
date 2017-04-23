@@ -31,9 +31,7 @@ export class VideoComponent implements OnInit {
     //return this.sanitizer.sanitize(SecurityContext.URL, "https://www.youtube.com/embed/"+this.data.link);
   }
 
-  getCode() {
-    return "https://www.youtube.com/embed/" + this.data.link;
-    
+  
   rate(event){
     const rate = {
       _id: this.data._id,
@@ -48,6 +46,7 @@ export class VideoComponent implements OnInit {
         this.videoService.rate(rate).subscribe(res =>{
           if (res.success){
             console.log("success");
+            this.data.rating = res.result.rating;
             //event.currentTarget.disabled=true;
           }
         })
@@ -57,6 +56,7 @@ export class VideoComponent implements OnInit {
         this.videoService.rate(rate).subscribe(res =>{
           if (res.success){
             console.log("success");
+            this.data.rating = res.result.rating;
             //event.currentTarget.disabled=true;
           }
         })
@@ -66,6 +66,7 @@ export class VideoComponent implements OnInit {
         this.videoService.rate(rate).subscribe(res =>{
           if (res.success){
             console.log("success");
+            this.data.rating = res.result.rating;
             //event.currentTarget.disabled=true;
           }
         })

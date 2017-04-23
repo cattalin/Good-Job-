@@ -34,6 +34,7 @@ export class VideoFeedService {
       let data = res.json();
 
         if(data.success){
+          this.videos = [];
           data['videos'].forEach(video => {
                var vid: VideoData = new VideoData(video._id, video.link, video.description,
                video.title, video.username, video.rating);

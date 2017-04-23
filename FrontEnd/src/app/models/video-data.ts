@@ -6,6 +6,7 @@ export class VideoData{
     title: String;
     username: String;
     rating: number;
+    votes: String
 
     constructor(_id:String, link:String, desc:String, title:String, username:String, rating:number){
         this._id = _id;

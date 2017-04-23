@@ -6,22 +6,48 @@ const config = require('../config/database');
 const User = require('../models/user');
 const Video = require('../models/video');
 const Tag = require('../models/tag');
+const RatingManager = require('../managers/ratingManager');
+
+
+
+
+/*
+  -------------------VIDEO STUFF---------------------
+*/
+
 
 //post a video
 router.post('/upload', (req, res, next) => {
-  let newVideo = new Video({
+  let newVideo = {
     link: req.body.link,
     title: req.body.title,
     description: req.body.description,
     userId: req.body.userId,
     username: req.body.username,
-    rating: req.body.rating
-  })
+    rating: req.body.rating,
+    class: req.body.class
+  }
+  console.log('the class is'+newVideo.class)
 
-  Video.addVideo(newVideo, (err, video) => {
+  Video.addVideo(new Video(newVideo), (err, video) => {
     if (err) {
       res.json({ success: false, msg: 'Failed to upload video' });
-    } else {
+    } 
+    else {
+      let conditions = {
+        _id: video._id}
+      let data = {
+        voterId: newVideo.userId,
+        rating: newVideo.rating,
+        class: newVideo.class
+      }
+      RatingManager.rateVideo(conditions, data, (err2, result) => {
+        if (err2) {
+          console.log('Failed to rate video');
+        } else {
+           console.log('Video rated');
+        }
+      })
       res.json({ success: true, msg: 'Video saved' });
     }
   })
@@ -42,18 +68,41 @@ router.post('/rate', (req, res, next) => {
       res.json({ success: false, msg: 'Failed' });
 
     else {
-      Video.rateVideo(conditions, data, (err2, result) => {
+      RatingManager.rateVideo(conditions, data, (err2, result) => {
         if (err2) {
-          res.json({ success: false, msg: 'Failed to upload video' });
+          res.json({ success: false, msg: 'Failed to upload video', result: result });
         } else {
-          res.json({ success: true, msg: 'Video saved' });
+          console.log("rating indeed saved")
+          res.json({ success: true, msg: 'Video saved', result: result });
         }
       })
     }
     
   });
-  
 })
+
+//the the basic feed of videos
+router.get('/feed', (req, res) => {
+  const query = {
+    skip: req.query.skip,
+    limit: req.query.limit,
+    sort: req.query.sort,
+    from: req.query.from,
+    to: req.query.to
+  }
+
+  Video.getVideos(query, (err, videos) => {
+    if (err) throw err;
+    if (!videos) {
+      return res.json({ success: false, msg: 'Videos not found' });
+    }
+    videos.forEach(function (element) {
+      //console.log(element);
+    }, this);
+
+    res.json({ success: true, videos: videos });
+  })
+});
 
 
 
@@ -69,13 +118,25 @@ router.post('/search', (req, res, next) => {
   }
 });
 
+
+
+
+
+
+
+
+
+/*
+  -------------------USER STUFF---------------------
+*/
 // Register
 router.post('/register', (req, res, next) => {
   let newUser = new User({
     name: req.body.name,
     email: req.body.email,
     username: req.body.username,
-    password: req.body.password
+    password: req.body.password,
+    class: req.body.class
   });
 
   User.addUser(newUser, (err, user) => {
@@ -179,30 +240,6 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req, r
 });
 
 
-/*
-router.get('/feed',function(req,res,next){
-const query = {
-    skip: req.query.skip,
-    limit: req.query.limit,
-    sort: req.query.sort,
-    from: req.query.from,
-    to: req.query.to
-  }
-
-  Video.getVideos(query, (err, videos) => {
-    if (err) throw err;
-    if (!videos) {
-      res.render("feed");
-    }
-    videos.forEach(function (element) {
-      //console.log(element);
-    }, this);
-
-    res.render("feed");
-  })
-});*/
-
-
 router.get('/viewprofile', (req, res, next) => {
   User.getUserByUsername(req.username, (err, user) => {
     if (err) throw err;
@@ -214,30 +251,7 @@ router.get('/viewprofile', (req, res, next) => {
 });
 
 
-
-router.get('/feed', (req, res) => {
-  const query = {
-    skip: req.query.skip,
-    limit: req.query.limit,
-    sort: req.query.sort,
-    from: req.query.from,
-    to: req.query.to
-  }
-
-  Video.getVideos(query, (err, videos) => {
-    if (err) throw err;
-    if (!videos) {
-      return res.json({ success: false, msg: 'Videos not found' });
-    }
-    videos.forEach(function (element) {
-      //console.log(element);
-    }, this);
-
-    res.json({ success: true, videos: videos });
-  })
-});
-
-router.get('/userprofile', (req, res) => {
+router.get('/userprofile', (req, res) => {//searches for the user by his username
 
   User.getUserByUsername(req.query.username, (err, user) => {
 
