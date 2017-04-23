@@ -84,9 +84,10 @@ router.post('/rate', (req, res, next) => {
 //the the basic feed of videos
 router.get('/feed', (req, res) => {
   const query = {
-    skip: req.query.skip,
-    limit: req.query.limit,
     sort: req.query.sort,
+    select: req.query.select,
+    limit: req.query.limit,
+    skip: req.query.skip,
     from: req.query.from,
     to: req.query.to
   }

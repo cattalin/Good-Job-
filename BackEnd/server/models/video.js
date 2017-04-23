@@ -32,7 +32,10 @@ module.exports.getVideoById = function(id, callback){
 }
 
 module.exports.getVideos = function(q, callback){
-    Video.find(callback).sort([[q.sort, -1]]);
+    if(q.select)
+        Video.find({username: q.select},callback).sort([[q.sort, -1]]);
+    else
+        Video.find(callback).sort([[q.sort, -1]]);
 }
 
 

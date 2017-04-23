@@ -20,27 +20,34 @@ export class FeedComponent implements OnInit {
 };
 
   @Input() videos: VideoData[] = [];
+  @Input() query: any;
+
   currentUser: any;//here should be a user class
 
 
   constructor(private videoService: VideoFeedService,
-              private authService:AuthenticateService) {}
+              private authService:AuthenticateService) {
+      this.query=null;
+    }
 
 
   ngOnInit() {
+    if(this.query)
+      this.q.select=this.query.select;
+    
     this.videoService.getVideos(this.q).subscribe(vids => {this.videos=vids;});
     
     this.currentUser = {
-      _id: "",
-      class: ""
-    }
-    //getting the current user data of this session
-    this.authService.getProfile().subscribe(profile => {
-      this.currentUser._id=profile.user._id;
-      this.currentUser.class=profile.user.class;
-      console.log(this.currentUser);
-    },
-    err => {
+        _id: "",
+        class: ""
+      }
+      //getting the current user data of this session
+      this.authService.getProfile().subscribe(profile => {
+        this.currentUser._id=profile.user._id;
+        this.currentUser.class=profile.user.class;
+        console.log(this.currentUser);
+      },
+      err => {
       console.log(err);
       return false;
     });

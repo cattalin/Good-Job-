@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  Input } from '@angular/core';
 import { UserProfileService } from '../../services/user-profile.service';
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-view-profile',
@@ -10,24 +10,42 @@ import { UserProfileService } from '../../services/user-profile.service';
 })
 export class ViewProfileComponent implements OnInit {
 
+  private q = {
+  sort:   '_id',
+  select: null,
+  limit:  1000,
+  skip:   0,
+};
+
+
   user: any;
   username: String;
   isDataAvailable = false; // subscribe is called after template loading
 
-  constructor(private userProfileService: UserProfileService) {
+  constructor(private userProfileService: UserProfileService,
+              private route: ActivatedRoute) {
     // this.username = userProfileService.getUsername();
-    this.username = 'angoana2';
+    route.data.subscribe(v => {this.username=v.username});
+    
   }
 
   ngOnInit() {
-    this.userProfileService.getProfile(this.username).subscribe(data => {
-      this.user = data.user;
-      this.isDataAvailable = true;
-    },
+    
+    this.route.params.subscribe(params => {
+       this.username = params['username'];
+       this.q.select = this.username;
+
+       this.userProfileService.getProfile(this.username).subscribe(data => {
+          this.user = data.user;
+          this.isDataAvailable = true;
+        },
       err => {
         console.log(err);
         return false;
       });
+    });
+    
+    
   };
 
 }
