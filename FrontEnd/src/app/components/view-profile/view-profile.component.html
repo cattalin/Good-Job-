@@ -1,3 +1,21 @@
-<p>
-  view-profile works!
-</p>
+<div *ngIf="isDataAvailable">
+  <div name="info">
+    <h2 class="page-header">{{user.username}}'s Profile</h2>
+    <div name="follow">
+      <button type="button"> Follow </button>
+    </div>
+    <br>
+    <ul class="list-group">
+      <li class="list-group-item">Rating: not implemented yet </li>
+      <li class="list-group-item">Name: {{user.name}}</li>
+    </ul>
+  </div>
+
+  <div name="rate">
+
+  </div>
+
+
+
+
+</div>

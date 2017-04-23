@@ -31,6 +31,7 @@ import { VideoFeedService } from './services/videofeed/video-feed.service';
 import { CheckVideoService } from './services/check-video.service';
 import { SubmitVideoService } from './services/submit-video.service';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
+import { UserProfileService } from './services/user-profile.service';
 
 const appRoutes: Routes = [
   { path: '', component: FeedComponent, canActivate: [AuthGuard] },
@@ -38,7 +39,8 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   //{path:'search',component: SearchComponent} -- Ignorati, Sebi nu stie sa adauge componenta la index :)
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'upload', component: SubmitVideoComponent, canActivate: [AuthGuard] }
+  { path: 'upload', component: SubmitVideoComponent, canActivate: [AuthGuard] },
+  { path: 'userprofile', component: ViewProfileComponent, canActivate: [AuthGuard] }
 ]
 
 @NgModule({
@@ -63,7 +65,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule
   ],
   providers: [VideoFeedService, AuthenticateService, AuthGuard, ValidateService, SearchService,
-    CheckVideoService, SubmitVideoService],
+    CheckVideoService, SubmitVideoService, UserProfileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

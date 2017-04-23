@@ -5,6 +5,7 @@ import { FormsModule, FormGroup, FormBuilder, Validators, FormControl } from '@a
 import { VideoFeedService } from '../../services/videofeed/video-feed.service';
 
 
+
 @Component({
   selector: 'app-video',
   templateUrl: './video.component.html',
@@ -18,6 +19,7 @@ export class VideoComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer,
               private videoService: VideoFeedService){ }
 
+
   ngOnInit() {
     this.safeLink = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/"+this.data.link);
   }
@@ -29,8 +31,9 @@ export class VideoComponent implements OnInit {
     //return this.sanitizer.sanitize(SecurityContext.URL, "https://www.youtube.com/embed/"+this.data.link);
   }
 
-  
-  
+  getCode() {
+    return "https://www.youtube.com/embed/" + this.data.link;
+    
   rate(event){
     const rate = {
       _id: this.data._id,
@@ -69,7 +72,6 @@ export class VideoComponent implements OnInit {
         console.log(rate);
       break;
     }
-    
   }
 
 }

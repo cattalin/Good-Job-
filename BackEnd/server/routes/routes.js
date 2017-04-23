@@ -202,6 +202,7 @@ const query = {
   })
 });*/
 
+
 router.get('/viewprofile', (req, res, next) => {
   User.getUserByUsername(req.username, (err, user) => {
     if (err) throw err;
@@ -211,6 +212,7 @@ router.get('/viewprofile', (req, res, next) => {
 
   });
 });
+
 
 
 router.get('/feed', (req, res) => {
@@ -232,6 +234,33 @@ router.get('/feed', (req, res) => {
     }, this);
 
     res.json({ success: true, videos: videos });
+  })
+});
+
+router.get('/userprofile', (req, res) => {
+
+  User.getUserByUsername(req.query.username, (err, user) => {
+
+    if (err) throw err;
+    if (!user) {
+      return res.json({ success: false, msg: 'User not found' });
+    }
+
+    res.json({ success: true, user: user });
+  })
+});
+
+router.get('/userprofilebyemail', (req, res) => {
+
+  User.getUserByEmail(req.query.email, (err, user) => {
+
+    if (err) throw err;
+    if (!user) {
+      return res.json({ success: false, msg: 'User not found' });
+    }
+
+    res.json({ success: true, user: user });
+
   })
 });
 
