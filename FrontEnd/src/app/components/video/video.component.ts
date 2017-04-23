@@ -47,6 +47,7 @@ export class VideoComponent implements OnInit {
         console.log(rate);
         this.videoService.rate(rate).subscribe(res =>{
           if (res.success){
+            console.log("success");
             //event.currentTarget.disabled=true;
           }
         })
@@ -55,6 +56,7 @@ export class VideoComponent implements OnInit {
         rate.rating=3;
         this.videoService.rate(rate).subscribe(res =>{
           if (res.success){
+            console.log("success");
             //event.currentTarget.disabled=true;
           }
         })
@@ -63,6 +65,7 @@ export class VideoComponent implements OnInit {
         rate.rating=1;
         this.videoService.rate(rate).subscribe(res =>{
           if (res.success){
+            console.log("success");
             //event.currentTarget.disabled=true;
           }
         })
