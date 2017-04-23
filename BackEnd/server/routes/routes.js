@@ -27,33 +27,35 @@ router.post('/upload', (req, res, next) => {
   })
 });
 
-  //rate a video
-  router.post('/rate', (req, res, next) => {
-    let conditions = {
-      _id: req.body._id
-    }
-    let data = {
-      voterId: req.body.userId, 
-      rating: req.body.rating
-    }
-    User.getClassById(data.voterId, (err, cls) => {
-      data.class=cls.class;
-      if (err) 
-        res.json({ success: false, msg: 'Failed' });
+//rate a video
+router.post('/rate', (req, res, next) => {
+  let conditions = {
+    _id: req.body._id
+  }
+  let data = {
+    voterId: req.body.userId, 
+    rating: req.body.rating
+  }
+  User.getClassById(data.voterId, (err, cls) => {
+    data.class=cls.class;
+    if (err) 
+      res.json({ success: false, msg: 'Failed' });
 
-      else {
-        Video.rateVideo(conditions, data, (err2, result) => {
-          if (err2) {
-            res.json({ success: false, msg: 'Failed to upload video' });
-          } else {
-            res.json({ success: true, msg: 'Video saved' });
-          }
-        })
-      }
-      
-    });
+    else {
+      Video.rateVideo(conditions, data, (err2, result) => {
+        if (err2) {
+          res.json({ success: false, msg: 'Failed to upload video' });
+        } else {
+          res.json({ success: true, msg: 'Video saved' });
+        }
+      })
+    }
     
-  })
+  });
+  
+})
+
+
 
 // Search
 router.post('/search', (req, res, next) => {
@@ -85,17 +87,10 @@ router.post('/register', (req, res, next) => {
   });
 });
 
-<<<<<<< HEAD
 
-// Update User
-router.post('/updateProfile', (req, res, next) => {
-  
-  User.updateUser({ _id: req.body.id, name: req.body.name }, (err, user) => {
-=======
 // Update User: Name
 router.post('/updateName', (req, res, next) => {
   User.updateName({ id: req.body._id, name: req.body.name }, (err, user) => {
->>>>>>> origin/dev
     if (err) {
       res.json({ success: false, msg: 'Failed to update name' });
     } else {
@@ -183,7 +178,7 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req, r
   res.json({ user: req.user });
 });
 
-<<<<<<< HEAD
+
 /*
 router.get('/feed',function(req,res,next){
 const query = {
@@ -206,7 +201,7 @@ const query = {
     res.render("feed");
   })
 });*/
-=======
+
 router.get('/viewprofile', (req, res, next) => {
   User.getUserByUsername(req.username, (err, user) => {
     if (err) throw err;
@@ -216,7 +211,7 @@ router.get('/viewprofile', (req, res, next) => {
 
   });
 });
->>>>>>> origin/dev
+
 
 router.get('/feed', (req, res) => {
   const query = {
