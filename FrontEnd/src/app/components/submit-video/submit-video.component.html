@@ -1,0 +1,25 @@
+<p>
+  submit-video works!
+  remember to change css
+</p>
+<form (submit)="submitVideo()">
+  <div class="form-group">
+    <label>Paste link here:</label>
+    <input type="text" class="form-control" size="50" [(ngModel)]="link" name="link" >
+  </div>
+  <div class="form-group">
+    <label>Title of the post:</label>
+    <input type="text" class="form-control" size="50" [(ngModel)]="title" name="title" >
+  </div>
+  <div class="form-group"> 
+    <label>Describe in a few words:</label>
+    <textarea name="Text1" cols="50" rows="5" class="form-control" maxlength="200" 
+    [(ngModel)]="description" name="description" style="resize:none"></textarea>
+  </div>
+  <div class="form-group">
+    <label>Rating</label>
+    <input type="range" class="form-control" min="0" max="5" [(ngModel)]="rating" name="rating" >
+    <label name="value">{{rating}}</label>
+  </div>
+  <input type="submit" class="btn btn-primary" value="Submit">
+</form>
