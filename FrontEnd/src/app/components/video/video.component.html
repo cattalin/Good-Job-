@@ -27,7 +27,7 @@
 
 <button *ngIf="!isPostComment" type="button" (click)="postComment()">Comment</button>
 <div *ngIf="isPostComment">
-    <app-submit-comment [videoId]="data._id" [user]="user"></app-submit-comment>
+    <app-comment-submit [videoId]="data._id" [user]="user"></app-comment-submit>
     <button type="button" (click)="cancelComment()">Cancel</button>
 </div>
 

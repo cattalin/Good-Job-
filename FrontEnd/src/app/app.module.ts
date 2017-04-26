@@ -6,12 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { FeedComponent } from './components/feed/feed.component';
 import { VideoComponent } from './components/video/video.component';
-import { SubmitVideoComponent } from './components/submit-video/submit-video.component';
 
 
 import { AuthGuard } from './guards/auth.guard';
@@ -33,16 +28,23 @@ import { SubmitVideoService } from './services/submit-video.service';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { UserProfileService } from './services/user-profile.service';
 import { CommentComponent } from './components/comment/comment.component';
-import { SubmitCommentComponent } from './components/submit-comment/submit-comment.component';
 import { CommentFeedComponent } from './components/comment-feed/comment-feed.component';
+import { CommentSubmitComponent } from './components/comment-submit/comment-submit.component';
+import { VideoFeedComponent } from './components/video-feed/video-feed.component';
+import { VideoSubmitComponent } from './components/video-submit/video-submit.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserRegisterComponent } from './components/user-register/user-register.component';
+import { UserLoginComponent } from './components/user-login/user-login.component';
+
+
 
 const appRoutes: Routes = [
-  { path: '', component: FeedComponent, canActivate: [AuthGuard] },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
+  { path: '', component: VideoFeedComponent, canActivate: [AuthGuard] },
+  { path: 'register', component: UserRegisterComponent },
+  { path: 'login', component: UserLoginComponent },
   //{path:'search',component: SearchComponent} -- Ignorati, Sebi nu stie sa adauge componenta la index :)
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'upload', component: SubmitVideoComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+  { path: 'upload', component: VideoSubmitComponent, canActivate: [AuthGuard] },
   { path: 'userprofile/:username', component: ViewProfileComponent, canActivate: [AuthGuard]}
 ]
 
@@ -50,17 +52,17 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     NavbarComponent,
-    LoginComponent,
-    RegisterComponent,
-    ProfileComponent,
-    FeedComponent,
     VideoComponent,
-    SubmitVideoComponent,
     SearchComponent,
     ViewProfileComponent,
     CommentComponent,
-    SubmitCommentComponent,
-    CommentFeedComponent
+    CommentFeedComponent,
+    CommentSubmitComponent,
+    VideoFeedComponent,
+    VideoSubmitComponent,
+    UserProfileComponent,
+    UserRegisterComponent,
+    UserLoginComponent
   ],
   imports: [
     BrowserModule,

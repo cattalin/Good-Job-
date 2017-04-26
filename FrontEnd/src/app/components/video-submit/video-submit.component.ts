@@ -4,11 +4,11 @@ import { SubmitVideoService } from '../../services/submit-video.service';
 import { AuthenticateService } from '../../services/authenticate.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 @Component({
-  selector: 'submit-video',
-  templateUrl: './submit-video.component.html',
-  styleUrls: ['./submit-video.component.css']
+  selector: 'video-submit',
+  templateUrl: './video-submit.component.html',
+  styleUrls: ['./video-submit.component.css']
 })
-export class SubmitVideoComponent implements OnInit {
+export class VideoSubmitComponent implements OnInit {
   link: String;
   title: String;
   description :String;

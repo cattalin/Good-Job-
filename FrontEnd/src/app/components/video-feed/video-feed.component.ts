@@ -4,11 +4,11 @@ import { VideoData } from '../../models/video-data';
 import { AuthenticateService } from '../../services/authenticate.service';
 
 @Component({
-  selector: 'app-feed',
-  templateUrl: './feed.component.html',
-  styleUrls: ['./feed.component.css']
+  selector: 'app-video-feed',
+  templateUrl: './video-feed.component.html',
+  styleUrls: ['./video-feed.component.css']
 })
-export class FeedComponent implements OnInit {
+export class VideoFeedComponent implements OnInit {
  
   private q = {
     sort:   '_id',

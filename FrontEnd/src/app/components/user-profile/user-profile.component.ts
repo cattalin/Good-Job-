@@ -8,12 +8,12 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  selector: 'app-user-profile',
+  templateUrl: './user-profile.component.html',
+  styleUrls: ['./user-profile.component.css']
 })
 
-export class ProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit {
 
   user: any;
 

@@ -6,11 +6,11 @@ import { SubmitVideoService } from '../../services/submit-video.service';
 
 
 @Component({
-  selector: 'app-submit-comment',
-  templateUrl: './submit-comment.component.html',
-  styleUrls: ['./submit-comment.component.css']
+  selector: 'app-comment-submit',
+  templateUrl: './comment-submit.component.html',
+  styleUrls: ['./comment-submit.component.css']
 })
-export class SubmitCommentComponent implements OnInit {
+export class CommentSubmitComponent implements OnInit {
 
   @Input() videoId: number;
   @Input() user: any;
@@ -61,3 +61,4 @@ export class SubmitCommentComponent implements OnInit {
   }
 
 }
+

@@ -8,12 +8,12 @@ import { UserProfileService } from '../../services/user-profile.service';
 
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: 'app-user-register',
+  templateUrl: './user-register.component.html',
+  styleUrls: ['./user-register.component.css']
 })
 
-export class RegisterComponent implements OnInit {
+export class UserRegisterComponent implements OnInit {
 
   name = "";
   username = "";
