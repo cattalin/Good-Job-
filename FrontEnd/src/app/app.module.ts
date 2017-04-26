@@ -32,6 +32,9 @@ import { CheckVideoService } from './services/check-video.service';
 import { SubmitVideoService } from './services/submit-video.service';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { UserProfileService } from './services/user-profile.service';
+import { CommentComponent } from './components/comment/comment.component';
+import { SubmitCommentComponent } from './components/submit-comment/submit-comment.component';
+import { CommentFeedComponent } from './components/comment-feed/comment-feed.component';
 
 const appRoutes: Routes = [
   { path: '', component: FeedComponent, canActivate: [AuthGuard] },
@@ -54,7 +57,10 @@ const appRoutes: Routes = [
     VideoComponent,
     SubmitVideoComponent,
     SearchComponent,
-    ViewProfileComponent
+    ViewProfileComponent,
+    CommentComponent,
+    SubmitCommentComponent,
+    CommentFeedComponent
   ],
   imports: [
     BrowserModule,

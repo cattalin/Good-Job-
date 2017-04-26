@@ -11,16 +11,18 @@ import { AuthenticateService } from '../../services/authenticate.service';
 export class FeedComponent implements OnInit {
  
   private q = {
-  sort:   '_id',
-  select: null,
-  limit:  1000,
-  skip:   0,
-  from:   null,
-  to:     null
+    sort:   '_id',
+    select: null,
+    limit:  1000,
+    skip:   0,
+    from:   null,
+    to:     null
 };
 
   @Input() videos: VideoData[] = [];
   @Input() query: any;
+
+  byRating: boolean = false;
 
   currentUser: any;//here should be a user class
 
@@ -35,16 +37,51 @@ export class FeedComponent implements OnInit {
     if(this.query)
       this.q.select=this.query.select;
     
+    this.requestVideos();
+  }
+
+
+  toggleByRating() {
+    if (this.byRating === true){
+      this.q = {
+        sort:   '_id',
+        select: null,
+        limit:  1000,
+        skip:   0,
+        from:   null,
+        to:     null
+      };
+      this.byRating = false;
+      this.requestVideos();
+    }
+      
+    else {
+      this.byRating = true;
+      this.q = {
+        sort:   'rating',
+        select: null,
+        limit:  1000,
+        skip:   0,
+        from:   null,
+        to:     null
+      };
+      this.requestVideos();
+    }
+  }
+
+  requestVideos(){
     this.videoService.getVideos(this.q).subscribe(vids => {this.videos=vids;});
     
     this.currentUser = {
         _id: "",
-        class: ""
+        class: "",
+        username: ""
       }
       //getting the current user data of this session
       this.authService.getProfile().subscribe(profile => {
-        this.currentUser._id=profile.user._id;
-        this.currentUser.class=profile.user.class;
+        this.currentUser._id = profile.user._id;
+        this.currentUser.class = profile.user.class;
+        this.currentUser.username = profile.user.username;
         console.log(this.currentUser);
       },
       err => {

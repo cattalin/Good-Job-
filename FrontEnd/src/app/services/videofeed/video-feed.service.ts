@@ -10,11 +10,44 @@ import { URLSearchParams, RequestOptions } from '@angular/http';
 export class VideoFeedService {
 
   videos: VideoData[] = [];
-
+  comments: any[] = [];
   constructor(private http:Http) { }
  
 
-  
+  getComments(query: any){
+    let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+    let headers = new Headers();
+    let params: URLSearchParams = new URLSearchParams();
+    for (let key in query){
+      params.set(key.toString(), query[key]);
+    }
+    options.search = params;
+    let ep = this.prepEndpoint('routes/comments');
+
+    return this.http.get(ep, options).map(res => {
+      let data = res.json();
+      if(data.success){
+        this.comments = [];
+        console.log(data  )
+        data['comments'].forEach(comment => {
+              let comm = {
+                _id: comment._id,
+                text: comment.text,
+                userId: comment.userId,
+                videoId: comment.videoId,
+                username: comment.username
+              }
+              this.comments.push(comm);
+        });
+        return this.comments;
+      } 
+      else{
+        console.log("Nice error")
+      }},
+      err=>{
+
+      });
+  }
   getVideos(query: any){
     let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
     let headers = new Headers();
@@ -24,11 +57,6 @@ export class VideoFeedService {
     }
 
     options.search = params;
-    //this.loadToken();
-    //headers.append('Authorization', this.authToken);
-    //headers.append('Content-Type','application/json');
-
-
     let ep = this.prepEndpoint('routes/feed');
     return this.http.get(ep, options).map(res => {
       let data = res.json();

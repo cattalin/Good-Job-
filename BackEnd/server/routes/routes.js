@@ -5,11 +5,52 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const User = require('../models/user');
 const Video = require('../models/video');
+const Comment = require('../models/comment');
 const Tag = require('../models/tag');
 const RatingManager = require('../managers/ratingManager');
 
+/*
+  -------------------COMMENT STUFF---------------------
+*/
+
+//post a comment
+router.post('/postComment', (req, res, next) => {
+  var newComment={
+        userId: req.body.userId,
+        username: req.body.username,
+        text: req.body.text,
+        class: req.body.class,
+        videoId: req.body.videoId
+    }
+    console.log(newComment);
+  Comment.addComment(new Comment(newComment), (err, video) => {
+    if (err) {
+      res.json({ success: false, msg: 'Failed to submit comment.' });
+    } 
+    else {
+      res.json({ success: true, msg: 'Comment posted.' });
+    }
+  })
+});
 
 
+router.get('/comments', (req, res) => {
+  let query = {
+    videoId: req.query.videoId
+  }
+  Comment.getComments(query, (err, comments) => {
+    if (err) throw err;
+    if (!comments) {
+      return res.json({ success: false, msg: 'comments not found' });
+    }
+    comments.forEach(function (element) {
+      console.log(element);
+    }, this);
+
+    res.json({ success: true, comments: comments });
+  })
+
+})
 
 /*
   -------------------VIDEO STUFF---------------------
@@ -52,6 +93,7 @@ router.post('/upload', (req, res, next) => {
     }
   })
 });
+
 
 //rate a video
 router.post('/rate', (req, res, next) => {

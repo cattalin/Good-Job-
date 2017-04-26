@@ -13,6 +13,8 @@ import { VideoFeedService } from '../../services/videofeed/video-feed.service';
 })
 export class VideoComponent implements OnInit {
 
+  isPostComment=false;
+
   @Input() data: VideoData;
   @Input() user: any;
   private safeLink: SafeUrl;
@@ -73,6 +75,14 @@ export class VideoComponent implements OnInit {
         console.log(rate);
       break;
     }
+  }
+
+  postComment() {
+    this.isPostComment=true;
+  }
+
+  cancelComment() {
+    this.isPostComment=false;
   }
 
 }

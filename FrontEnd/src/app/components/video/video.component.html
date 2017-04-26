@@ -16,6 +16,19 @@
     <button id="gj"  (click)="rate($event)" type="button"> GJ! </button>
     <button id="cool" (click)="rate($event)"> Cool </button>
     <button id="meh" (click)="rate($event)"> Meh </button>
-    
-    
+     
+</div>
+
+
+<app-comment-feed [videoId]="data._id"></app-comment-feed>
+
+<!--  POST COMMENT  -->
+<div>
+
+<button *ngIf="!isPostComment" type="button" (click)="postComment()">Comment</button>
+<div *ngIf="isPostComment">
+    <app-submit-comment [videoId]="data._id" [user]="user"></app-submit-comment>
+    <button type="button" (click)="cancelComment()">Cancel</button>
+</div>
+
 </div>

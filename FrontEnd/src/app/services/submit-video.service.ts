@@ -14,4 +14,11 @@ export class SubmitVideoService {
     {headers:headers}).map(res=>res.json());
   }
 
+  submitComment(commentInformation) {
+     let headers=new Headers();
+     headers.append('Content-Type','application/json');
+     return this.http.post('http://localhost:8000/routes/postComment',commentInformation,
+    {headers:headers}).map(res=>res.json());
+  }
+
 }

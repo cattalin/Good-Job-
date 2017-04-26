@@ -22,6 +22,15 @@ export class RegisterComponent implements OnInit {
   password = "";
   confPassword = "";
 
+  isTouched = {
+    name : false,
+    username : false,
+    email : false,
+    confEmail : false,
+    password : false,
+    confPassword : false
+  }
+
   registerForm: FormGroup;
   isDataAvailable = false;
   user = null;
@@ -53,6 +62,7 @@ export class RegisterComponent implements OnInit {
 
   //Validate Name
   isNameValid() {
+
     if (!/([a-z A-z\-]$)/.test(this.name)) return false;
     if (this.name.length < 4 || this.name.length > 25) return false;
     return true;
@@ -72,6 +82,7 @@ export class RegisterComponent implements OnInit {
 
   //Check conf Email
   checkEmail() {
+
     if (this.email === this.confEmail) return true;
     return false;
   }
@@ -86,6 +97,56 @@ export class RegisterComponent implements OnInit {
   checkPassword() {
     if (this.password === this.confPassword) return true;
     return false;
+  }
+
+  // --------- Touched ----------
+
+    setTouchedName() {
+
+    if(!this.isTouched.name) {
+      this.isTouched.name=true;
+      return true;
+    }
+  }
+
+  setTouchedUsername() {
+
+    if(!this.isTouched.username) {
+      this.isTouched.username=true;
+      return true;
+    }
+  }
+
+  setTouchedEmail() {
+
+    if(!this.isTouched.email) {
+      this.isTouched.email=true;
+      return true;
+    }
+  }
+
+  setTouchedConfEmail() {
+
+    if(!this.isTouched.confEmail) {
+      this.isTouched.confEmail=true;
+      return true;
+    }
+  }
+
+  setTouchedPassword() {
+
+    if(!this.isTouched.password) {
+      this.isTouched.password=true;
+      return true;
+    }
+  }
+
+  setTouchedConfPassword() {
+
+    if(!this.isTouched.confPassword) {
+      this.isTouched.confPassword=true;
+      return true;
+    }
   }
 
   onRegisterSubmit() {
