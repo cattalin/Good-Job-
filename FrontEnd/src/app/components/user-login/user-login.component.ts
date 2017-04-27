@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-user-login',
+  templateUrl: './user-login.component.html',
+  styleUrls: ['./user-login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class UserLoginComponent implements OnInit {
   username: String;
   password: String;
 
@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
         this.flashMessage.show('You are now logged in', {
           cssClass: 'alert-success',
           timeout: 5000});
+        console.log(data.user+"+"+data.token);
         this.router.navigate(['']);
       } else {
         this.flashMessage.show(data.msg, {

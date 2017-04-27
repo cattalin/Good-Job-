@@ -4,15 +4,21 @@ import { SubmitVideoService } from '../../services/submit-video.service';
 import { AuthenticateService } from '../../services/authenticate.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 @Component({
-  selector: 'submit-video',
-  templateUrl: './submit-video.component.html',
-  styleUrls: ['./submit-video.component.css']
+  selector: 'video-submit',
+  templateUrl: './video-submit.component.html',
+  styleUrls: ['./video-submit.component.css']
 })
-export class SubmitVideoComponent implements OnInit {
-  url: String;
+export class VideoSubmitComponent implements OnInit {
+  link: String;
+  title: String;
   description :String;
-  rating : number;
+  rating : number = 5;
+
   userId: number;
+  username: String;
+  class: String;
+
+
   constructor(private authService:AuthenticateService,
   private checkVideoService :CheckVideoService, 
   private submitVideoService :SubmitVideoService,
@@ -21,6 +27,8 @@ export class SubmitVideoComponent implements OnInit {
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
       this.userId=profile.user._id;
+      this.username=profile.user.username;
+      this.class = profile.user.class;
     },
     err => {
       console.log(err);
@@ -33,19 +41,28 @@ export class SubmitVideoComponent implements OnInit {
     if(this.rating==undefined)
       this.flashMessage.show('Please select a rating for the link', 
       {cssClass: 'alert-danger', timeout: 3000});
-    if(!this.checkVideoService.checkURL(this.url)){
+    if(this.title==undefined){
+      //insert the link video title here
+      this.flashMessage.show('Please insert a title for the link', 
+      {cssClass: 'alert-danger', timeout: 3000});
+    }
+    if(!this.checkVideoService.checkURL(this.link)){
       this.flashMessage.show('Please insert a valid link', 
       {cssClass: 'alert-danger', timeout: 3000});
     }
     else{
-      console.log(Date());
+      //console.log(Date());
       var toSend={
-        userId: this.userId,
-        link: this.getCode(this.url),
+        link: this.getCode(this.link),
+        title: this.title,
         description: this.description,
-        rating: this.rating
+        userId: this.userId,
+        username: this.username,
+        rating: this.rating, 
+        class: this.class
       }
-      this.submitVideoService.submitVideo(toSend).subscribe((data)=>{
+      console.log(toSend);
+      this.submitVideoService.submitVideo(toSend).subscribe(data=>{
         if(data.success){
           this.flashMessage.show('Upload successful', 
           {cssClass: 'alert-success', timeout: 1000});
@@ -62,7 +79,7 @@ export class SubmitVideoComponent implements OnInit {
   getCode(link:String){
     var n = link.indexOf("watch?v=");
 
-    return link.substring(n, n+11);
+    return link.substring(n+8, n+19);
   }
 
 }
