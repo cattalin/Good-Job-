@@ -1,0 +1,21 @@
+<div>
+    <h3>{{this.data.title}}</h3>        
+    <p [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+        <a [routerLink]="['/userprofile', this.data.username]">by {{this.data.username}}</a>
+    </p>
+    
+    <iframe width="560" height="315" [src]='getCode' frameborder="0" allowfullscreen>
+    </iframe>
+    <!--<video width="560" height="315" src='https://www.youtube.com/watch?v=k2bOl_x1dXM' controlsList='nodownload' html5=True></video>!
+    <object [data]="getCode"
+   width="560" height="315"></object>-->
+    <p>{{this.data.description}}</p>
+    <p>id:{{this.data._id}}</p>
+    <p>Rating:{{this.data.rating}}</p>
+    
+    <button id="gj"  (click)="rate($event)" type="button"> GJ! </button>
+    <button id="cool" (click)="rate($event)"> Cool </button>
+    <button id="meh" (click)="rate($event)"> Meh </button>
+    
+    
+</div>

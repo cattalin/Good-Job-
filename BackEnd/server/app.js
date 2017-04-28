@@ -40,8 +40,8 @@ require('./config/passport')(passport);
 
 
 //Routing
-const users = require('./routes/users');
-app.use('/users', users);
+const routes = require('./routes/routes');
+app.use('/routes', routes);
 
 // Index Route
 app.get('/', (req, res) => {
