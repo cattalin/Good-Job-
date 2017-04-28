@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "*",
     "@angular/router": "*",
     "angular2-flash-messages": "1.0.5",
-    "angular2-jwt": "*",
+    "angular2-jwt": "0.2.0",
     "core-js": "*",
     "rxjs": "*",
     "ts-helpers": "*",

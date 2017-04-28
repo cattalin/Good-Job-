@@ -6,6 +6,7 @@
 
     <ul>
       <li *ngFor="let video of videos">
+        <div>{{video.datetime}}</div>
         <app-video [data]="video" [user]="currentUser"></app-video>
       </li>
 </ul>
