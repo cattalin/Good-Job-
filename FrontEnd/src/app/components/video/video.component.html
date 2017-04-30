@@ -9,16 +9,35 @@
     <!--<video width="560" height="315" src='https://www.youtube.com/watch?v=k2bOl_x1dXM' controlsList='nodownload' html5=True></video>!
     <object [data]="getCode"
    width="560" height="315"></object>-->
-    <p>{{this.data.description}}</p>
-    <p>Rating:{{this.data.rating}}</p>
-   
 
+    <div id="vR" class="voteraiting" role="group">
+      <div id="VRD">
+      <p id="descriere">{{this.data.description}}</p>
+            <p id="raiting" class="leftF">Rating:{{this.data.rating}}</p>
+            <button (onclick)="addButtons($event)" id="voteB" type="submit" class="btn btn-md btn-primary leftF">Vote</button>
+      </div>
+      <div class="btn-group" id="votingButtons">
+        <button type="button" (click)="addRateAndButtons($event)" class="btn btn-primary">~GJ~</button>
+        <button type="button" (click)="addRateAndButtons($event)" class="btn btn-primary">Cool</button>     <!-- doua clase btn-primary si btn-warning !!!-->
+        <button type="button" (click)="addRateAndButtons($event)" class="btn btn-primary">Meh</button>
+
+      </div>
+
+
+    </div>
+
+
+
+<!--
     <div class="btn-group btn-group-lg" role="group" id="raitingB">
     <button id="gj"  (click)="rate($event)" type="button" class="btn btn-success"> GJ! </button>
     <button id="cool" (click)="rate($event)" type="button" class="btn btn-warning"> Cool </button>
     <button id="meh" (click)="rate($event)" type="button" class="btn btn-danger"> Meh </button>
+      <button type="button" class="btn btn-primary" >
+        <span class="glyphicon glyphicon-star" aria-hidden="true" ></span> Star
+      </button>
     </div>
-
+-->
 
 
 <app-comment-feed [videoId]="data._id"></app-comment-feed>

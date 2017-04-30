@@ -1,3 +1,19 @@
+.leftF{
+  float:left;
+}
+#raiting{
+  margin-right: 70%;
+}
+#vR{
+  border-radius: 4px;
+  background-color: #aaaabb;
+  width: 562px;
+  height: 80px;
+}
+#voteB{
+  position: static;
+  right:0%;
+}
 #containerVideo{
   width:63%;
 }
@@ -5,3 +21,32 @@
   position:relative;
   left:35%;
 }
+#buttonVote:{
+  background-color: #000066;
+}
+
+.voteraiting{
+  height: 20px;
+  background-color: #858585;
+}
+#descriere{
+  position: relative;
+  font-size: 15px;
+}
+#VRD{
+  padding-left: 10px;
+}
+/*
+.class1{
+  padding-left: 0px;
+  margin:0 auto;
+  color: white;
+  width:50px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: #003399;
+}
+.class2{
+
+}
+*/
