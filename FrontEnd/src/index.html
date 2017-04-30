@@ -5,6 +5,36 @@
 
   <link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css">
 
+  <script src="jquery-3.2.1.min.js"></script>
+  <script async type="text/javascript">
+
+    // aici este partea de js cu functionalitate pe butonul de search ....
+
+    $(function () {
+      $('a[href="#search"]').on('click', function(event) {
+        event.preventDefault();
+        $('#search').addClass('open');
+        $('#search').attr('z-idex',1);
+        $('#search > form > input[type="search"]').focus();
+      });
+
+      $('#search, #search button.close').on('click keyup', function(event) {
+        if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
+          $(this).removeClass('open');
+        }
+      });
+
+
+
+      $('form').submit(function(event) {
+        event.preventDefault();
+        return false;
+      })
+    });
+  </script>
+
+
+
   <meta charset="utf-8">
   <title>FrontEnd</title>
   <base href="/">
