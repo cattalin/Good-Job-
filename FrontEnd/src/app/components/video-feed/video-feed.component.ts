@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { VideoFeedService } from '../../services/videofeed/video-feed.service';
 import { VideoData } from '../../models/video-data';
 import { AuthenticateService } from '../../services/authenticate.service';
+import { CheckclassService } from '../../services/checkclass.service';
 
 @Component({
   selector: 'app-video-feed',
@@ -28,12 +29,25 @@ export class VideoFeedComponent implements OnInit {
 
 
   constructor(private videoService: VideoFeedService,
-              private authService:AuthenticateService) {
+              private authService:AuthenticateService,
+              private checkclassService : CheckclassService) {
       this.query=null;
     }
 
 
   ngOnInit() {
+    /*this.authService.getProfile().subscribe(profile => {
+        
+        }))
+        
+    },
+    err => {
+      console.log(err);
+      return false;
+    });*/
+
+   
+
     if(this.query)
       this.q.select=this.query.select;
     
@@ -45,8 +59,8 @@ export class VideoFeedComponent implements OnInit {
     if (this.byRating === true){
       this.q = {
         sort:   '_id',
-        select: null,
-        limit:  1000,
+        select: null, 
+        limit:  1000, 
         skip:   0,
         from:   null,
         to:     null
@@ -83,10 +97,24 @@ export class VideoFeedComponent implements OnInit {
         this.currentUser.class = profile.user.class;
         this.currentUser.username = profile.user.username;
         console.log(this.currentUser);
+
+
+
+
+        console.log("id ul secolului este" + this.currentUser._id);
+        this.checkclassService.getClassUpdate(this.currentUser).subscribe(newClass => {
+              console.log(newClass);
+        });
+
+
+
+
+
       },
       err => {
       console.log(err);
       return false;
     });
+    
   }
 }

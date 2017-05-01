@@ -8,6 +8,7 @@ const Video = require('../models/video');
 const Comment = require('../models/comment');
 const Tag = require('../models/tag');
 const RatingManager = require('../managers/ratingManager');
+const ClassManager = require('../managers/classManager');
 
 /*
   -------------------COMMENT STUFF---------------------
@@ -94,7 +95,6 @@ router.post('/upload', (req, res, next) => {
   })
 });
 
-
 //rate a video
 router.post('/rate', (req, res, next) => {
   let conditions = {
@@ -121,7 +121,22 @@ router.post('/rate', (req, res, next) => {
     }
     
   });
-})
+});
+
+//update user class
+router.get('/updateClass',(req, res, next) => {
+  let query = {
+    _id : req.query._id
+  }
+  ClassManager.updateUserClass(query,(err,result)=>{
+    if(err)
+      res.json({success : false, msg: 'Could not update class', result:result});
+    else {
+      console.log("class checked");
+      res.json({success : true, msg: 'class updated',result:result});
+    }
+  })
+});
 
 //the the basic feed of videos
 router.get('/feed', (req, res) => {

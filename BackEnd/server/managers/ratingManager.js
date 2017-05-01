@@ -61,8 +61,6 @@ module.exports.rateVideo = function(conditions, data, callback){
     });
 }
 
-
-
 //TODO: MUST BE CHANGED: RECALCULATES RATING FROM SCRATCH 
 module.exports.recalculateRating = function(query, callback){
     Voter.searchByVideo(query, (err, result) => {
@@ -113,4 +111,4 @@ function isSameVote(vote1, vote2){
         return true;
     //console.log(vote1.voterId +" "+ vote2.voterId+" "+vote1.rating +" "+vote2.rating)
     return false;
-}
+} 

@@ -38,7 +38,6 @@ module.exports.getVideos = function(q, callback){
         Video.find(callback).sort([[q.sort, -1]]);
 }
 
-
 module.exports.addVideo = function(newVideo, callback){
     //we first get some of the uploader's data
     User.getClassById(newVideo.userId, (err, user) =>{

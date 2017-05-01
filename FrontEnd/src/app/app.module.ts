@@ -25,6 +25,7 @@ import { AuthenticateService } from './services/authenticate.service';
 import { VideoFeedService } from './services/videofeed/video-feed.service';
 import { CheckVideoService } from './services/check-video.service';
 import { SubmitVideoService } from './services/submit-video.service';
+import { CheckclassService} from './services/checkclass.service';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { UserProfileService } from './services/user-profile.service';
 import { CommentComponent } from './components/comment/comment.component';
@@ -73,7 +74,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule
   ],
   providers: [VideoFeedService, AuthenticateService, AuthGuard, ValidateService, SearchService,
-    CheckVideoService, SubmitVideoService, UserProfileService],
+    CheckVideoService, SubmitVideoService, UserProfileService,CheckclassService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
