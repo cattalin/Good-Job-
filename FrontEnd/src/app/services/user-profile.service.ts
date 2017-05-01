@@ -20,6 +20,14 @@ export class UserProfileService {
     return this.username;
   }
 
+  followUser(followerId:String, followedId:String){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let ep = this.prepEndpoint('routes/follow');
+    return this.http.post(ep, {followerId, followedId}, { headers: headers })
+      .map(res => res.json());
+  }
+
   getProfile(username: any) {
 
     let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });

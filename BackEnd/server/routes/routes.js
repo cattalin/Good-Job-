@@ -6,6 +6,7 @@ const config = require('../config/database');
 const User = require('../models/user');
 const Video = require('../models/video');
 const Comment = require('../models/comment');
+const Follow = require('../models/follow');
 const Tag = require('../models/tag');
 const RatingManager = require('../managers/ratingManager');
 const ClassManager = require('../managers/classManager');
@@ -179,7 +180,28 @@ router.post('/search', (req, res, next) => {
 
 
 
+/*
+  -------------------FOLLOWING STUFF---------------------
+*/
+router.post('/follow', (req, res, next) =>{
+  let follow = {
+    followerId: req.body.followerId,
+    followedId: req.body.followedId
+  };
+  Follow.addFollower(follow, (err, user) =>{
+    if (err) {
+      //res.json({ success: false, msg: 'Failed to follow user' });
+    } else {
+      //res.json({ success: true, msg: 'User followed' });
+      
+      Follow.countFollowers(follow, (err, count) =>{
+        res.json({count:count});
+        })
 
+    }
+  })
+
+})
 
 
 
