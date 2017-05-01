@@ -33,7 +33,7 @@ export class VideoComponent implements OnInit {
     //return this.sanitizer.sanitize(SecurityContext.URL, "https://www.youtube.com/embed/"+this.data.link);
   }
 
-  
+
   rate(event){
     const rate = {
       _id: this.data._id,
@@ -83,6 +83,17 @@ export class VideoComponent implements OnInit {
 
   cancelComment() {
     this.isPostComment=false;
+  }
+  addRateAndButtons(event){
+    this.addButtons(event);
+    this.rate(event);
+  }
+
+  addButtons(event){
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+    event.Target.classList.remove(' btn-primary'); // To Remove
+    event.Target.classList.add(' btn-warning'); // To ADD
+    //event.target.classList.add('class3'); // To ADD
   }
 
 }
