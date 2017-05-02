@@ -8,6 +8,7 @@ const Video = require('../models/video');
 const Comment = require('../models/comment');
 const Tag = require('../models/tag');
 const RatingManager = require('../managers/ratingManager');
+const SearchManager = require('../managers/searchManager');
 
 /*
   -------------------COMMENT STUFF---------------------
@@ -149,16 +150,21 @@ router.get('/feed', (req, res) => {
 
 
 
-// Search
-router.post('/search', (req, res, next) => {
+// Search stuff
+router.get('/search', (req, res, next) => {
+
   /*Tag.addTag({name:'test1',videos:'NOTHING'});
   Tag.addTag({name:'test2',videos:'NOTHING2'});*/
-  if (req.body.type == 'reqTags') {
+ /* if (req.body.type == 'reqTags') {
     Tag.getAllTags((err, tags) => {
-      res.json({ tags: tags });
+      return res.json({ tags: tags });
     })
 
-  }
+  }*/
+  SearchManager.getVideosAndUsers(req.query.val,(err,result)=>{
+
+        res.json({sucess:true, videos:result});
+  })
 });
 
 

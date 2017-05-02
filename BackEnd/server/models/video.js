@@ -39,6 +39,14 @@ module.exports.getVideos = function(q, callback){
 }
 
 
+//SEARCH ADDS
+
+module.exports.getVideosByName = function(name, callback){
+    Video.find({title:name},callback);
+}
+
+//=====
+
 module.exports.addVideo = function(newVideo, callback){
     //we first get some of the uploader's data
     User.getClassById(newVideo.userId, (err, user) =>{
