@@ -201,7 +201,29 @@ router.post('/follow', (req, res, next) =>{
     }
   })
 
-})
+});
+
+router.get('/numberOfFollowers', (req, res) => {
+
+  let follow = {
+    followedId: req.query.followedId
+  };
+
+  Follow.countFollowers(follow, (err, count) =>{
+        res.json({count});
+  });
+});
+
+router.get('/listOfFollowings', (req, res) => {
+
+  let follow = {
+    followerId: req.query.followerId,
+  };
+
+  Follow.searchByFollowerId(follow, (err, list) =>{
+        res.json({list});
+  });
+});
 
 
 

@@ -28,6 +28,40 @@ export class UserProfileService {
       .map(res => res.json());
   }
 
+   getListOfFollowings(followerId: any) {
+    let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
+    let headers = new Headers();
+    let params: URLSearchParams = new URLSearchParams();
+    params.set("followerId", followerId);
+    options.search = params;
+    let ep = this.prepEndpoint('routes/listOfFollowings');
+    return this.http.get(ep, options).map(res => {
+      let data = res.json();
+      if (data) {
+        return data;
+      } else console.log('Error');
+    }, err => {
+      console.log('error');
+    });
+  }
+
+  getNumberOfFollowers(followedId: any) {
+    let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
+    let headers = new Headers();
+    let params: URLSearchParams = new URLSearchParams();
+    params.set("followedId", followedId);
+    options.search = params;
+    let ep = this.prepEndpoint('routes/numberOfFollowers');
+    return this.http.get(ep, options).map(res => {
+      let data = res.json();
+      if (data) {
+        return data;
+      } else console.log('Error');
+    }, err => {
+      console.log('error');
+    });
+  }
+
   getProfile(username: any) {
 
     let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
