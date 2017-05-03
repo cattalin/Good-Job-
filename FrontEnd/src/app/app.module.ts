@@ -36,6 +36,7 @@ import { VideoSubmitComponent } from './components/video-submit/video-submit.com
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserRegisterComponent } from './components/user-register/user-register.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 
@@ -63,7 +64,8 @@ const appRoutes: Routes = [
     VideoSubmitComponent,
     UserProfileComponent,
     UserRegisterComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

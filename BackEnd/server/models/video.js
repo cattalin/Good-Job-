@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('../config/database');
 const User = require('../models/user');
+const Follow=require('../models/follow');
 
 
 VideoSchema = mongoose.Schema({
@@ -84,6 +85,25 @@ module.exports.findWithVoter = function(query, callback){
     .populate({path: 'voters', model: Voters,
               match: { voterId: {$eq: query.voterId}}})
     .exec(callback);
+}
+
+
+
+module.exports.following = function(query,callback){
+
+    let follow = {
+    followerId: query.followerId,
+    };
+
+    Follow.searchByFollowerId(follow, (err, list) =>{
+
+    for (let entry of list) {
+     Video.findOne({"follow.followerId": list.followerId})
+        .populate({path: 'follow', model: Follow})
+        .exec(callback);
+    }
+
+    });
 }
 
 /*

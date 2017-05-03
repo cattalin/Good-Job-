@@ -23,6 +23,7 @@ export class ViewProfileComponent implements OnInit {
 
   user: any;
   username: String;
+  followers=0;
   currentUserId: String;
   isDataAvailable = false; // subscribe is called after template loading
 
@@ -44,6 +45,10 @@ export class ViewProfileComponent implements OnInit {
        this.userProfileService.getProfile(this.username).subscribe(data => {
           this.user = data.user;
           this.isDataAvailable = true;
+
+              this.userProfileService.getNumberOfFollowers(this.user._id).subscribe(followers => {
+              this.followers=followers.count;
+        })
         },
       err => {
         console.log(err);
@@ -53,12 +58,12 @@ export class ViewProfileComponent implements OnInit {
     this.authService.getProfile().subscribe( currentUser =>{
       this.currentUserId = currentUser.user._id;
     })
-
+    
   }
-
 
   followUser(){
     this.userProfileService.followUser(this.currentUserId, this.user._id).subscribe(result => {
+      this.followers=this.followers +1;
       this.flashMessage.show('User followed', { cssClass: 'alert-success', timeout: 2000 });
     })
   }
