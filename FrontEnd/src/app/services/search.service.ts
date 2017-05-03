@@ -32,10 +32,9 @@ export class SearchService {
         let data = res.json();
         this.videos = [];
         data['videos'].forEach(video => {
-          alert(video._id);
-               var vid: VideoData = new VideoData(video._id, video.link, video.description,
-               video.title, video.username, video.rating);
-               this.videos.push(vid);
+            var vid: VideoData = new VideoData(video._id, video.link, video.description,
+            video.title, video.username, video.rating);
+            this.videos.push(vid);
           });
          return this.videos;
 

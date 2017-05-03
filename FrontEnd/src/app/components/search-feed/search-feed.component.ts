@@ -28,7 +28,7 @@ ngOnInit() {
     this.sub = this.route.queryParams.subscribe(params => {
         this.query = params['title'];
     });
-    this.searchService.GetRequest(this.query).subscribe(vids=> this.videos = vids);
+    this.searchService.GetRequest(this.query).subscribe(vids => this.videos = vids);
   }
 
 	
