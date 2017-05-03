@@ -135,7 +135,7 @@ router.get('/feed', (req, res) => {
     to: req.query.to
   }
 
-  Video.getVideos(query, (err, videos) => {
+  Video.getByUsername(query, (err, videos) => {
     if (err) throw err;
     if (!videos) {
       return res.json({ success: false, msg: 'Videos not found' });

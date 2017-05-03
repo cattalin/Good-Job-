@@ -22,10 +22,11 @@ export class SearchComponent implements OnInit {
   onSubmit(){
     let SearchQuery;
     SearchQuery = this.data.val;
+    console.log(this.data.val);
     if(SearchQuery!=null)
     {
       //this.searchService.GetRequest(this.SearchQuery);
-      this.router.navigate(['/search'], {queryParams:SearchQuery});
+      this.router.navigate(['/search'], {queryParams: {title: SearchQuery}});
     }
     else
     {

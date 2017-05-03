@@ -17,22 +17,18 @@ export class SearchFeedComponent implements OnInit {
 	public sub;
 	public query:string;
   @Input() videos: VideoData[] = [];
-	constructor( private route: ActivatedRoute,private searchService :SearchService){
+	constructor(private route: ActivatedRoute,
+              private searchService :SearchService){
   }
 
  
 
 
 ngOnInit() {
-   this.sub = this.route.queryParams.subscribe(params => {
-       this.query = params['searchQuery']; // (+) converts string 'id' to a number
- // this.query = this.route.params['val'];
-		
-       // In a real app: dispatch action to load the details here.
+    this.sub = this.route.queryParams.subscribe(params => {
+        this.query = params['title'];
     });
-    alert(this.query);
-   return this.searchService.GetRequest(this.query).subscribe(vids=> this.videos);
- 
+    this.searchService.GetRequest(this.query).subscribe(vids=> this.videos = vids);
   }
 
 	

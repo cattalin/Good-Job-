@@ -27,25 +27,6 @@ module.exports.updateVideo = function(query, data, callback){
     { rating: data.rating, votes: data.votes }, {upsert:false }, callback);
 }
 
-module.exports.getVideoById = function(id, callback){
-    Video.findById(id, callback);
-}
-
-module.exports.getVideos = function(q, callback){
-    if(q.select)
-        Video.find({username: q.select},callback).sort([[q.sort, -1]]);
-    else
-        Video.find(callback).sort([[q.sort, -1]]);
-}
-
-
-//SEARCH ADDS
-
-module.exports.getVideosByName = function(name, callback){
-    Video.find({title:name},callback);
-}
-
-//=====
 
 module.exports.addVideo = function(newVideo, callback){
     //we first get some of the uploader's data
@@ -81,6 +62,42 @@ module.exports.addVideo = function(newVideo, callback){
 
 
 
+
+
+//-----------------------WAYS TO GET VIDEOS-------------------
+
+module.exports.getVideoById = function(id, callback){
+    Video.findById(id, callback);
+}
+
+module.exports.getByUsername = function(q, callback){
+    if(q.select)
+        Video.find({username: q.select},callback).sort([[q.sort, -1]]);
+    else
+        Video.find(callback).sort([[q.sort, -1]]);
+}
+
+module.exports.getByTitleOrDescriptionOrUsername = function(q, callback){
+    if(q.select)
+        Video.find({$or:[ {'username': q.select}, {'title': q.select}, {'description': {$regex : ".*"+q.select+".*"} }]}, callback);
+}
+
+
+//SEARCH ADDS
+
+module.exports.getVideosByName = function(name, callback){
+    Video.find({title:name},callback);
+}
+
+//=====
+
+
+
+
+
+
+
+
 //finds a video that by _id and voterId criteria 
 //TODELETE
 module.exports.findWithVoter = function(query, callback){
@@ -94,6 +111,24 @@ module.exports.findWithVoter = function(query, callback){
               match: { voterId: {$eq: query.voterId}}})
     .exec(callback);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 //Conditions: identify the video    Update:vote the video   Options:unique update
