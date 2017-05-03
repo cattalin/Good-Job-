@@ -41,13 +41,13 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 const appRoutes: Routes = [
-  { path: '', component: VideoFeedComponent, canActivate: [AuthGuard] },
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'register', component: UserRegisterComponent },
   { path: 'login', component: UserLoginComponent },
   //{path:'search',component: SearchComponent} -- Ignorati, Sebi nu stie sa adauge componenta la index :)
   { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   { path: 'upload', component: VideoSubmitComponent, canActivate: [AuthGuard] },
-  { path: 'userprofile/:username', component: ViewProfileComponent, canActivate: [AuthGuard]}
+  { path: 'user-profile', component: ViewProfileComponent, canActivate: [AuthGuard]}
 ]
 
 @NgModule({

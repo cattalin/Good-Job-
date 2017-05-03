@@ -1,7 +1,7 @@
 <div id="containerVideo" class="jumbotron">
     <h3>{{this.data.title}}</h3>
     <p [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
-        <a [routerLink]="['/userprofile', this.data.username]">by {{this.data.username}}</a>
+        <a (click)="redirect()">by {{data.username}}</a>
     </p>
 
     <iframe width="560" height="315" [src]='getCode' frameborder="0" allowfullscreen>

@@ -10,6 +10,14 @@ import { CheckclassService } from '../../services/checkclass.service';
 })
 export class DashboardComponent implements OnInit {
 
+  private query = {
+    sort:   '_id',  //user to sort out of database
+    select: null,   //filter the results(example:   select:"username:catalin"")
+    followerId:null,//only use for searching the videos of the users that one user follows(following system)
+    limit:  100,    //the maximum number of results
+    skip:   0      //skipping x docs
+}
+
   byRating: boolean = false;
   currentUser: any;
 
@@ -46,7 +54,7 @@ export class DashboardComponent implements OnInit {
 
   toggleByRating() {
     if (this.byRating === true){
-      this.q = {
+      this.query = {
         sort:   '_id',
         select: null, 
         followerId: null,
@@ -54,19 +62,17 @@ export class DashboardComponent implements OnInit {
         skip:   0
       };
       this.byRating = false;
-      this.requestVideos();
     }
 
     else {
       this.byRating = true;
-      this.q = {
+      this.query = {
         sort:   'rating',
         select: null,
         followerId: null,
         limit:  1000,
         skip:   0
       };
-      this.requestVideos();
     }
   }
 

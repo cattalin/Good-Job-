@@ -1,7 +1,7 @@
 <div style="border:1px solid black;">
   <p>{{comment.text}}</p>
   <p [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
-    <a [routerLink]="['/userprofile', this.comment.username]">by {{comment.username}}</a>
+    <a (click)="redirect()">by {{comment.username}}</a>
   </p>
   <p>{{getTimestamp()}}</p>
 </div>

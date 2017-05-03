@@ -1,118 +1,43 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { VideoFeedService } from '../../services/videofeed/video-feed.service';
 import { VideoData } from '../../models/video-data';
-import { AuthenticateService } from '../../services/authenticate.service';
-import { CheckclassService } from '../../services/checkclass.service';
+
 
 @Component({
   selector: 'app-video-feed',
   templateUrl: './video-feed.component.html',
   styleUrls: ['./video-feed.component.css']
 })
-export class VideoFeedComponent implements OnInit {
-
-  private q = {
+export class VideoFeedComponent implements OnInit, OnChanges {
+  
+  @Input() currentUser: any;//here should be a user class
+  @Input() query: any = {
     sort:   '_id',  //user to sort out of database
     select: null,   //filter the results(example:   select:"username:catalin"")
     followerId:null,//only use for searching the videos of the users that one user follows(following system)
     limit:  100,    //the maximum number of results
     skip:   0      //skipping x docs
 };
-
   videos: VideoData[] = [];
-  @Input() query: any;
-
-  byRating: boolean = false;
-
-  currentUser: any;//here should be a user class
-
-
-  constructor(private videoService: VideoFeedService,
-              private authService:AuthenticateService,
-              private checkclassService : CheckclassService) {
+  
+  
+  
+  constructor(private videoService: VideoFeedService) {
       this.query=null;
-    }
-
-
+  }
+  
   ngOnInit() {
-    /*this.authService.getProfile().subscribe(profile => {
-        
-        }))
-        
-    },
-    err => {
-      console.log(err);
-      return false;
-    });*/
+    this.requestVideos();
+  }
 
-   
-
-    if(this.query)
-      this.q.select=this.query.select;
-
+  ngOnChanges(){
     this.requestVideos();
   }
 
 
-  toggleByRating() {
-    if (this.byRating === true){
-      this.q = {
-        sort:   '_id',
-        select: null, 
-        followerId: null,
-        limit:  1000, 
-        skip:   0
-      };
-      this.byRating = false;
-      this.requestVideos();
-    }
-
-    else {
-      this.byRating = true;
-      this.q = {
-        sort:   'rating',
-        select: null,
-        followerId: null,
-        limit:  1000,
-        skip:   0
-      };
-      this.requestVideos();
-    }
-  }
-
   requestVideos(){
-    this.videoService.getVideos(this.q).subscribe(vids => {this.videos=vids;});
-
-    this.currentUser = {
-        _id: "",
-        class: "",
-        username: ""
-      }
-      //getting the current user data of this session
-      this.authService.getProfile().subscribe(profile => {
-        this.currentUser._id = profile.user._id;
-        this.currentUser.class = profile.user.class;
-        this.currentUser.username = profile.user.username;
-        console.log(this.currentUser);
-
-
-
-
-        console.log("id ul secolului este" + this.currentUser._id);
-        this.checkclassService.getClassUpdate(this.currentUser).subscribe(newClass => {
-              console.log(newClass);
-        });
-
-
-
-
-
-      },
-      err => {
-      console.log(err);
-      return false;
-    });
-    
+    this.videos=null;
+    this.videoService.getVideos(this.query).subscribe(vids => {this.videos=vids;});
   }
 
 

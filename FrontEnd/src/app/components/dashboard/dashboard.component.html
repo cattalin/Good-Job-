@@ -3,4 +3,4 @@
   <button class="btn btn-group-xs btn-primary" (click)="toggleByRating()" [disabled]="byRating"> by Rating </button>
   <button class="btn btn-group-xs btn-primary" (click)="toggleByRating()" [disabled]="!byRating"> by Date </button>
 </div>
-<app-video-feed [query]="basicQuery"></app-video-feed>
+<app-video-feed [query]="query" [currentUser]="currentUser"></app-video-feed>
