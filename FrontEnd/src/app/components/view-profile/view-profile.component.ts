@@ -67,6 +67,7 @@ private loadUserContent(){
 }
 
 
+
 private followUser(){
     this.userProfileService.followUser(this.currentUser._id, this.user._id).subscribe(result => {
       this.followers=this.followers +1;
