@@ -16,23 +16,19 @@ export class CheckclassService {
     }
     options.search = params;
     let ep = this.prepEndpoint('routes/updateClass');
-    return this.http.get(ep,options).map(res=>{//
-      let data=res.json();
+    return this.http.get(ep,options).map(res=>res.json())}
       //console.log(data);
-      if(data.success){
-        console.log(data+" "+data.result.oldClass.indexOf(data.result.newClass));
-        if(!(data.result.oldClass.indexOf(data.result.newClass)>-1))
-          return data.result.oldClass.concat(data.result.newClass);
-        else return "X";
-      }
-      else {
-        console.log("FFS");
-      }
-    },
-    err=>{
+      // if(data.success){
+      //   console.log(data+" "+data.result.oldClass.indexOf(data.result.newClass));
+      //   if(!(data.result.oldClass.indexOf(data.result.newClass)>-1))
+      //     return data.result.oldClass.concat(data.result.newClass);
+      //   else return "X";
+      // }
+      // else {
+      //   console.log("FFS");
+      // }
+    
 
-    });
-  }
   private prepEndpoint(ep){
     return 'http://localhost:8000/'+ep;
   }
