@@ -4,17 +4,19 @@ import { SubmitVideoService } from '../../services/submit-video.service';
 import { AuthenticateService } from '../../services/authenticate.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 @Component({
-  selector: 'submit-video',
-  templateUrl: './submit-video.component.html',
-  styleUrls: ['./submit-video.component.css']
+  selector: 'video-submit',
+  templateUrl: './video-submit.component.html',
+  styleUrls: ['./video-submit.component.css']
 })
-export class SubmitVideoComponent implements OnInit {
+export class VideoSubmitComponent implements OnInit {
   link: String;
   title: String;
   description :String;
-  rating : number;
+  rating : number = 5;
+
   userId: number;
   username: String;
+  class: String;
 
 
   constructor(private authService:AuthenticateService,
@@ -26,6 +28,7 @@ export class SubmitVideoComponent implements OnInit {
     this.authService.getProfile().subscribe(profile => {
       this.userId=profile.user._id;
       this.username=profile.user.username;
+      this.class = profile.user.class;
     },
     err => {
       console.log(err);
@@ -48,15 +51,17 @@ export class SubmitVideoComponent implements OnInit {
       {cssClass: 'alert-danger', timeout: 3000});
     }
     else{
-      console.log(Date());
+      //console.log(Date());
       var toSend={
-        userId: this.userId,
-        title: this.title,
         link: this.getCode(this.link),
+        title: this.title,
         description: this.description,
+        userId: this.userId,
+        username: this.username,
         rating: this.rating, 
-        username: this.username
+        class: this.class
       }
+      console.log(toSend);
       this.submitVideoService.submitVideo(toSend).subscribe(data=>{
         if(data.success){
           this.flashMessage.show('Upload successful', 
