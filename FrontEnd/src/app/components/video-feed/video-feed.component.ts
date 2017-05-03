@@ -10,7 +10,7 @@ import { CheckclassService } from '../../services/checkclass.service';
   styleUrls: ['./video-feed.component.css']
 })
 export class VideoFeedComponent implements OnInit {
- 
+
   private q = {
     sort:   '_id',
     select: null,
@@ -50,7 +50,7 @@ export class VideoFeedComponent implements OnInit {
 
     if(this.query)
       this.q.select=this.query.select;
-    
+
     this.requestVideos();
   }
 
@@ -68,7 +68,7 @@ export class VideoFeedComponent implements OnInit {
       this.byRating = false;
       this.requestVideos();
     }
-      
+
     else {
       this.byRating = true;
       this.q = {
@@ -85,7 +85,7 @@ export class VideoFeedComponent implements OnInit {
 
   requestVideos(){
     this.videoService.getVideos(this.q).subscribe(vids => {this.videos=vids;});
-    
+
     this.currentUser = {
         _id: "",
         class: "",
@@ -117,4 +117,6 @@ export class VideoFeedComponent implements OnInit {
     });
     
   }
+
+
 }

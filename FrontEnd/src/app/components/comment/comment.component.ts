@@ -13,10 +13,10 @@ export class CommentComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    
+
   }
 
-  
+
   getTimestamp() {
     let date = new Date(parseInt(this.comment._id.toString().slice(0,8), 16)*1000);
     return "on " + date.toLocaleDateString()+" at "+date.toLocaleTimeString();;

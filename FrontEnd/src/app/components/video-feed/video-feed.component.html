@@ -1,12 +1,13 @@
 
 <h2>My Videos</h2>
-
-  <button (click)="toggleByRating()" [disabled]="byRating"> by Rating </button>
-  <button (click)="toggleByRating()" [disabled]="!byRating"> by Date </button>
-
-    <ul>
-      <li *ngFor="let video of videos">
-        <app-video [data]="video" [user]="currentUser"></app-video>
-      </li>
+  <div class="btn-group btn-group-xs" role="group">
+    <button class="btn btn-group-xs btn-primary" (click)="toggleByRating()" [disabled]="byRating"> by Rating </button>
+    <button class="btn btn-group-xs btn-primary" (click)="toggleByRating()" [disabled]="!byRating"> by Date </button>
+  </div>
+      <ul>
+        <li *ngFor="let video of videos">
+          <div>{{video.datetime}}</div>
+          <app-video [data]="video" [user]="currentUser"></app-video>
+        </li>
 </ul>
 

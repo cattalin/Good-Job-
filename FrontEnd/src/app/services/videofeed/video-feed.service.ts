@@ -12,7 +12,7 @@ export class VideoFeedService {
   videos: VideoData[] = [];
   comments: any[] = [];
   constructor(private http:Http) { }
- 
+
 
   getComments(query: any){
     let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
@@ -40,7 +40,7 @@ export class VideoFeedService {
               this.comments.push(comm);
         });
         return this.comments;
-      } 
+      }
       else{
         console.log("Nice error")
       }},
@@ -55,6 +55,10 @@ export class VideoFeedService {
     for (let key in query){
       params.set(key.toString(), query[key]);
     }
+    // functia care transforma id ul unic de mongo in data ...
+    var dateFromObjectId = function (objectId) {
+      return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
+    };
 
     options.search = params;
     let ep = this.prepEndpoint('routes/feed');
@@ -64,12 +68,14 @@ export class VideoFeedService {
         if(data.success){
           this.videos = [];
           data['videos'].forEach(video => {
-               var vid: VideoData = new VideoData(video._id, video.link, video.description,
-               video.title, video.username, video.rating);
+               var vid: VideoData = new VideoData(video._id, video.link, video.description, video.title, video.username, video.rating, video.datetime);
+                vid.makeDateAndTime(dateFromObjectId(video._id).toString());  // aici tranforma si bagat in vid.datetime
+             // console.log("asdasdasdasdasdas",video._id);
                this.videos.push(vid);
           });
+          console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",this.videos);
           return this.videos;
-        } 
+        }
         else{
           console.log("Nice error")
         }
