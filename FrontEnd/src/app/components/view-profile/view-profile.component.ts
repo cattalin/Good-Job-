@@ -58,6 +58,7 @@ export class ViewProfileComponent implements OnInit {
 
 
   followUser(){
+    console.log(this.currentUserId+this.user._id);
     this.userProfileService.followUser(this.currentUserId, this.user._id).subscribe(result => {
       this.flashMessage.show('User followed', { cssClass: 'alert-success', timeout: 2000 });
     })
