@@ -12,7 +12,7 @@ export class VideoFeedService {
   videos: VideoData[] = [];
   comments: any[] = [];
   constructor(private http:Http) { }
- 
+
 
   getComments(query: any){
     let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
@@ -28,7 +28,6 @@ export class VideoFeedService {
       let data = res.json();
       if(data.success){
         this.comments = [];
-        console.log(data  )
         data['comments'].forEach(comment => {
               let comm = {
                 _id: comment._id,
@@ -40,7 +39,7 @@ export class VideoFeedService {
               this.comments.push(comm);
         });
         return this.comments;
-      } 
+      }
       else{
         console.log("Nice error")
       }},
@@ -48,6 +47,8 @@ export class VideoFeedService {
 
       });
   }
+
+
   getVideos(query: any){
     let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
     let headers = new Headers();
@@ -55,6 +56,7 @@ export class VideoFeedService {
     for (let key in query){
       params.set(key.toString(), query[key]);
     }
+   
 
     options.search = params;
     let ep = this.prepEndpoint('routes/feed');
@@ -64,9 +66,9 @@ export class VideoFeedService {
         if(data.success){
           this.videos = [];
           data['videos'].forEach(video => {
-               var vid: VideoData = new VideoData(video._id, video.link, video.description,
-               video.title, video.username, video.rating);
-               this.videos.push(vid);
+            var vid: VideoData = new VideoData(video._id, video.link, video.description, video.title, video.username, video.rating, video.datetime);
+            vid.makeDateAndTime(this.dateFromObjectId(video._id).toString());  // aici tranforma si bagat in vid.datetime
+            this.videos.push(vid);
           });
           return this.videos;
         }  
@@ -86,6 +88,10 @@ export class VideoFeedService {
       .map(res => res.json());
   }
 
+  // functia care transforma id ul unic de mongo in data ...
+  private dateFromObjectId(objectId) {
+    return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
+  };
   private prepEndpoint(ep){
     return 'http://localhost:8000/'+ep;
   }

@@ -47,6 +47,10 @@ module.exports.updatePassword = function (update, callback) {
 
 }
 
+module.exports.updateUserClass = function (update,callback) {
+  User.update({_id : update.id }, {class: update.class }, callback);
+}
+
 module.exports.getUserByUsername = function (username, callback) {
   const query = { username: username }
   User.findOne(query, callback);

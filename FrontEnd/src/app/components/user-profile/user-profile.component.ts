@@ -3,6 +3,7 @@ import { AuthenticateService } from '../../services/authenticate.service';
 import { ValidateService } from '../../services/validate.service';
 import { Router } from '@angular/router';
 import { FormsModule, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UserProfileService } from '../../services/user-profile.service';
 
 import { FlashMessagesService } from 'angular2-flash-messages';
 
@@ -15,7 +16,16 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 
 export class UserProfileComponent implements OnInit {
 
+  private q = {
+  sort:   '_id',
+  select: null,
+  limit:  1000,
+  skip:   0,
+  };
+
   user: any;
+  followers: Number;
+  following: any;
 
   newName: String;
   newEmail: String;
@@ -27,6 +37,7 @@ export class UserProfileComponent implements OnInit {
   editName = false;
   editEmail = false;
   editPassword = false;
+  showFollowings=false;
 
   nameForm: FormGroup;
   emailForm: FormGroup;
@@ -34,12 +45,21 @@ export class UserProfileComponent implements OnInit {
 
   //-----------------------------------------------------------------------------------------------//
 
-  constructor(private authService: AuthenticateService, private router: Router, private nf: FormBuilder,
-    private ef: FormBuilder, private pf: FormBuilder, private flashMessage: FlashMessagesService) { }
+  constructor(private authService: AuthenticateService,
+    private router: Router, private nf: FormBuilder,
+    private ef: FormBuilder, private pf: FormBuilder,
+    private flashMessage: FlashMessagesService,
+    private userProfileService: UserProfileService) { }
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
       this.user = profile.user;
+
+      this.userProfileService.getNumberOfFollowers(this.user._id).subscribe(followers => {
+        this.followers=followers.count;
+
+          this.userProfileService.getListOfFollowings(this.user._id).subscribe(following => {
+            this.following=following;
 
       let nameRegex = '([a-z A-z\-]+)';
 
@@ -57,7 +77,8 @@ export class UserProfileComponent implements OnInit {
         n_pass: ['', [Validators.required, Validators.maxLength(15), Validators.minLength(5)]],
         c_pass: ['']
       });
-
+    })
+    })
     },
       err => {
         console.log(err);
@@ -126,6 +147,10 @@ export class UserProfileComponent implements OnInit {
 
   isValidNameForm() {
     return this.nameForm.valid;
+  }
+
+  showFollowingVideos(){
+    this.showFollowings=true;
   }
 
   //Toggles

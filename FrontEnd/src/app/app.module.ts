@@ -26,6 +26,7 @@ import { AuthenticateService } from './services/authenticate.service';
 import { VideoFeedService } from './services/videofeed/video-feed.service';
 import { CheckVideoService } from './services/check-video.service';
 import { SubmitVideoService } from './services/submit-video.service';
+import { CheckclassService} from './services/checkclass.service';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { UserProfileService } from './services/user-profile.service';
 import { CommentComponent } from './components/comment/comment.component';
@@ -36,19 +37,24 @@ import { VideoSubmitComponent } from './components/video-submit/video-submit.com
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserRegisterComponent } from './components/user-register/user-register.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 
 
 
 const appRoutes: Routes = [
-  { path: '', component: VideoFeedComponent, canActivate: [AuthGuard] },
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'register', component: UserRegisterComponent },
   { path: 'login', component: UserLoginComponent },
   { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   { path: 'upload', component: VideoSubmitComponent, canActivate: [AuthGuard] },
+<<<<<<< HEAD
   { path: 'userprofile/:username', component: ViewProfileComponent, canActivate: [AuthGuard]},
   { path: 'search', component: SearchFeedComponent}
+=======
+  { path: 'user-profile', component: ViewProfileComponent, canActivate: [AuthGuard]}
+>>>>>>> refs/remotes/cattalin/dev
 ]
 
 @NgModule({
@@ -66,7 +72,11 @@ const appRoutes: Routes = [
     UserProfileComponent,
     UserRegisterComponent,
     UserLoginComponent,
+<<<<<<< HEAD
     SearchFeedComponent
+=======
+    DashboardComponent
+>>>>>>> refs/remotes/cattalin/dev
   ],
   imports: [
     BrowserModule,
@@ -77,7 +87,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule
   ],
   providers: [VideoFeedService, AuthenticateService, AuthGuard, ValidateService, SearchService,
-    CheckVideoService, SubmitVideoService, UserProfileService],
+    CheckVideoService, SubmitVideoService, UserProfileService,CheckclassService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

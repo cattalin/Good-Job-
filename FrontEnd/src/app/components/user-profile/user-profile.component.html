@@ -1,14 +1,10 @@
-<!-- forms tutorial:
-https://www.youtube.com/watch?v=Yfebo2mFrTU 
-https://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.html
--->
-
 
 <!-- DISPLAY DATA -->
 <div *ngIf="user && !editPassword">
   <h2 class="page-header">Welcome, {{user.name}}</h2>
   <ul class="list-group">
     <li class="list-group-item">Rating: not implemented yet </li>
+    <li class="list-group-item">Followers: {{followers}} </li>
     <li class="list-group-item">Username: {{user.username}}</li>
     <li class="list-group-item">Name: {{user.name}}
 
@@ -68,7 +64,7 @@ https://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.ht
   <button (click)="togglePassword() " *ngIf="!editPassword && !editName && !editEmail "> Change password </button>
   <button *ngIf="!editPassword && !editName && !editEmail "> My Videos </button>
   <button *ngIf="!editPassword && !editName && !editEmail "> Favourites </button>
-  <button *ngIf="!editPassword && !editName && !editEmail "> Following </button>
+  <button *ngIf="!editPassword && !editName && !editEmail " (click)="showFollowingVideos()"> Following </button>
 </div>
 
 <div *ngIf="editPassword"><br>
@@ -98,5 +94,10 @@ https://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.ht
     <button type="button" [disabled]="!checkPassword()" (click)="updateUserPassword()">Save</button>
     <button type="button" (click)="cancel()" *ngIf="editPassword || editName || editEmail"> Cancel </button>
   </form>
+
+<div *ngIf="showFollowings">
+
+    
+</div>
 
 </div>

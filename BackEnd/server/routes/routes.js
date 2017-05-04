@@ -6,9 +6,11 @@ const config = require('../config/database');
 const User = require('../models/user');
 const Video = require('../models/video');
 const Comment = require('../models/comment');
+const Follow = require('../models/follow');
 const Tag = require('../models/tag');
 const RatingManager = require('../managers/ratingManager');
 const SearchManager = require('../managers/searchManager');
+const ClassManager = require('../managers/classManager');
 
 /*
   -------------------COMMENT STUFF---------------------
@@ -95,7 +97,6 @@ router.post('/upload', (req, res, next) => {
   })
 });
 
-
 //rate a video
 router.post('/rate', (req, res, next) => {
   let conditions = {
@@ -122,7 +123,22 @@ router.post('/rate', (req, res, next) => {
     }
     
   });
-})
+});
+
+//update user class
+router.get('/updateClass',(req, res, next) => {
+  let query = {
+    _id : req.query._id
+  }
+  ClassManager.updateUserClass(query,(err,result)=>{
+    if(err)
+      res.json({success : false, msg: 'Could not update class', result:result});
+    else {
+      console.log("class checked");
+      res.json({success : true, msg: 'class updated',result:result});
+    }
+  })
+});
 
 //the the basic feed of videos
 router.get('/feed', (req, res) => {
@@ -170,7 +186,50 @@ router.get('/search', (req, res, next) => {
 
 
 
+/*
+  -------------------FOLLOWING STUFF---------------------
+*/
+router.post('/follow', (req, res, next) =>{
+  let follow = {
+    followerId: req.body.followerId,
+    followedId: req.body.followedId
+  };
+  Follow.addFollower(follow, (err, user) =>{
+    if (err) {
+      //res.json({ success: false, msg: 'Failed to follow user' });
+    } else {
+      //res.json({ success: true, msg: 'User followed' });
+      
+      Follow.countFollowers(follow, (err, count) =>{
+        res.json({count:count});
+        })
 
+    }
+  })
+
+});
+
+router.get('/numberOfFollowers', (req, res) => {
+
+  let follow = {
+    followedId: req.query.followedId
+  };
+
+  Follow.countFollowers(follow, (err, count) =>{
+        res.json({count});
+  });
+});
+
+router.get('/listOfFollowings', (req, res) => {
+
+  let follow = {
+    followerId: req.query.followerId,
+  };
+
+  Follow.searchByFollowerId(follow, (err, list) =>{
+        res.json({list});
+  });
+});
 
 
 
