@@ -49,12 +49,9 @@ const appRoutes: Routes = [
   { path: 'login', component: UserLoginComponent },
   { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   { path: 'upload', component: VideoSubmitComponent, canActivate: [AuthGuard] },
-<<<<<<< HEAD
   { path: 'userprofile/:username', component: ViewProfileComponent, canActivate: [AuthGuard]},
-  { path: 'search', component: SearchFeedComponent}
-=======
+  { path: 'search', component: SearchFeedComponent},
   { path: 'user-profile', component: ViewProfileComponent, canActivate: [AuthGuard]}
->>>>>>> refs/remotes/cattalin/dev
 ]
 
 @NgModule({
@@ -72,11 +69,8 @@ const appRoutes: Routes = [
     UserProfileComponent,
     UserRegisterComponent,
     UserLoginComponent,
-<<<<<<< HEAD
-    SearchFeedComponent
-=======
+    SearchFeedComponent,
     DashboardComponent
->>>>>>> refs/remotes/cattalin/dev
   ],
   imports: [
     BrowserModule,

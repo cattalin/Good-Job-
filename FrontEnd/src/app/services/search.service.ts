@@ -32,9 +32,8 @@ export class SearchService {
         let data = res.json();
         this.videos = [];
         data['videos'].forEach(video => {
-          alert(video._id);
                var vid: VideoData = new VideoData(video._id, video.link, video.description,
-               video.title, video.username, video.rating);
+               video.title, video.username, video.rating, video.datetime);
                this.videos.push(vid);
           });
          return this.videos;
@@ -63,7 +62,7 @@ export class SearchService {
           this.videos = [];
           data['videos'].forEach(video => {
                var vid: VideoData = new VideoData(video._id, video.link, video.description,
-               video.title, video.username, video.rating);
+               video.title, video.username, video.rating, video.datetime);
                this.videos.push(vid);
           });
           return this.videos;
