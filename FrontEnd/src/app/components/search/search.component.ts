@@ -25,25 +25,11 @@ export class SearchComponent implements OnInit {
     if(SearchQuery!=null)
     {
       //this.searchService.GetRequest(this.SearchQuery);
-      this.router.navigate(['/search'], {queryParams:SearchQuery});
+      this.router.navigate(['/search'], {queryParams:{title:SearchQuery}});
     }
     else
     {
       console.log("EMPTY");
     }
   }
-/*
-  checktags(){
-
-    if(!this.loaded)
-    {
-      this.searchService.grabTags().subscribe(
-          result=>result.tags.forEach(tg=>{
-            this.Tags.push(tg);
-          })
-        );
-      this.loaded = true;
-    }
-  }
-*/
 }
