@@ -11,7 +11,6 @@ VideoSchema = mongoose.Schema({
     rating: Number,
     username: String,
     userId:{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-
     rating: Number,
     votes: Number,
 
