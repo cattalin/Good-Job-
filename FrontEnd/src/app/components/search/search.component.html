@@ -1,5 +1,13 @@
+<!--<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">-->
+<span class="container">
+<form autocomplete="on" (ngSubmit)="onSubmit()">
+   <!--<span class="icon"><i class="fa fa-search"></i></span>-->
+   <input class="searchbox" placeholder="I'm looking for..." type="text" [(ngModel)]="data.val" name="search_text" class="search_control">
+</form>
+</span>
 
 
+<!--
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
   <div class="jumbotron">
@@ -10,7 +18,7 @@
        <div *ngFor="let Tag of Tags" id="testBOX">{{Tag.name}}</div>
     </form>
   </div>
-</div>
+</div>-->
 
 
 <div class="container" id="searchBar">
@@ -37,4 +45,3 @@
     <button type="submit" class="btn btn-primary">Search</button>
   </form>
 </div>
-

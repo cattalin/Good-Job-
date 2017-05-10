@@ -38,6 +38,18 @@ module.exports.getVideos = function(q, callback){
         Video.find(callback).sort([[q.sort, -1]]);
 }
 
+
+//SEARCH ADDS
+
+module.exports.getVideosByName = function(name, callback){
+    Video.find({title:name},callback);
+}
+
+module.exports.getByTitleOrDescriptionOrUsername = function(q, callback){
+    if(q.select)
+        Video.find({$or:[ {'username': q.select}, {'title': q.select}, {'description': {$regex : ".*"+q.select+".*"} }]}, callback);
+}
+
 module.exports.addVideo = function(newVideo, callback){
     //we first get some of the uploader's data
     User.getClassById(newVideo.userId, (err, user) =>{

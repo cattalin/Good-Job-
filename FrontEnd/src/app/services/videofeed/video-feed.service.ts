@@ -71,7 +71,7 @@ export class VideoFeedService {
             this.videos.push(vid);
           });
           return this.videos;
-        }
+        }  
         else{
           console.log("Nice error")
         }
