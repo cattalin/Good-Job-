@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers,URLSearchParams, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { VideoComponent } from '../components/video/video.component';
-import { SearchFeedComponent} from '../components/search-feed/search-feed.component';
 import { tokenNotExpired } from 'angular2-jwt';
 import { VideoData } from '../models/video-data';
 import 'rxjs/add/operator/map';
