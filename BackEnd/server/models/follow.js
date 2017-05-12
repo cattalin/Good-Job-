@@ -19,11 +19,22 @@ module.exports.searchByFollowedId = function(query, callback){//get the persons 
 }
 
 module.exports.countFollowers = function(query, callback){//get the NUMBER of persons that follow you       (you are their followed)
-    Follows.count    ( {followedId:query.followedId}, callback );
+    Follows.count( {followedId:query.followedId}, callback );
 }
 
+
 //let's add a vote without recalculation of the rating
-module.exports.addFollower = function(data, callback){
-    let finalData = new Follows(data)   
-    finalData.save(callback);
+module.exports.addFollower = function(data, callback) {
+
+    //TODO: check if already is (this is working) => implement unfollow
+    Follows.findOne({followerId:data.followerId,followedId:data.followedId}, function(err,obj) { 
+
+         if (err) console.log('error'); 
+
+         if (obj===null) {
+            let finalData = new Follows(data);
+            finalData.save(callback);
+        } else return false;
+       
+     });
 }

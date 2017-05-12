@@ -14,6 +14,7 @@ import { AuthGuard } from './guards/auth.guard';
 // --WIP--Sebi
 import { SearchComponent } from './components/search/search.component';
 import { SearchService } from './services/search.service';
+import { SearchFeedComponent } from './components/search-feed/search-feed.component';
 // --ENDWIP--Sebi
 
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -36,17 +37,21 @@ import { VideoSubmitComponent } from './components/video-submit/video-submit.com
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserRegisterComponent } from './components/user-register/user-register.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+
+
 
 
 
 const appRoutes: Routes = [
-  { path: '', component: VideoFeedComponent, canActivate: [AuthGuard] },
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'register', component: UserRegisterComponent },
   { path: 'login', component: UserLoginComponent },
-  //{path:'search',component: SearchComponent} -- Ignorati, Sebi nu stie sa adauge componenta la index :)
   { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   { path: 'upload', component: VideoSubmitComponent, canActivate: [AuthGuard] },
-  { path: 'userprofile/:username', component: ViewProfileComponent, canActivate: [AuthGuard]}
+  { path: 'userprofile/:username', component: ViewProfileComponent, canActivate: [AuthGuard]},
+  { path: 'search', component: SearchFeedComponent},
+  { path: 'user-profile', component: ViewProfileComponent, canActivate: [AuthGuard]}
 ]
 
 @NgModule({
@@ -63,7 +68,9 @@ const appRoutes: Routes = [
     VideoSubmitComponent,
     UserProfileComponent,
     UserRegisterComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    SearchFeedComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

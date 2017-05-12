@@ -9,6 +9,7 @@ const Comment = require('../models/comment');
 const Follow = require('../models/follow');
 const Tag = require('../models/tag');
 const RatingManager = require('../managers/ratingManager');
+const SearchManager = require('../managers/searchManager');
 const ClassManager = require('../managers/classManager');
 
 /*
@@ -165,16 +166,21 @@ router.get('/feed', (req, res) => {
 
 
 
-// Search
-router.post('/search', (req, res, next) => {
+// Search stuff
+router.get('/search', (req, res, next) => {
+
   /*Tag.addTag({name:'test1',videos:'NOTHING'});
   Tag.addTag({name:'test2',videos:'NOTHING2'});*/
-  if (req.body.type == 'reqTags') {
+ /* if (req.body.type == 'reqTags') {
     Tag.getAllTags((err, tags) => {
-      res.json({ tags: tags });
+      return res.json({ tags: tags });
     })
 
-  }
+  }*/
+  SearchManager.getVideosAndUsers(req.query.val,(err,result)=>{
+
+        res.json({sucess:true, videos:result});
+  })
 });
 
 
@@ -201,7 +207,29 @@ router.post('/follow', (req, res, next) =>{
     }
   })
 
-})
+});
+
+router.get('/numberOfFollowers', (req, res) => {
+
+  let follow = {
+    followedId: req.query.followedId
+  };
+
+  Follow.countFollowers(follow, (err, count) =>{
+        res.json({count});
+  });
+});
+
+router.get('/listOfFollowings', (req, res) => {
+
+  let follow = {
+    followerId: req.query.followerId,
+  };
+
+  Follow.searchByFollowerId(follow, (err, list) =>{
+        res.json({list});
+  });
+});
 
 
 
