@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { VideoSubmitComponent } from './video-submit.component';
 
 describe('VideoSubmitComponent', () => {
-  let component: VideoSubmitComponent;
+  /*let component: VideoSubmitComponent;
   let fixture: ComponentFixture<VideoSubmitComponent>;
 
   beforeEach(async(() => {
@@ -21,5 +21,5 @@ describe('VideoSubmitComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
+  });*/
 });

@@ -20,7 +20,7 @@ export class VideoComponent implements OnInit {
   private safeLink: SafeUrl;
   constructor(private sanitizer: DomSanitizer,
               private videoService: VideoFeedService,
-              private router: Router){ }
+              private router: Router){ } 
 
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class VideoComponent implements OnInit {
     //return this.sanitizer.sanitize(SecurityContext.URL, "https://www.youtube.com/embed/"+this.data.link);
   }
 
-
+ 
   rate(event){
     const rate = {
       _id: this.data._id,

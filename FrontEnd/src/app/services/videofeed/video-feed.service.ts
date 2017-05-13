@@ -39,7 +39,7 @@ export class VideoFeedService {
               this.comments.push(comm);
         });
         return this.comments;
-      }
+      } 
       else{
         console.log("Nice error")
       }},
