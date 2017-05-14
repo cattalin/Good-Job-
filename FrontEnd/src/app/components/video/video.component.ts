@@ -98,7 +98,6 @@ export class VideoComponent implements OnInit {
   getNewComment(event){
     if(event!=null){
       this.isPostComment=false;
-      this.data.description = "varta faza";
       this.newComment = event;
     }
     
