@@ -18,8 +18,14 @@ export class CommentComponent implements OnInit {
 
 
   getTimestamp(){
-    let date = new Date(parseInt(this.comment._id.toString().slice(0,8), 16)*1000);
-    return "on " + date.toLocaleDateString()+" at "+date.toLocaleTimeString();;
+    if(this.comment._id!=null){
+      let date = new Date(parseInt(this.comment._id.toString().slice(0,8), 16)*1000);
+      return "on " + date.toLocaleDateString()+" at "+date.toLocaleTimeString();;
+    }
+    else {
+      return "right now";
+    }
+    
   }
 
   redirect(){

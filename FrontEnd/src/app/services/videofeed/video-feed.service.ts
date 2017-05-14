@@ -66,8 +66,7 @@ export class VideoFeedService {
         if(data.success){
           this.videos = [];
           data['videos'].forEach(video => {
-            var vid: VideoData = new VideoData(video._id, video.link, video.description, video.title, video.username, video.rating, video.datetime);
-            vid.makeDateAndTime(this.dateFromObjectId(video._id).toString());  // aici tranforma si bagat in vid.datetime
+            var vid: VideoData = new VideoData(video._id, video.link, video.description, video.title, video.username, video.rating);
             this.videos.push(vid);
           });
           return this.videos;
