@@ -97,6 +97,30 @@ router.post('/upload', (req, res, next) => {
   })
 });
 
+router.post('/delete', (req, res, next) => {
+  let todel=req.body._id;
+
+  Video.removeVideo(todel, (err, user) =>{
+    if (err) {
+      res.json({ success: false, msg: 'Failed to remove' });
+    } else {
+      res.json({ success: true, msg: 'removed' });
+    }
+  })
+});
+
+router.post('/deletecomm', (req, res, next) => {
+  let todel=req.body._id;
+  Comment.removeComment(todel, (err, user) =>{
+    if (err) {
+      res.json({ success: false, msg: 'Failed to remove' });
+    } else {
+      res.json({ success: true, msg: 'removed' });
+    }
+  })
+});
+
+
 //rate a video
 router.post('/rate', (req, res, next) => {
   let conditions = {

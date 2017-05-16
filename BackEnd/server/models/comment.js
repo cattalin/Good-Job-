@@ -26,6 +26,11 @@ module.exports.getComments = function(query, callback){
 }
 
 
+module.exports.removeComment = function(query,callback) {
+    console.log(query)
+    Comment.remove({_id:query}, callback);
+}
+
 module.exports.addComment = function(data, callback){
     console.log(data);
     let finalData = new Comment(data);

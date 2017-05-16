@@ -10,6 +10,7 @@ export class CommentFeedComponent implements OnInit, OnChanges {
 
   @Input() videoId: String;
   @Input() newComment: any;
+  @Input() user: any;
   comments: any[] = []
 
   constructor(private videoService: VideoFeedService) { }
