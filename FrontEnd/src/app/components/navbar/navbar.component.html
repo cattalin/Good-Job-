@@ -16,10 +16,9 @@
           <!-- temp searchbar -->
           <app-search class="navbar-form navbar-left"></app-search>
 
-
           <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a [routerLink]="['/']">Home</a></li>
           
-          <li><app-search class="nav navbar-nav navbar-left"></app-search></li>
+         <!-- broken <li><app-search class="nav navbar-nav navbar-left"></app-search></li> -->
           
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -33,7 +32,6 @@
             <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a [routerLink]="['/register']">Register</a></li>
             <li *ngIf="authService.loggedIn()"><a (click)="onLogoutClick()" href="#">Logout</a></li>
           
-		  </ul>
 		  </ul>
         </div><!--/.nav-collapse -->
       </div>
