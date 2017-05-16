@@ -49,7 +49,6 @@ const appRoutes: Routes = [
   { path: 'login', component: UserLoginComponent },
   { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   { path: 'upload', component: VideoSubmitComponent, canActivate: [AuthGuard] },
-  { path: 'userprofile/:username', component: ViewProfileComponent, canActivate: [AuthGuard]},
   { path: 'search', component: SearchFeedComponent},
   { path: 'user-profile', component: ViewProfileComponent, canActivate: [AuthGuard]}
 ]

@@ -24,14 +24,9 @@ export class SearchFeedComponent implements OnInit {
 
 
 ngOnInit() {
- this.sub = this.route.queryParams.subscribe(params => {
-       this.query = params['title'];
-        return this.searchService.GetRequest(this.query).subscribe(vids=> this.videos = vids);
-    });
-  
+
+  this.sub = this.route.queryParams.subscribe(params => {
+    this.query = params['title'];
+    return this.searchService.GetRequest(this.query).subscribe(vids=> this.videos = vids);})
   }
-
-
-	
-	
 }
