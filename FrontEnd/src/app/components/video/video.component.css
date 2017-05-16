@@ -49,6 +49,18 @@
 #VRD{
   padding-left: 10px;
 }
+
+
+
+.text-left-align{
+  text-align: left;
+}
+.link-cursor{
+  cursor: pointer;
+}
+
+
+
 /*
 .class1{
   padding-left: 0px;

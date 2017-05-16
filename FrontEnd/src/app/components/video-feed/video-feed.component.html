@@ -1,7 +1,4 @@
-<ul>
-  <li *ngFor="let video of videos">
-    <div>{{video.datetime}}</div>
+<div class = "centered" *ngFor="let video of videos">
     <app-video [data]="video" [user]="currentUser"></app-video>
-  </li>
-</ul>
+</div>
 

@@ -105,3 +105,6 @@
 #commentbox{
   background-color: ;
 }
+.link-cursor{
+  cursor: pointer;
+}

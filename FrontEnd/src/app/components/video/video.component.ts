@@ -13,11 +13,13 @@ import { Router } from '@angular/router';
 })
 export class VideoComponent implements OnInit {
 
-  isPostComment=false;
 
+  newComment: any = null;
+  @Input() isPostComment=false;
   @Input() data: VideoData;
   @Input() user: any;
   private safeLink: SafeUrl;
+
   constructor(private sanitizer: DomSanitizer,
               private videoService: VideoFeedService,
               private router: Router){ } 
@@ -25,13 +27,16 @@ export class VideoComponent implements OnInit {
 
   ngOnInit() {
     this.safeLink = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/"+this.data.link);
+    this.isPostComment = false;
   }
 
   public get getCode() : SafeUrl{
     return this.safeLink;
-    //return this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/"+this.data.link);
-    //Should have been this but it doesn t work for some reason
-    //return this.sanitizer.sanitize(SecurityContext.URL, "https://www.youtube.com/embed/"+this.data.link);
+  }
+
+  getTimestamp(){
+    let date = new Date(parseInt(this.data._id.toString().slice(0,8), 16)*1000);
+    return "on " + date.toLocaleDateString()+" at "+date.toLocaleTimeString();;
   }
 
  
@@ -87,6 +92,15 @@ export class VideoComponent implements OnInit {
   }
   redirect(){
     this.router.navigate(['/user-profile'], {queryParams: {username: this.data.username}})
+  }
+
+
+  getNewComment(event){
+    if(event!=null){
+      this.isPostComment=false;
+      this.newComment = event;
+    }
+    
   }
 
 

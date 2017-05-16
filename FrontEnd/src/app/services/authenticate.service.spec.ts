@@ -5,6 +5,9 @@ import { MockBackend } from '@angular/http/testing';
 import { tokenNotExpired } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
 describe('AuthenticateService', () => {
+	//comment time
+	//such comment
+	//much wow
    beforeEach(()=>{
     TestBed.configureTestingModule({
       imports: [HttpModule],
