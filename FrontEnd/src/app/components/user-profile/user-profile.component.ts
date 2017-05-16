@@ -4,6 +4,8 @@ import { ValidateService } from '../../services/validate.service';
 import { Router } from '@angular/router';
 import { FormsModule, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { UserProfileService } from '../../services/user-profile.service';
+import { ActivatedRoute } from '@angular/router';
+
 
 import { FlashMessagesService } from 'angular2-flash-messages';
 
@@ -49,9 +51,11 @@ export class UserProfileComponent implements OnInit {
     private router: Router, private nf: FormBuilder,
     private ef: FormBuilder, private pf: FormBuilder,
     private flashMessage: FlashMessagesService,
+    private route: ActivatedRoute,
     private userProfileService: UserProfileService) { }
 
   ngOnInit() {
+
     this.authService.getProfile().subscribe(profile => {
       this.user = profile.user;
 

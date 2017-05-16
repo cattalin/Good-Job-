@@ -6,6 +6,10 @@
     </p>
     <h6 class="text-muted time"><p>{{getTimestamp()}}</p></h6>
 
+<div *ngIf="isMyVideo">
+  <button class="btn btn-warning btn-md"  type="button" (click)="deleteVideo()" id="commentB">Delete</button>
+</div>
+
     <iframe width="560" height="315" [src]='getCode' frameborder="0" allowfullscreen>
     </iframe>
       <!--<video width="560" height="315" src='https://www.youtube.com/watch?v=k2bOl_x1dXM' controlsList='nodownload' html5=True></video>!
@@ -16,9 +20,9 @@
                 <div>
                   <div id="raiting">Rating:{{this.data.rating}}</div>
                   <div class="btn-group" id="votingButtons">
-                    <button type="button" (click)="addRateAndButtons($event)" class="btn btn-primary" id = "gj">~GJ~</button>
-                    <button type="button" (click)="addRateAndButtons($event)" class="btn btn-primary" id = "cool">Cool</button>     <!-- doua clase btn-primary si btn-warning !!!-->
-                    <button type="button" (click)="addRateAndButtons($event)" class="btn btn-primary" id = "meh">Meh</button>
+                    <button type="button" (click)="rate($event)" onclick="addButtons($event)" class="btn btn-primary" id = "gj">~GJ~</button>
+                    <button type="button" (click)="rate($event)" onclick="addButtons($event)" class="btn btn-primary" id = "cool">Cool</button>     <!-- doua clase btn-primary si btn-warning !!!-->
+                    <button type="button" (click)="rate($event)" onclick="addButtons($event)" class="btn btn-primary" id = "meh">Meh</button>
 
                   </div>
                 </div>
@@ -30,12 +34,15 @@
 
 
 
-<div class="responsive">
-  <app-comment-feed [videoId]="data._id" [newComment] = "this.newComment"></app-comment-feed>
+<button class="btn btn-warning btn-md" *ngIf="!isShowComments" type="button" (click)="toggleComments()" id="commentB">Show Comments</button>
+<button class="btn btn-warning btn-md" *ngIf="isShowComments" type="button" (click)="toggleComments()" id="commentB">Hide Comments</button>
+<div class="responsive" *ngIf="isShowComments">
+  <app-comment-feed [videoId]="data._id" [newComment] = "this.newComment" [user]="user"></app-comment-feed>
 </div>
   <!--  POST COMMENT  -->
   <div class="responsive">
     <button class="btn btn-warning btn-md" *ngIf="!isPostComment" type="button" (click)="postComment()" id="commentB">Comment</button>
+
       <div *ngIf="isPostComment">
           <app-comment-submit [videoId]="data._id" [user]="user" (newCommentData)="getNewComment($event)"></app-comment-submit>
           <button type="button" (click)="cancelComment()">Cancel</button>
@@ -43,3 +50,11 @@
 
   </div>
 </div>
+
+<script>
+  function addButtons(event) {
+    event.Target.classList.remove(' btn-primary'); // To Remove
+    event.Target.classList.add(' btn-warning'); // To ADD
+    //event.target.classList.add('class3'); // To ADD
+  }
+  </script>

@@ -62,7 +62,6 @@
 
 <div>
   <button (click)="togglePassword() " *ngIf="!editPassword && !editName && !editEmail "> Change password </button>
-  <button *ngIf="!editPassword && !editName && !editEmail "> My Videos </button>
   <button *ngIf="!editPassword && !editName && !editEmail "> Favourites </button>
   <button *ngIf="!editPassword && !editName && !editEmail " (click)="showFollowingVideos()"> Following </button>
 </div>
@@ -95,9 +94,12 @@
     <button type="button" (click)="cancel()" *ngIf="editPassword || editName || editEmail"> Cancel </button>
   </form>
 
+
+
 <div *ngIf="showFollowings">
 
     
 </div>
+
 
 </div>
