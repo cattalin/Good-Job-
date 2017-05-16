@@ -20,7 +20,7 @@ export class UserProfileService {
     return this.username;
   }
 
-  followUser(followerId:String, followedId:String){
+  followUser(followerId:String, followedId:String){//not auto tested
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     let ep = this.prepEndpoint('routes/follow');
