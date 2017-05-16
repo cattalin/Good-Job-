@@ -22,7 +22,7 @@ export class VideoComponent implements OnInit {
 
   constructor(private sanitizer: DomSanitizer,
               private videoService: VideoFeedService,
-              private router: Router){ }
+              private router: Router){ } 
 
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class VideoComponent implements OnInit {
     return "on " + date.toLocaleDateString()+" at "+date.toLocaleTimeString();;
   }
 
-
+ 
   rate(event){
     const rate = {
       _id: this.data._id,

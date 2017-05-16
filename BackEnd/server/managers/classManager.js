@@ -49,8 +49,6 @@ module.exports.updateUserClass = function(userId, callback){
         nrOfDecentVids: 0,
         rateOfDecentVideos:0,
         nrOfVotes:1,
-        nameOfnextRank:'B',
-        nameOfpreviosRank:'bottom',
         _class:"A"
     }
     User.getUserById(userId._id,(err,user)=>{
@@ -97,7 +95,7 @@ module.exports.updateUserClass = function(userId, callback){
                             throw erro;
                     });
                 console.log("vechea clasa : "+user.class+" , "+"noua clasa : "+ rules._class);
-                callback(null,{oldClass : user.class , newClass : rules._class, rules:rules });//trimit catre frontend vechea si noua clasa                    
+                callback(null,{oldClass : user.class , newClass : rules._class, progress:rules ,goal:classrules[rules._class] });//trimit catre frontend vechea si noua clasa                    
             })
         })
     })

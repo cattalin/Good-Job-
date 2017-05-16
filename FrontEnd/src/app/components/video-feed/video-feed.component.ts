@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { VideoFeedService } from '../../services/videofeed/video-feed.service';
 import { VideoData } from '../../models/video-data';
-
+import { HttpModule } from '@angular/http';
 
 @Component({
   selector: 'app-video-feed',
@@ -17,7 +17,7 @@ export class VideoFeedComponent implements OnInit, OnChanges {
     followerId:null,//only use for searching the videos of the users that one user follows(following system)
     limit:  100,    //the maximum number of results
     skip:   0      //skipping x docs
-};
+}; 
   videos: VideoData[] = [];
   
   
