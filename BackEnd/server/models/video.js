@@ -55,7 +55,7 @@ module.exports.getVideosByName = function(name, callback){
 
 module.exports.getByTitleOrDescriptionOrUsername = function(q, callback){
     if(q.select)
-        Video.find({$or:[ {'username': q.select}, {'title': q.select}, {'description': {$regex : ".*"+q.select+".*"} }]}, callback);
+        Video.find({$or:[ {'username': q.select}, {'title': {$regex : ".*"+q.select+".*"}}, {'description': {$regex : ".*"+q.select+".*"} }]}, callback);
 }
 
 module.exports.addVideo = function(newVideo, callback){
