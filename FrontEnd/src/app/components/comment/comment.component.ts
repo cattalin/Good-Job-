@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { SubmitVideoService } from '../../services/submit-video.service';
+
 
 @Component({
   selector: 'app-comment',
@@ -9,11 +11,17 @@ import { Router } from '@angular/router';
 export class CommentComponent implements OnInit {
 
   @Input() comment: any;
+   @Input() user: any;
+  isMyComment=false;
 
-  constructor(private router: Router) { }
+  constructor(private submitVideoService :SubmitVideoService,
+  private router: Router) { }
 
   ngOnInit(){
 
+    console.log()
+    if(this.comment.username===this.user.username)
+    this.isMyComment=true;
   }
 
 
@@ -31,4 +39,14 @@ export class CommentComponent implements OnInit {
   redirect(){
     this.router.navigate(['/user-profile'], {queryParams: {username: this.comment.username}})
   }
+
+ deleteComment() {
+     console.log(this.comment._id)
+    this.submitVideoService.remove(this.comment).subscribe(res =>{
+          if (res.success){
+            console.log("success");
+          }
+        })
+  }
+
 }

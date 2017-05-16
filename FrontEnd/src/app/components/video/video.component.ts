@@ -13,8 +13,10 @@ import { Router } from '@angular/router';
 })
 export class VideoComponent implements OnInit {
 
-
+  isShowComments=false;
   newComment: any = null;
+  loaded=false;
+  isMyVideo=false;
   @Input() isPostComment=false;
   @Input() data: VideoData;
   @Input() user: any;
@@ -26,6 +28,13 @@ export class VideoComponent implements OnInit {
 
 
   ngOnInit() {
+    if(this.data.username===this.user.username)  {
+
+            this.isMyVideo=true;
+
+    }
+
+
     this.safeLink = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/"+this.data.link);
     this.isPostComment = false;
   }
@@ -104,17 +113,21 @@ export class VideoComponent implements OnInit {
     
   }
 
+  toggleComments() {
 
-
-
-  addRateAndButtons(event){
-    this.addButtons(event);
-    this.rate(event);
+    if(this.isShowComments===false)
+          this.isShowComments=true;
+    else this.isShowComments=false;
   }
-  addButtons(event){
-    event.Target.classList.remove(' btn-primary'); // To Remove
-    event.Target.classList.add(' btn-warning'); // To ADD
-    //event.target.classList.add('class3'); // To ADD
+  
+  deleteVideo() {
+
+    this.videoService.remove(this.data).subscribe(res =>{
+          if (res.success){
+            console.log("success");
+          }
+        })
   }
+
 
 }

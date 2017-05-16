@@ -22,6 +22,14 @@ Video = module.exports = mongoose.model('Video', VideoSchema);
 
 
 //method for updating the rating
+
+module.exports.removeVideo = function(query,callback) {
+    console.log(query)
+    Video.remove({_id:query}, callback);
+}
+
+
+
 module.exports.updateVideo = function(query, data, callback){
     Video.update({_id: query._id}, 
     { rating: data.rating, votes: data.votes }, {upsert:false }, callback);

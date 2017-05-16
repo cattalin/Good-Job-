@@ -33,7 +33,7 @@ export class SearchService {
         this.videos = [];
         data['videos'].forEach(video => {
             var vid: VideoData = new VideoData(video._id, video.link, video.description,
-            video.title, video.username, video.rating, video.datetime);
+            video.title, video.username, video.rating);
             this.videos.push(vid);
           });
          return this.videos;

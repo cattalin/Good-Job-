@@ -87,6 +87,14 @@ export class VideoFeedService {
       .map(res => res.json());
   }
 
+  remove(id) {
+     let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let ep = this.prepEndpoint('routes/delete');
+    return this.http.post(ep, id, { headers: headers })
+      .map(res => res.json());
+  }
+
   // functia care transforma id ul unic de mongo in data ...
   private dateFromObjectId(objectId) {
     return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
