@@ -2,18 +2,16 @@
     <div class="row">
       <div class="col-sm-8">
         <div class="panel panel-white post panel-shadow"  style="width:155%;">
+          
+          
+          
           <div class="post-heading">
-            
-            
-            
             <div class="pull-left image">
               <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
             </div>
             <div class="pull-left meta">
 
-<div *ngIf="isMyComment">
-  <button class="btn btn-warning btn-md"  type="button" (click)="deleteComment()" id="commentB">Delete</button>
-</div>
+              
 
               <div class="title h5">
                     <p [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
@@ -24,6 +22,9 @@
               <h6 class="text-muted time"><p>{{getTimestamp()}}</p></h6>
             </div>
           </div>
+
+
+
           <div class="post-description">
             <p>{{comment.text}}</p>
             <!--<div class="stats">
@@ -34,8 +35,10 @@
                 <i class="fa fa-thumbs-down icon"></i>12
               </a>
             </div>-->
+            <div class="pull-right" style = "margin-top:-5%;" *ngIf="isMyComment">
+                <button class="btn btn-warning btn-md" type="button" (click)="deleteComment()" id="commentB">Delete</button>
+            </div>
           </div>
-
 
           
         </div>
