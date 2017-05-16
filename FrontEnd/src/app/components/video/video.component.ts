@@ -3,7 +3,7 @@ import { VideoData } from '../../models/video-data';
 import { DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import { FormsModule, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { VideoFeedService } from '../../services/videofeed/video-feed.service';
-
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -13,11 +13,14 @@ import { VideoFeedService } from '../../services/videofeed/video-feed.service';
 })
 export class VideoComponent implements OnInit {
 
+  isPostComment=false;
+
   @Input() data: VideoData;
   @Input() user: any;
   private safeLink: SafeUrl;
   constructor(private sanitizer: DomSanitizer,
-              private videoService: VideoFeedService){ }
+              private videoService: VideoFeedService,
+              private router: Router){ } 
 
 
   ngOnInit() {
@@ -31,7 +34,7 @@ export class VideoComponent implements OnInit {
     //return this.sanitizer.sanitize(SecurityContext.URL, "https://www.youtube.com/embed/"+this.data.link);
   }
 
-  
+ 
   rate(event){
     const rate = {
       _id: this.data._id,
@@ -73,6 +76,30 @@ export class VideoComponent implements OnInit {
         console.log(rate);
       break;
     }
+  }
+
+  postComment() {
+    this.isPostComment=true;
+  }
+
+  cancelComment() {
+    this.isPostComment=false;
+  }
+  redirect(){
+    this.router.navigate(['/user-profile'], {queryParams: {username: this.data.username}})
+  }
+
+
+
+
+  addRateAndButtons(event){
+    this.addButtons(event);
+    this.rate(event);
+  }
+  addButtons(event){
+    event.Target.classList.remove(' btn-primary'); // To Remove
+    event.Target.classList.add(' btn-warning'); // To ADD
+    //event.target.classList.add('class3'); // To ADD
   }
 
 }

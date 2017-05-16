@@ -1,0 +1,28 @@
+<div class="container">
+<form (submit)="submitVideo()">
+<div class="input-group input-group-sm">
+  <span class="input-group-addon">Url Link:</span>
+  <input type="text" style="width: 50%;" class="form-control" placeholder="https://www.youtube.com/..." size="50" [(ngModel)]="link" name="link" >
+</div>
+
+
+
+
+
+  <div class="input-group input-group-sm">
+    <span class="input-group-addon">Title:</span>
+    <input type="text" style="width: 51%;" class="form-control" placeholder="Video Title..." size="50" [(ngModel)]="title" name="title" >
+  </div>
+  <div class="form-group">
+    <label>Describe in a few words:</label>
+    <textarea name="Text1" cols="50" rows="5" class="form-control" maxlength="200"
+    [(ngModel)]="description" name="description" style="resize:none"></textarea>
+  </div>
+  <div class="form-group">
+    <label>Rating</label>
+    <input type="range" class="form-control" min="0" max="5" [(ngModel)]="rating" name="rating" >
+    <label name="value">{{rating}}</label>
+  </div>
+  <input type="submit" class="btn btn-primary" value="Submit">
+</form>
+</div>

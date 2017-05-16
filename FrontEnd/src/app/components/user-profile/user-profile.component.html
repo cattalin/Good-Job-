@@ -1,0 +1,103 @@
+
+<!-- DISPLAY DATA -->
+<div *ngIf="user && !editPassword">
+  <h2 class="page-header">Welcome, {{user.name}}</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Rating: not implemented yet </li>
+    <li class="list-group-item">Followers: {{followers}} </li>
+    <li class="list-group-item">Username: {{user.username}}</li>
+    <li class="list-group-item">Name: {{user.name}}
+
+      <button (click)="toggleName()" *ngIf="!editPassword && !editName && !editEmail"> Edit </button>
+
+      <!-- EDIT NAME -->
+      <div *ngIf="editName">
+        <br>
+        <form [formGroup]="nameForm" autocomplete="off" novalidate>
+          <div class="form-field">
+            <label>New name:</label>
+            <input formControlName="name" type="text" class="form-control" [(ngModel)]="newName" name="newName">
+            <div [hidden]="nameForm.valid" class="alert alert-danger">
+              Name must be between 4-25 characters long and must contain only letters and '-'.
+            </div>
+          </div>
+
+          <button [disabled]="!isValidNameForm()" type="button" (click)="updateUserName()">Save</button>
+          <button type="button" (click)="cancel()" *ngIf="editPassword || editName || editEmail"> Cancel </button>
+        </form>
+      </div>
+
+    </li>
+
+    <li class="list-group-item">Email: {{user.email}}
+      <button (click)="toggleEmail()" *ngIf="!editPassword && !editName && !editEmail"> Edit </button>
+
+      <!-- EDIT E-MAIL -->
+      <div *ngIf="editEmail"><br>
+        <form [formGroup]="emailForm" autocomplete="off" novalidate>
+
+          <div class="form-field">
+            <label>New e-mail:</label>
+            <input formControlName="n_email" type="email" class="form-control" [(ngModel)]="newEmail" name="newEmail">
+            <div [hidden]="emailForm.valid" class=" alert alert-danger ">
+              Make sure you enter a valid e-mail address.
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Confirm:</label>
+            <input formControlName="c_email" type="email" class="form-control" [(ngModel)]="confEmail" name="confEmail">
+            <div *ngIf="!checkEmail()" class=" alert alert-danger ">
+              The emails don't match.
+            </div>
+          </div>
+
+          <button type="button" [disabled]="!checkEmail()" (click)="updateUserEmail()">Save</button>
+          <button type="button" (click)="cancel()" *ngIf="editPassword || editName || editEmail"> Cancel </button>
+        </form>
+
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div>
+  <button (click)="togglePassword() " *ngIf="!editPassword && !editName && !editEmail "> Change password </button>
+  <button *ngIf="!editPassword && !editName && !editEmail "> My Videos </button>
+  <button *ngIf="!editPassword && !editName && !editEmail "> Favourites </button>
+  <button *ngIf="!editPassword && !editName && !editEmail " (click)="showFollowingVideos()"> Following </button>
+</div>
+
+<div *ngIf="editPassword"><br>
+  <p> Change your password:</p>
+  <form [formGroup]="passwordForm" autocomplete="off" novalidate>
+
+    <div class="form-field">
+      <label>Old password:</label>
+      <input formControlName="o_pass" type="password" class="form-control" [(ngModel)]="oldPassword" name="oldPassword">
+    </div>
+
+    <div class="form-field">
+      <label>New password:</label>
+      <input formControlName="n_pass" type="password" class="form-control" [(ngModel)]="newPassword" name="newPassword">
+      <div [hidden]="passwordForm.valid" class=" alert alert-danger ">
+        Your password must be between 5-15 characters long.
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Confirm:</label>
+      <input formControlName="c_pass" type="password" class="form-control" [(ngModel)]="confPassword" name="confPassword">
+      <div *ngIf="!checkPassword()" class=" alert alert-danger ">
+        The passwords don't match.
+      </div>
+    </div>
+
+    <button type="button" [disabled]="!checkPassword()" (click)="updateUserPassword()">Save</button>
+    <button type="button" (click)="cancel()" *ngIf="editPassword || editName || editEmail"> Cancel </button>
+  </form>
+
+<div *ngIf="showFollowings">
+
+    
+</div>
+
+</div>
