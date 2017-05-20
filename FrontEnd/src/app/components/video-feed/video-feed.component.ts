@@ -16,13 +16,16 @@ export class VideoFeedComponent implements OnInit, OnChanges {
   @Input() query: any = {
     sort:   '_id',  //user to sort out of database
     select: null,   //filter the results(example:   select:"username:catalin"")
-    followerId:null,//only use for searching the videos of the users that one user follows(following system)
-    limit:  100,    //the maximum number of results
+    followerId: null,//only use for searching the videos of the users that one user follows(following system)
+  };
+  paginationQuery = {
+    limit:  5,    //the maximum number of results
     skip:   0      //skipping x docs
-}; 
+  }
+
   @Input() searchMode = false;
   videos: VideoData[] = [];
-  
+  nrVideos: number = 0;
   
   
   constructor(private videoService: VideoFeedService,
@@ -32,7 +35,11 @@ export class VideoFeedComponent implements OnInit, OnChanges {
   }
   
   ngOnInit() {
-    this.requestVideos();
+    
+    this.videoService.countVideos(this.query).subscribe(nrVideos => {
+      this.nrVideos = nrVideos;
+      this.requestVideos();
+      })
   }
 
   ngOnChanges(){
@@ -42,12 +49,32 @@ export class VideoFeedComponent implements OnInit, OnChanges {
 
   requestVideos(){
     this.videos=null;
-    if(!this.searchMode)
-      this.videoService.getVideos(this.query).subscribe(vids => {this.videos=vids;});
+    if(!this.searchMode){
+        
+        let currentQuery = {
+          sort:   this.query.sort, 
+          select: this.query.select,  
+          followerId: this.query.followerId,
+          limit:  this.paginationQuery.limit,
+          skip:   this.paginationQuery.skip
+        }
+        this.videoService.getVideos(currentQuery).subscribe(vids => {this.videos=vids;});
+   
+    }
+      
     else {
       this.route.queryParams.subscribe(params => {
+
         this.query = params['title'];
-        return this.searchService.GetRequest(this.query).subscribe(vids=> this.videos = vids);})
+        return this.searchService.GetRequest(this.query).subscribe(vids=> {this.videos = vids;})})
+    }
+  }
+
+  getPaginationQuery(event){
+    if(event!=null){
+      //console.log(event);
+      this.paginationQuery = event;
+      this.requestVideos();
     }
   }
 }

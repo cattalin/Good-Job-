@@ -191,8 +191,6 @@ router.get('/feed', (req, res) => {
     select: req.query.select,
     limit: req.query.limit,
     skip: req.query.skip,
-    from: req.query.from,
-    to: req.query.to
   }
 
   Video.getVideos(query, (err, videos) => {
@@ -200,14 +198,28 @@ router.get('/feed', (req, res) => {
     if (!videos) {
       return res.json({ success: false, msg: 'Videos not found' });
     }
-    videos.forEach(function (element) {
-      //console.log(element);
-    }, this);
 
     res.json({ success: true, videos: videos });
   })
 });
 
+
+router.get('/feedCount', (req, res) => {
+  const query = {
+    sort: req.query.sort,
+    select: req.query.select,
+    limit: req.query.limit,
+    skip: req.query.skip,
+  }
+  Video.countVideos(query, (err, nrVideos) => {
+    if (err) throw err;
+    if (!nrVideos) {
+      return res.json({ success: false, msg: 'Videos not found' });
+    }
+
+    res.json({ success: true, nrVideos: nrVideos });
+  })
+});
 
 
 // Search stuff

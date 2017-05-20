@@ -38,6 +38,7 @@ import { UserRegisterComponent } from './components/user-register/user-register.
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { VideoSearchResultsComponent } from './components/video-search-results/video-search-results.component';
+import { VideoFeedPaginationComponent } from './COmponents/video-feed-pagination/video-feed-pagination.component';
 
 
 
@@ -69,7 +70,8 @@ const appRoutes: Routes = [
     UserRegisterComponent,
     UserLoginComponent,
     DashboardComponent,
-    VideoSearchResultsComponent
+    VideoSearchResultsComponent,
+    VideoFeedPaginationComponent
   ],
   imports: [
     BrowserModule,

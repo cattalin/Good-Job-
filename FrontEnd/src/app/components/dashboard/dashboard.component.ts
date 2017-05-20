@@ -13,9 +13,7 @@ export class DashboardComponent implements OnInit {
   private query = {
     sort:   '_id',  //user to sort out of database
     select: null,   //filter the results(example:   select:"username:catalin"")
-    followerId:null,//only use for searching the videos of the users that one user follows(following system)
-    limit:  100,    //the maximum number of results
-    skip:   0      //skipping x docs
+    followerId: null,//only use for searching the videos of the users that one user follows(following system)
 }
 
   byRating: boolean = false;
@@ -63,8 +61,6 @@ export class DashboardComponent implements OnInit {
         sort:   '_id',
         select: null, 
         followerId: null,
-        limit:  1000, 
-        skip:   0
       };
       this.byRating = false;
     }
@@ -75,8 +71,6 @@ export class DashboardComponent implements OnInit {
         sort:   'rating',
         select: null,
         followerId: null,
-        limit:  1000,
-        skip:   0
       };
     }
   }
