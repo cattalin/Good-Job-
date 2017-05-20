@@ -13,10 +13,11 @@ import { Router } from '@angular/router';
 })
 export class VideoComponent implements OnInit {
 
-  isShowComments=false;
+  isShowComments = false;
   newComment: any = null;
   loaded=false;
   isMyVideo=false;
+  selectedRateButton: String = "none";
   @Input() isPostComment=false;
   @Input() data: VideoData;
   @Input() user: any;
@@ -30,10 +31,23 @@ export class VideoComponent implements OnInit {
   ngOnInit() {
     if(this.user!=null)
     if(this.data.username===this.user.username)  {
-
             this.isMyVideo=true;
-
     }
+
+
+
+
+    let target = {
+      userId: this.user._id,
+      videoId: this.data._id,
+    }
+    this.videoService.hasRated(target).subscribe(res =>{
+        this.hasRated(res.result);
+        
+    });
+
+
+
 
 
     this.safeLink = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/"+this.data.link);
@@ -49,7 +63,27 @@ export class VideoComponent implements OnInit {
     return "on " + date.toLocaleDateString()+" at "+date.toLocaleTimeString();;
   }
 
- 
+
+
+  hasRated(value){
+    switch (value){
+      case 5:
+        this.selectedRateButton = "gj";
+      break;
+      case 3:
+        this.selectedRateButton = "cool";
+      break;
+      case 1:
+        this.selectedRateButton = "meh";
+      break;
+      case 0:
+        this.selectedRateButton = "none";
+      break;
+    }
+  }
+
+
+
   rate(event){
     const rate = {
       _id: this.data._id,
@@ -57,41 +91,35 @@ export class VideoComponent implements OnInit {
       class: this.user.class,
       rating: 0
     }
+ 
+
     switch (event.currentTarget.id){
       case 'gj':
+        this.selectedRateButton = "gj";
         rate.rating=5;
-        console.log(rate);
-        this.videoService.rate(rate).subscribe(res =>{
-          if (res.success){
-            console.log("success");
-            this.data.rating = res.result.rating;
-            //event.currentTarget.disabled=true;
-          }
-        })
       break;
       case 'cool':
+        this.selectedRateButton = "cool";
         rate.rating=3;
-        this.videoService.rate(rate).subscribe(res =>{
-          if (res.success){
-            console.log("success");
-            this.data.rating = res.result.rating;
-            //event.currentTarget.disabled=true;
-          }
-        })
       break;
       case 'meh':
+        this.selectedRateButton = "meh";
         rate.rating=1;
-        this.videoService.rate(rate).subscribe(res =>{
-          if (res.success){
-            console.log("success");
-            this.data.rating = res.result.rating;
-            //event.currentTarget.disabled=true;
-          }
-        })
-        console.log(rate);
       break;
     }
+
+    this.videoService.rate(rate).subscribe(res =>{
+      if (res.success){
+        this.data.rating = res.result.rating;
+        if(res.result.currentVote==0){
+          this.selectedRateButton = "none";
+        }
+      }
+    })
   }
+
+
+
 
   postComment() {
     this.isPostComment=true;

@@ -79,6 +79,11 @@ export class VideoFeedService {
 
       });
   }
+
+
+
+
+
   rate(rate){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -86,6 +91,20 @@ export class VideoFeedService {
     return this.http.post(ep, rate, { headers: headers })
       .map(res => res.json());
   }
+  
+  hasRated(target: any){
+    let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+    let headers = new Headers();
+    let params: URLSearchParams = new URLSearchParams();
+    for (let key in target){
+      params.set(key.toString(), target[key]);
+    }
+    options.search = params;
+
+    let ep = this.prepEndpoint('routes/hasRated');
+    return this.http.get(ep, options).map(res => res.json());
+  }
+
 
   remove(id) {
      let headers = new Headers();

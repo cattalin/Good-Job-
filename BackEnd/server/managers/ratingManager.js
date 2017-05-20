@@ -25,7 +25,7 @@ module.exports.rateVideo = function(conditions, data, callback){
                             this.recalculateRating(query, (err, newRating) => {
                                 Video.updateVideo(query, newRating, (err, x) => {
                                     callback(null, {rating:newRating.rating, votes:newRating.votes, 
-                                        currentVote:data.rating})})//custom callback with our needed parameters that we sent to the frontend
+                                        currentVote:0})})//custom callback with our needed parameters that we sent to the frontend
                             });
                         }
                     });
@@ -59,6 +59,21 @@ module.exports.rateVideo = function(conditions, data, callback){
         else
         ;
     });
+}
+
+module.exports.hasRated = function(query, callback){
+    let q = {
+        _id: query.videoId,
+        voterId: query.userId
+    }
+    Voter.searchByBoth(q, (err, result) =>{
+        if(err)
+            callback(err, 0);
+        else if(result == null)
+            callback(null, 0);
+        else callback(null, result.rating);
+    });
+
 }
 
 //TODO: MUST BE CHANGED: RECALCULATES RATING FROM SCRATCH 
