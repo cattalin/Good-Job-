@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { FormsModule, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { UserProfileService } from '../../services/user-profile.service';
 import { ActivatedRoute } from '@angular/router';
-
-
+import { CheckclassService } from '../../services/checkclass.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
+
 
 
 @Component({
@@ -45,6 +45,14 @@ export class UserProfileComponent implements OnInit {
   emailForm: FormGroup;
   passwordForm: FormGroup;
 
+
+  numberOfVideosProcentage: String;
+  numberOfFollowersProcentage: String;
+  numberOfGoodVideosProcentage: String;
+  numberOfDecentVideosProcentage: String;
+  qualityVideoProcentage: String;
+
+  rating:String;
   //-----------------------------------------------------------------------------------------------//
 
   constructor(private authService: AuthenticateService,
@@ -52,10 +60,12 @@ export class UserProfileComponent implements OnInit {
     private ef: FormBuilder, private pf: FormBuilder,
     private flashMessage: FlashMessagesService,
     private route: ActivatedRoute,
-    private userProfileService: UserProfileService) { }
+    private userProfileService: UserProfileService,
+    private checkclassService : CheckclassService,) { }
 
   ngOnInit() {
 
+  //this.numberOfVideosProcentage="30%";
     this.authService.getProfile().subscribe(profile => {
       this.user = profile.user;
 
@@ -80,6 +90,44 @@ export class UserProfileComponent implements OnInit {
         o_pass: [''],
         n_pass: ['', [Validators.required, Validators.maxLength(15), Validators.minLength(5)]],
         c_pass: ['']
+      });
+      this.checkclassService.getClassUpdate(this.user).subscribe(newClass => {
+         console.log(newClass);
+          this.rating=newClass.result.newClass;
+          let temp=0;
+          temp=(((newClass.result.progress.nrOfVideos-newClass.result.previous.nrOfVideos)/ 
+                                          (newClass.result.goal.nrOfVideos-newClass.result.previous.nrOfVideos))*100);                          
+          this.numberOfVideosProcentage=temp+"%";
+
+          
+          temp=(((newClass.result.progress.nrOfFollowers-newClass.result.previous.nrOfFollowers)/ 
+                                          (newClass.result.goal.nrOfFollowers-newClass.result.previous.nrOfFollowers))*100);
+          if(temp>100)
+                temp=100; 
+          this.numberOfFollowersProcentage=temp+"%";
+
+          this.numberOfDecentVideosProcentage
+          temp=(((newClass.result.progress.nrOfDecentVids-newClass.result.previous.nrOfDecentVids)/ 
+                                          (newClass.result.goal.nrOfDecentVids-newClass.result.previous.nrOfDecentVids))*100);
+          if(temp>100)
+                temp=100;
+          this.numberOfDecentVideosProcentage  =temp+"%";
+      
+          temp=(((newClass.result.progress. nrOfGoodVids-newClass.result.previous. nrOfGoodVids)/ 
+                                          (newClass.result.goal. nrOfGoodVids-newClass.result.previous. nrOfGoodVids))*100);
+          if(temp>100)
+                temp=100;   
+          this.numberOfGoodVideosProcentage=temp+"%";
+          
+          temp=(((newClass.result.progress.rateOfDecentVideos-newClass.result.previous.rateOfDecentVideos)/ 
+                                          (newClass.result.goal.rateOfDecentVideos-newClass.result.previous.rateOfDecentVideos))*100);
+          if(temp>100)
+                temp=100;  
+          this.qualityVideoProcentage =temp+"%";
+          if(newClass.result.newClass.indexOf(newClass.result.oldClass)!=0){
+            this.flashMessage.show("FELICITARI ! Ai urcat de la clasa "+newClass.result.oldClass+" la clasa "+newClass.result.newClass,{ cssClass: 'alert-success' });
+          }
+          
       });
     })
     })
