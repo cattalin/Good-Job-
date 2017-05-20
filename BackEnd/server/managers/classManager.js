@@ -74,11 +74,8 @@ module.exports.updateUserClass = function(userId, callback){
                 if(rules.nrOfVideos!=0)
                     rules.rateOfDecentVideos=rules.nrOfDecentVids/rules.nrOfVideos;
                 else rules.rateOfDecentVideos=0;
-<<<<<<< HEAD
-                Follow.countFollowers({followedId:userId._id}, (err, nrOfFollowers) => {
-=======
-                Follow.countFollowers({follorewId: userId._id}, (err, nrOfFollowers) => {
->>>>>>> refs/remotes/cattalin/dev
+
+                Follow.countFollowers({follorewId:userId._id}, (err, nrOfFollowers) => {
                 // verificam cate nivele a crescut baiatu
                 rules.nrOfFollowers=nrOfFollowers;
                 let procentage=0.0;
