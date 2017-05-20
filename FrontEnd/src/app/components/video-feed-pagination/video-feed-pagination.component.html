@@ -1,6 +1,29 @@
 
 <ul  class = "pagination link-cursor">
-  <li class="page-item"  *ngFor="let page of pages; let i = index" [class.active]="i+1 == selectedPage">
+
+
+<li class="page-item" *ngIf="selectedPage-3>3"[class.active]="selectedPage == 1">
+    <a class="page-link" (click) = "pageChanged($event)">{{pages[0]}}</a>
+    ...
+  </li>
+
+
+
+<ng-container *ngIf="selectedPage-3<=3 || selectedPage+3>=pages.length-3">
+  <li class="page-item" *ngFor="let page of pages | slice:selectedPage-1%(selectedPage):1%pages; let i = index" [class.active]= "page==selectedPage">
     <a class="page-link" (click) = "pageChanged($event)">{{page}}</a>
+  </li>
+</ng-container>
+
+<ng-container *ngIf="selectedPage-3<=3 || selectedPage+3>=pages.length-3">
+  <li class="page-item" *ngFor="let page of pages let i = index" [class.active]= "page==selectedPage">
+    <a class="page-link" (click) = "pageChanged($event)">{{page}}</a>
+  </li>
+</ng-container>
+
+
+  <li class="page-item" *ngIf="selectedPage+3 < pages.length-3 && pages.length>1" [class.active]="selectedPage == pages.length">
+   ...
+    <a class="page-link" (click) = "pageChanged($event)">{{pages.length}}</a>
   </li>
 </ul>
