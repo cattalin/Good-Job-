@@ -3,7 +3,7 @@
 <div *ngIf="user && !editPassword">
   <h2 class="page-header">Welcome, {{user.name}}</h2>
   <ul class="list-group">
-    <li class="list-group-item">Rating: not implemented yet </li>
+    <li class="list-group-item">Rating: {{rating}} </li>
     <li class="list-group-item">Followers: {{followers}} </li>
     <li class="list-group-item">Username: {{user.username}}</li>
     <li class="list-group-item">Name: {{user.name}}
@@ -58,6 +58,42 @@
       </div>
     </li>
   </ul>
+    <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="70"
+      aria-valuemin="0" aria-valuemax="100"  [style.width]="numberOfVideosProcentage">
+      <p>number Of Videos</p>
+     <span class="sr-only">70% Complete</span>
+    </div>
+  </div> 
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="70"
+      aria-valuemin="0" aria-valuemax="100" [style.width]="numberOfFollowersProcentage">
+      <p>number Of Followers</p>
+     <span class="sr-only">70% Complete</span>
+    </div>
+  </div> 
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="70"
+      aria-valuemin="0" aria-valuemax="100" [style.width]=" numberOfGoodVideosProcentage">
+      <p>number Of Good Videos</p>
+     <span class="sr-only">70% Complete</span>
+    </div>
+  </div> 
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="70"
+      aria-valuemin="0" aria-valuemax="100" [style.width]="numberOfDecentVideosProcentage">
+      <p>number Of Decent Videos</p>
+     <span class="sr-only">70% Complete</span>
+    </div>
+  </div> 
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="70"
+      aria-valuemin="0" aria-valuemax="100" [style.width]="qualityVideoProcentage">
+      <p>Procentage of quality videos</p>
+     <span class="sr-only">70% Complete</span>
+    </div>
+  </div> 
+
 </div>
 
 <div>
@@ -65,6 +101,13 @@
   <button *ngIf="!editPassword && !editName && !editEmail "> Favourites </button>
   <button *ngIf="!editPassword && !editName && !editEmail " (click)="showFollowingVideos()"> Following </button>
 </div>
+
+
+
+
+<!-- Progress Bar -->
+
+
 
 <div *ngIf="editPassword"><br>
   <p> Change your password:</p>
@@ -89,7 +132,6 @@
         The passwords don't match.
       </div>
     </div>
-
     <button type="button" [disabled]="!checkPassword()" (click)="updateUserPassword()">Save</button>
     <button type="button" (click)="cancel()" *ngIf="editPassword || editName || editEmail"> Cancel </button>
   </form>

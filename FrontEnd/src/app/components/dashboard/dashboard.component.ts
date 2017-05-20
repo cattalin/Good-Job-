@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticateService } from '../../services/authenticate.service';
 import { CheckclassService } from '../../services/checkclass.service';
-
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
 
 
   constructor(private authService:AuthenticateService,
+              private flashMessage: FlashMessagesService,
               private checkclassService : CheckclassService) { }
 
   ngOnInit() {
@@ -37,7 +38,11 @@ export class DashboardComponent implements OnInit {
     this.currentUser.class = profile.user.class;
     this.currentUser.username = profile.user.username;
     this.checkclassService.getClassUpdate(this.currentUser).subscribe(newClass => {
-          console.log(newClass)});
+          console.log(newClass);
+          if(newClass.result.newClass.indexOf(newClass.result.oldClass)!=0){
+            this.flashMessage.show("FELICITARI ! Ai urcat de la clasa "+newClass.result.oldClass+" la clasa "+newClass.result.newClass,{ cssClass: 'alert-success' });
+          } 
+        });
     }, err => {
     console.log(err);
     return false;
