@@ -28,6 +28,7 @@ export class VideoComponent implements OnInit {
 
 
   ngOnInit() {
+    if(this.user!=null)
     if(this.data.username===this.user.username)  {
 
             this.isMyVideo=true;
@@ -107,7 +108,6 @@ export class VideoComponent implements OnInit {
   getNewComment(event){
     if(event!=null){
       this.isPostComment=false;
-      this.data.description = "varta faza";
       this.newComment = event;
     }
     
