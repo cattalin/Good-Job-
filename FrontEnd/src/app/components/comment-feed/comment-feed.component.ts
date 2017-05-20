@@ -12,7 +12,8 @@ export class CommentFeedComponent implements OnInit, OnChanges {
   @Input() newComment: any;
   @Input() user: any;
   comments: any[] = []
-
+  isShowComments = false;
+  
   constructor(private videoService: VideoFeedService) { }
 
   ngOnInit() {
@@ -31,4 +32,11 @@ export class CommentFeedComponent implements OnInit, OnChanges {
     }
   }
 
+
+
+  toggleComments() {
+  if(this.isShowComments===false)
+        this.isShowComments=true;
+  else this.isShowComments=false;
+  }
 }

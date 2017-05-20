@@ -48,7 +48,6 @@ module.exports.updateUserClass = function(userId, callback){
         nrOfGoodVids: 0,
         nrOfDecentVids: 0,
         rateOfDecentVideos:0,
-        nrOfVotes:1,
         _class:"A"
     }
     User.getUserById(userId._id,(err,user)=>{
@@ -68,15 +67,17 @@ module.exports.updateUserClass = function(userId, callback){
                 videos.forEach(function (element) {
                     if(element.rating>3)
                         rules.nrOfDecentVids++;
-                    if(element>=4)
+                    if(element.rating>=4)
                         rules.nrOfGoodVids++;
                    }, this);
                 rules.nrOfVideos=videos.length;
                 if(rules.nrOfVideos!=0)
                     rules.rateOfDecentVideos=rules.nrOfDecentVids/rules.nrOfVideos;
                 else rules.rateOfDecentVideos=0;
-                Follow.countFollowers({follorewId: userId._id}, (err, nrOfFollowers) => {
+
+                Follow.countFollowers({follorewId:userId._id}, (err, nrOfFollowers) => {
                 // verificam cate nivele a crescut baiatu
+                rules.nrOfFollowers=nrOfFollowers;
                 let procentage=0.0;
                 rules._class=user.class;
                 do {//console.log(procentage);
@@ -90,12 +91,16 @@ module.exports.updateUserClass = function(userId, callback){
                 }while(procentage==1);
                 //console.log(procentage+rules);
                 if(!(rules._class.indexOf(user.class)>-1))//daca s-a schimbat clasa acestui user
-                    User.updateUserClass({id: user._id , class: rules._class},(erro,us)=>{
+                    User.updateUserClass({id: user._id , class: classrules[classrules[rules._class].nameOfpreviosRank ].nameInDatabase},(erro,us)=>{
                         if(erro)
                             throw erro;
                     });
                 //console.log("vechea clasa : "+user.class+" , "+"noua clasa : "+ rules._class);
-                callback(null,{oldClass : user.class , newClass : rules._class, progress:rules ,goal:classrules[rules._class] });//trimit catre frontend vechea si noua clasa                    
+                console.log(nrOfFollowers);
+                callback(null,{ oldClass:user.class , 
+                                newClass:classrules[classrules[rules._class].nameOfpreviosRank ].nameInDatabase,
+                                previous:classrules[classrules[rules._class].nameOfpreviosRank ], 
+                                progress:rules ,goal:classrules[rules._class] });//trimit catre frontend vechea si noua clasa                    
             })
         })
     })

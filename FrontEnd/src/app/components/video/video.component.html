@@ -36,9 +36,8 @@
 
 
 
-<button class="btn btn-warning btn-md" *ngIf="!isShowComments" type="button" (click)="toggleComments()" id="commentB">Show Comments</button>
-<button class="btn btn-warning btn-md" *ngIf="isShowComments" type="button" (click)="toggleComments()" id="commentB">Hide Comments</button>
-<div class="responsive" *ngIf="isShowComments">
+
+<div class="responsive">
   <app-comment-feed [videoId]="data._id" [newComment] = "this.newComment" [user]="user"></app-comment-feed>
 </div>
   <!--  POST COMMENT  -->
