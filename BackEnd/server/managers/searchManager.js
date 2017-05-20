@@ -10,7 +10,7 @@ const Voter = require('../models/voter');
 module.exports.getVideosAndUsers = function(searchstring, callback)
 {
     let q = {
-        select:searchstring
+        select: searchstring
     }
     Video.getByTitleOrDescriptionOrUsername(q,(err,result)=>{
         callback(err,result);

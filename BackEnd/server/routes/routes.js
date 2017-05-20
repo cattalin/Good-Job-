@@ -145,9 +145,29 @@ router.post('/rate', (req, res, next) => {
         }
       })
     }
-    
   });
 });
+
+
+
+
+router.get('/hasRated',(req, res, next) => {
+  let query = {
+    videoId: req.query.videoId,
+    userId: req.query.userId,
+  }
+  
+  RatingManager.hasRated(query,(err,result)=>{
+    console.log("hasrated"+result);
+    if(err)
+      res.json({success : false, msg: 'could not check the rating', result:0});
+    else {
+      res.json({success : true, msg: 'rating found', result:result});
+    }
+  })
+});
+
+
 
 //update user class
 router.get('/updateClass',(req, res, next) => {

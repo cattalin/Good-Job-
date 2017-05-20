@@ -1,3 +1,5 @@
+
+ 
  <div id="containerVideo" class="jumbotron responsive">
    <div class="text-left-align">
     <h3>{{this.data.title}}</h3>
@@ -20,9 +22,9 @@
                 <div>
                   <div id="raiting">Rating:{{this.data.rating}}</div>
                   <div class="btn-group" id="votingButtons">
-                    <button type="button" (click)="rate($event)" onclick="addButtons($event)" class="btn btn-primary" id = "gj">~GJ~</button>
-                    <button type="button" (click)="rate($event)" onclick="addButtons($event)" class="btn btn-primary" id = "cool">Cool</button>     <!-- doua clase btn-primary si btn-warning !!!-->
-                    <button type="button" (click)="rate($event)" onclick="addButtons($event)" class="btn btn-primary" id = "meh">Meh</button>
+                    <button type="button" (click)="rate($event)" [ngClass]="{'btn-warning': selectedRateButton === 'gj'}" class="btn btn-primary" id = "gj">~GJ~</button>
+                    <button type="button" (click)="rate($event)" [ngClass]="{'btn-warning': selectedRateButton === 'cool'}" class="btn btn-primary" id = "cool">Cool</button>     <!-- doua clase btn-primary si btn-warning !!!-->
+                    <button type="button" (click)="rate($event)" [ngClass]="{'btn-warning': selectedRateButton === 'meh'}" class="btn btn-primary" id = "meh">Meh</button>
 
                   </div>
                 </div>
@@ -51,10 +53,3 @@
   </div>
 </div>
 
-<script>
-  function addButtons(event) {
-    event.Target.classList.remove(' btn-primary'); // To Remove
-    event.Target.classList.add(' btn-warning'); // To ADD
-    //event.target.classList.add('class3'); // To ADD
-  }
-  </script>

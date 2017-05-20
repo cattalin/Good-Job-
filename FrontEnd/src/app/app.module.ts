@@ -14,7 +14,6 @@ import { AuthGuard } from './guards/auth.guard';
 // --WIP--Sebi
 import { SearchComponent } from './components/search/search.component';
 import { SearchService } from './services/search.service';
-import { SearchFeedComponent } from './components/search-feed/search-feed.component';
 // --ENDWIP--Sebi
 
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -38,6 +37,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { UserRegisterComponent } from './components/user-register/user-register.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { VideoSearchResultsComponent } from './components/video-search-results/video-search-results.component';
 
 
 
@@ -49,7 +49,7 @@ const appRoutes: Routes = [
   { path: 'login', component: UserLoginComponent },
   { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   { path: 'upload', component: VideoSubmitComponent, canActivate: [AuthGuard] },
-  { path: 'search', component: SearchFeedComponent},
+  { path: 'search', component: VideoSearchResultsComponent},
   { path: 'user-profile', component: ViewProfileComponent, canActivate: [AuthGuard]}
 ]
 
@@ -68,8 +68,8 @@ const appRoutes: Routes = [
     UserProfileComponent,
     UserRegisterComponent,
     UserLoginComponent,
-    SearchFeedComponent,
-    DashboardComponent
+    DashboardComponent,
+    VideoSearchResultsComponent
   ],
   imports: [
     BrowserModule,
