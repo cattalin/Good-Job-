@@ -39,11 +39,34 @@ module.exports.getVideoById = function(id, callback){
     Video.findById(id, callback);
 }
 
+
+
 module.exports.getVideos = function(q, callback){
     if(q.select)
-        Video.find({username: q.select},callback).sort([[q.sort, -1]]);
+           Video.find({username: q.select})
+                .sort([[q.sort, -1]])
+                .limit(parseInt(q.limit))
+                .skip(parseInt(q.skip))
+                .exec(callback);
     else
-        Video.find(callback).sort([[q.sort, -1]]);
+        Video.find({})
+            .sort([[q.sort, -1]])
+            .limit(parseInt(q.limit))
+            .skip(parseInt(q.skip))
+            .exec(callback);
+}
+
+
+
+module.exports.countVideos = function(q, callback){
+    if(q.select)
+        Video.count({username: q.select})
+            .sort([[q.sort, -1]])
+            .exec(callback);
+    else
+        Video.count({})
+            .sort([[q.sort, -1]])
+            .exec(callback);
 }
 
 

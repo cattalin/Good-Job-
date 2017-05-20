@@ -79,6 +79,32 @@ export class VideoFeedService {
 
       });
   }
+  countVideos(query: any){
+    let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+    let headers = new Headers();
+    let params: URLSearchParams = new URLSearchParams();
+    for (let key in query){
+      params.set(key.toString(), query[key]);
+      
+    }
+   
+
+    options.search = params;
+    let ep = this.prepEndpoint('routes/feedCount');
+    return this.http.get(ep, options).map(res => {
+      let data = res.json();
+
+        if(data.success){
+          return data.nrVideos;
+        }  
+        else{
+          console.log("Nice error")
+        }
+      },
+      err=>{
+
+      });
+  }
 
 
 

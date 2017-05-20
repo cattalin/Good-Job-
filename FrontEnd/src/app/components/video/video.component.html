@@ -12,7 +12,7 @@
   <button class="btn btn-warning btn-md"  type="button" (click)="deleteVideo()" id="commentB">Delete</button>
 </div>
 
-    <iframe width="560" height="315" [src]='getCode' frameborder="0" allowfullscreen>
+    <iframe width="560" height="315" [src]='getCode()' frameborder="0" allowfullscreen>
     </iframe>
       <!--<video width="560" height="315" src='https://www.youtube.com/watch?v=k2bOl_x1dXM' controlsList='nodownload' html5=True></video>!
     <object [data]="getCode"
