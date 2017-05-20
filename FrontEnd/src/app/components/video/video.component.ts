@@ -54,13 +54,13 @@ export class VideoComponent implements OnInit {
     this.isPostComment = false;
   }
 
-  public get getCode() : SafeUrl{
+  public getCode() : SafeUrl{
     return this.safeLink;
   }
 
   getTimestamp(){
     let date = new Date(parseInt(this.data._id.toString().slice(0,8), 16)*1000);
-    return "on " + date.toLocaleDateString()+" at "+date.toLocaleTimeString();;
+    return "on " + date.toLocaleDateString()+" at "+date.toLocaleTimeString();
   }
 
 
@@ -138,7 +138,6 @@ export class VideoComponent implements OnInit {
       this.isPostComment=false;
       this.newComment = event;
     }
-    
   }
 
   toggleComments() {

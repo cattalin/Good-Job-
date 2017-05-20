@@ -1,3 +1,5 @@
+<app-video-feed-pagination [nrVideos] = "nrVideos" (paginationQuery) = "getPaginationQuery($event)"> </app-video-feed-pagination>
+
 <div class = "centered" *ngFor="let video of videos">
     <app-video [data]="video" [user]="currentUser"></app-video>
 </div>
