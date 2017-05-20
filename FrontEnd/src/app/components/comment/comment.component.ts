@@ -18,8 +18,6 @@ export class CommentComponent implements OnInit {
   private router: Router) { }
 
   ngOnInit(){
-
-    console.log()
     if(this.comment.username===this.user.username)
     this.isMyComment=true;
   }
@@ -41,7 +39,6 @@ export class CommentComponent implements OnInit {
   }
 
  deleteComment() {
-     console.log(this.comment._id)
     this.submitVideoService.remove(this.comment).subscribe(res =>{
           if (res.success){
             console.log("success");

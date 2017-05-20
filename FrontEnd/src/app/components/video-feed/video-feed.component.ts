@@ -22,6 +22,7 @@ export class VideoFeedComponent implements OnInit, OnChanges {
     limit:  5,    //the maximum number of results
     skip:   0      //skipping x docs
   }
+  selectedPage: number = 1;
 
   @Input() searchMode = false;
   videos: VideoData[] = [];
@@ -80,8 +81,9 @@ export class VideoFeedComponent implements OnInit, OnChanges {
 
   getPaginationQuery(event){
     if(event!=null){
-      //console.log(event);
+      
       this.paginationQuery = event;
+      this.selectedPage = this.paginationQuery.skip/5+1;
       this.requestVideos();
     }
   }
