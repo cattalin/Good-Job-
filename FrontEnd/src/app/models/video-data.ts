@@ -6,7 +6,7 @@ export class VideoData{
     title: String;
     username: String;
     rating: number;
-    votes: String
+    votes: String;
 
     constructor(_id:String, link:String, desc:String, title:String, username:String, rating:number){
         this._id = _id;
@@ -20,4 +20,9 @@ export class VideoData{
         this.link=link;
         this.description=desc;
     }
+
+/*
+  makeDateAndTime(date:String){
+    this.datetime = date.slice(3,16);
+  }*/
 }

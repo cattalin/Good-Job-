@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchService } from '../../services/search.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-search',
@@ -7,22 +8,28 @@ import { SearchService } from '../../services/search.service';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  public Tags = [];
-  loaded = false;
-   constructor(private searchService :SearchService) { }
+  public data;
+   constructor(private router: Router) {
+     this.data = {
+       val: ''
+     };
+    }
 
   ngOnInit() {
   }
 
-  checktags(){
 
-    if(!this.loaded)
+  onSubmit(){
+    let SearchQuery;
+    SearchQuery = this.data.val;
+    if(SearchQuery!=null)
     {
-      this.searchService.grabTags().subscribe(result=>result.tags.forEach(tg=>{this.Tags.push(tg)}));//.subscribe(result=>{console.log("asd"+result);});
-      this.loaded = true;
-    }else{
-     //console.log(this.tags)
+      //this.searchService.GetRequest(this.SearchQuery);
+      this.router.navigate(['/search'], {queryParams:{title:SearchQuery}});
+    }
+    else
+    {
+      console.log("EMPTY");
     }
   }
-
 }

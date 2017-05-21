@@ -1,0 +1,40 @@
+
+
+<ul  class = "pagination link-cursor">
+
+
+
+<li class="page-item" [class.active]= "selectedPage==1">
+    <a class="page-link" (click) = "pageChanged($event)">{{pages[0]}}</a>
+</li>
+
+<ng-container *ngIf="beginDots">
+  <li class="page-item"><a class="page-link">...</a></li>
+</ng-container>
+
+<ng-container>
+  <li class="page-item" *ngFor="let page of pages | slice:leftLimit:rightLimit" [class.active]= "page==selectedPage">
+    <a class="page-link" (click) = "pageChanged($event)">{{page}}</a>
+  </li>
+</ng-container>
+
+<ng-container *ngIf="endDots">
+  <li class="page-item"><a class="page-link">...</a></li>
+</ng-container>
+
+<li class="page-item" [class.active]= "pages.length==selectedPage">
+    <a class="page-link" (click) = "pageChanged($event)">{{pages.length}}</a>
+</li>
+<span class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Show:
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li ><a href="#" id="shownumber" (click) = "videosPerPageChanged($event)">2</a></li>
+    <li ><a href="#" id="shownumber" (click) = "videosPerPageChanged($event)">5</a></li>
+    <li ><a href="#" id="shownumber" (click) = "videosPerPageChanged($event)">20</a></li>
+  </ul>
+</span>
+
+</ul>

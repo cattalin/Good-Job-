@@ -1,0 +1,8 @@
+<h2>Videos</h2>
+<div class="btn-group btn-group-xs" role="group">
+  <button class="btn btn-group-xs btn-primary" (click)="toggleByRating()" [disabled]="byRating"> by Rating </button>
+  <button class="btn btn-group-xs btn-primary" (click)="toggleByRating()" [disabled]="!byRating"> by Date </button>
+</div>
+<div align="center">
+  <app-video-feed [query]="query" [currentUser]="currentUser"></app-video-feed>
+</div>

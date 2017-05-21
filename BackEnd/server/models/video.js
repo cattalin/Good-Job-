@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('../config/database');
 const User = require('../models/user');
+const Follow=require('../models/follow');
 
 
 VideoSchema = mongoose.Schema({
@@ -10,7 +11,6 @@ VideoSchema = mongoose.Schema({
     rating: Number,
     username: String,
     userId:{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-
     rating: Number,
     votes: Number,
 
@@ -22,6 +22,14 @@ Video = module.exports = mongoose.model('Video', VideoSchema);
 
 
 //method for updating the rating
+
+module.exports.removeVideo = function(query,callback) {
+    console.log(query)
+    Video.remove({_id:query}, callback);
+}
+
+
+
 module.exports.updateVideo = function(query, data, callback){
     Video.update({_id: query._id}, 
     { rating: data.rating, votes: data.votes }, {upsert:false }, callback);
@@ -31,12 +39,58 @@ module.exports.getVideoById = function(id, callback){
     Video.findById(id, callback);
 }
 
+
+
 module.exports.getVideos = function(q, callback){
     if(q.select)
-        Video.find({username: q.select},callback).sort([[q.sort, -1]]);
+        Video.find({username: q.select})
+            .sort([[q.sort, -1]])
+            .limit(parseInt(q.limit))
+            .skip(parseInt(q.skip))
+            .exec(callback);
     else
-        Video.find(callback).sort([[q.sort, -1]]);
+        Video.find({})
+            .sort([[q.sort, -1]])
+            .limit(parseInt(q.limit))
+            .skip(parseInt(q.skip))
+            .exec(callback);
 }
+
+
+
+module.exports.countVideos = function(q, callback){
+    if(q.select)
+        Video.count({username: q.select})
+            .sort([[q.sort, -1]])
+            .exec(callback);
+    else
+        Video.count({})
+            .sort([[q.sort, -1]])
+            .exec(callback);
+}
+
+
+//SEARCH ADDS
+
+
+module.exports.getByTitleOrDescriptionOrUsername = function(q, callback){
+    if(q.select)
+        Video.find({$or:[ {'username': q.select}, {'title': {$regex : ".*"+q.select+".*"}}, 
+                {'description': {$regex : ".*"+q.select+".*"} }]})
+                .sort([[q.sort, -1]])
+                .limit(parseInt(q.limit))
+                .skip(parseInt(q.skip))
+                .exec(callback);;
+}
+module.exports.countByTitleOrDescriptionOrUsername = function(q, callback){
+    if(q.select)
+        Video.count({$or:[ {'username': q.select}, {'title': {$regex : ".*"+q.select+".*"}}, 
+                {'description': {$regex : ".*"+q.select+".*"} }]})
+                .sort([[q.sort, -1]])
+                .exec(callback);
+}
+
+
 
 
 module.exports.addVideo = function(newVideo, callback){
@@ -86,6 +140,30 @@ module.exports.findWithVoter = function(query, callback){
               match: { voterId: {$eq: query.voterId}}})
     .exec(callback);
 }
+
+
+
+module.exports.following = function(query,callback){
+
+    let follow = {
+    followerId: query.followerId,
+    };
+
+    Follow.searchByFollowerId(follow, (err, list) =>{
+
+    for (let entry of list) {
+     Video.findOne({"follow.followerId": list.followerId})
+        .populate({path: 'follow', model: Follow})
+        .exec(callback);
+    }
+
+    });
+}
+
+
+
+
+
 
 /*
 //Conditions: identify the video    Update:vote the video   Options:unique update
