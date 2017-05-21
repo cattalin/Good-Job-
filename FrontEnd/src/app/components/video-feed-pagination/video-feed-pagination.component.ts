@@ -8,9 +8,9 @@ import { Component, OnInit, Input, Output, OnChanges, EventEmitter } from '@angu
 export class VideoFeedPaginationComponent implements OnInit {
 
   @Input() nrVideos: number;
-  @Output() paginationQuery = new EventEmitter<any>();
+  @Output() paginationEvent = new EventEmitter<any>();
   pages: number[] = [];
-  selectedPage: number = 1;
+  @Input() selectedPage: number = 1;
   activeSize: number=1;
   leftLimit: number;
   rightLimit: number;
@@ -47,7 +47,7 @@ export class VideoFeedPaginationComponent implements OnInit {
       limit:  this.videosPerPage,    //the maximum number of results
       skip:   (this.selectedPage-1)*this.videosPerPage      //skipping x docs
     }
-    this.paginationQuery.emit(newPagination);
+    this.paginationEvent.emit(newPagination);
     this.calculateNavigation();
   }
   else
@@ -58,7 +58,7 @@ export class VideoFeedPaginationComponent implements OnInit {
       limit: this.videosPerPage,
       skip: (this.selectedPage-1)*this.videosPerPage
     } 
-    this.paginationQuery.emit(newPagination); 
+    this.paginationEvent.emit(newPagination); 
   }
 
   }
