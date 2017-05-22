@@ -22,25 +22,16 @@ export class VideoFeedPaginationComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if(this.nrVideos !=0){
-      for (let i = 1; i<this.nrVideos/this.videosPerPage+1; i++)
-        this.pages.push(i);
-    }
+    this.calculatePages();
     this.calculateNavigation();
   }
 
   ngOnChanges(){
-    //console.log("vids" + this.nrVideos);
-    if(this.nrVideos !=0){
-      for (let i = 1; i<this.nrVideos/this.videosPerPage+1; i++)
-        this.pages.push(i);
-    }
+    this.calculatePages();
     this.calculateNavigation();
   }
 
   pageChanged(event){
-    if(event.target.id.indexOf("shownumber")==-1)
-    {
     this.selectedPage = parseInt(event.target.innerHTML);
 
     let newPagination = {
@@ -49,20 +40,27 @@ export class VideoFeedPaginationComponent implements OnInit {
     }
     this.paginationEvent.emit(newPagination);
     this.calculateNavigation();
-  }
-  else
-  {
-    this.selectedPage=1;
-    this.videosPerPage=event.target.innerHTML;
-    let newPagination = {
-      limit: this.videosPerPage,
-      skip: (this.selectedPage-1)*this.videosPerPage
-    } 
-    this.paginationEvent.emit(newPagination); 
+}
+
+  videosPerPageChanged(event){
+      this.selectedPage=1;
+      this.videosPerPage=event.target.innerHTML;
+      let newPagination = {
+        limit: this.videosPerPage,
+        skip: (this.selectedPage-1)*this.videosPerPage
+      }
+      this.calculatePages();
+      this.calculateNavigation();
+      this.paginationEvent.emit(newPagination); 
   }
 
+  calculatePages(){
+    if(this.nrVideos !=0){
+      this.pages = [];
+      for (let i = 1; i<this.nrVideos/this.videosPerPage+1; i++)
+        this.pages.push(i);
+    }
   }
-
   calculateNavigation(){
    // console.log("ACTIVESIZE:",this.activeSize,"SELECTEDPAGE:",this.selectedPage, "SELECTEDPAGE+ACTIVESIZE:",this.selectedPage+this.activeSize,"PAGESLENGHT-CONCATLIMIT",this.pages.length-this.concatlimit);
     if(this.selectedPage-this.activeSize>=this.concatlimit)
