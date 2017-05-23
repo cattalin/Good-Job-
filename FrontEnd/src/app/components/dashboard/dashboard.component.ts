@@ -65,7 +65,7 @@ export class DashboardComponent implements OnInit {
       this.byRating=true;
 
       this.query = {
-        sort:   '_id',
+        sort:   'rating',
         select: null, 
         followerId: null,
       };
@@ -76,7 +76,7 @@ export class DashboardComponent implements OnInit {
       this.byRating=false;
 
       this.query = {
-        sort:   'rating',
+        sort:   '_id',
         select: null,
         followerId: null,
       };
