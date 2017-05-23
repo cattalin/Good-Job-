@@ -80,6 +80,7 @@ module.exports.updateUserClass = function(userId, callback){
                 rules.nrOfFollowers=nrOfFollowers;
                 let procentage=0.0;
                 rules._class=user.class;
+                rules._class=classrules[rules._class].nameOfnextRank;
                 do {//console.log(procentage);
                     if(rules._class.indexOf("top")>-1)//daca are cel mai mare nivel posibil
                         procentage=-1;
