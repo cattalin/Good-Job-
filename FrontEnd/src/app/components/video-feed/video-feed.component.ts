@@ -19,9 +19,10 @@ export class VideoFeedComponent implements OnInit, OnChanges {
     followerId: null,//only use for searching the videos of the users that one user follows(following system)
   };
   paginationQuery = {
-    limit:  5,    //the maximum number of results
+    limit:  2,    //the maximum number of results
     skip:   0      //skipping x docs
   }
+  selectedPage: number = 1;
 
   @Input() searchMode = false;
   videos: VideoData[] = [];
@@ -35,11 +36,7 @@ export class VideoFeedComponent implements OnInit, OnChanges {
   }
   
   ngOnInit() {
-    
-    this.videoService.countVideos(this.query).subscribe(nrVideos => {
-      this.nrVideos = nrVideos;
-      this.requestVideos();
-      })
+    this.requestVideos();
   }
 
   ngOnChanges(){
@@ -50,7 +47,8 @@ export class VideoFeedComponent implements OnInit, OnChanges {
   requestVideos(){
     this.videos=null;
     if(!this.searchMode){
-        
+      this.videoService.countVideos(this.query).subscribe(nrVideos => {
+        this.nrVideos = nrVideos;
         let currentQuery = {
           sort:   this.query.sort, 
           select: this.query.select,  
@@ -59,21 +57,33 @@ export class VideoFeedComponent implements OnInit, OnChanges {
           skip:   this.paginationQuery.skip
         }
         this.videoService.getVideos(currentQuery).subscribe(vids => {this.videos=vids;});
-   
+      })
     }
       
     else {
       this.route.queryParams.subscribe(params => {
-
-        this.query = params['title'];
-        return this.searchService.GetRequest(this.query).subscribe(vids=> {this.videos = vids;})})
+        let currentQuery = {
+            sort:   '_id', 
+            select: params['title'],  
+            followerId: null,
+            limit:  this.paginationQuery.limit,
+            skip:   this.paginationQuery.skip
+          }
+        this.videoService.countSearchedVideos(currentQuery).subscribe(nrVideos => {
+          this.nrVideos = nrVideos;
+          currentQuery.limit = this.paginationQuery.limit;
+          currentQuery.skip = this.paginationQuery.skip;
+          return this.videoService.searchVideos(currentQuery).subscribe(vids=> {this.videos = vids;})
+        })
+      })
     }
   }
 
   getPaginationQuery(event){
     if(event!=null){
-      //console.log(event);
+      
       this.paginationQuery = event;
+      this.selectedPage = this.paginationQuery.skip/5+1;
       this.requestVideos();
     }
   }

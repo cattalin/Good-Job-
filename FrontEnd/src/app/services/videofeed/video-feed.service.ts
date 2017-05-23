@@ -74,10 +74,34 @@ export class VideoFeedService {
         else{
           console.log("Nice error")
         }
-      },
-      err=>{
+      })
+  }
+  searchVideos(query: any){
+    let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+    let headers = new Headers();
+    let params: URLSearchParams = new URLSearchParams();
+    for (let key in query){
+      params.set(key.toString(), query[key]);
+    }
+   
 
-      });
+    options.search = params;
+    let ep = this.prepEndpoint('routes/search');
+    return this.http.get(ep, options).map(res => {
+      let data = res.json();
+        if(data.success){
+          this.videos = [];
+          data['videos'].forEach(video => {
+            var vid: VideoData = new VideoData(video._id, video.link, video.description, 
+            video.title, video.username, video.rating);
+            this.videos.push(vid);
+          });
+          return this.videos;
+        }  
+        else{
+          console.log("Nice error")
+        }
+      })
   }
   countVideos(query: any){
     let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
@@ -85,10 +109,8 @@ export class VideoFeedService {
     let params: URLSearchParams = new URLSearchParams();
     for (let key in query){
       params.set(key.toString(), query[key]);
-      
-    }
-   
 
+    }
     options.search = params;
     let ep = this.prepEndpoint('routes/feedCount');
     return this.http.get(ep, options).map(res => {
@@ -100,10 +122,28 @@ export class VideoFeedService {
         else{
           console.log("Nice error")
         }
-      },
-      err=>{
+    })
+  }
+  countSearchedVideos(query: any){
+    let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+    let headers = new Headers();
+    let params: URLSearchParams = new URLSearchParams();
+    for (let key in query){
+      params.set(key.toString(), query[key]);
 
-      });
+    }
+    options.search = params;
+    let ep = this.prepEndpoint('routes/searchCount');
+    return this.http.get(ep, options).map(res => {
+      let data = res.json();
+
+        if(data.success){
+          return data.nrVideos;
+        }  
+        else{
+          console.log("Nice error")
+        }
+    })
   }
 
 

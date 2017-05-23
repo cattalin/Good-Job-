@@ -43,11 +43,11 @@ module.exports.getVideoById = function(id, callback){
 
 module.exports.getVideos = function(q, callback){
     if(q.select)
-           Video.find({username: q.select})
-                .sort([[q.sort, -1]])
-                .limit(parseInt(q.limit))
-                .skip(parseInt(q.skip))
-                .exec(callback);
+        Video.find({username: q.select})
+            .sort([[q.sort, -1]])
+            .limit(parseInt(q.limit))
+            .skip(parseInt(q.skip))
+            .exec(callback);
     else
         Video.find({})
             .sort([[q.sort, -1]])
@@ -72,14 +72,26 @@ module.exports.countVideos = function(q, callback){
 
 //SEARCH ADDS
 
-module.exports.getVideosByName = function(name, callback){
-    Video.find({title:name},callback);
-}
 
 module.exports.getByTitleOrDescriptionOrUsername = function(q, callback){
     if(q.select)
-        Video.find({$or:[ {'username': q.select}, {'title': {$regex : ".*"+q.select+".*"}}, {'description': {$regex : ".*"+q.select+".*"} }]}, callback);
+        Video.find({$or:[ {'username': q.select}, {'title': {$regex : ".*"+q.select+".*"}}, 
+                {'description': {$regex : ".*"+q.select+".*"} }]})
+                .sort([[q.sort, -1]])
+                .limit(parseInt(q.limit))
+                .skip(parseInt(q.skip))
+                .exec(callback);;
 }
+module.exports.countByTitleOrDescriptionOrUsername = function(q, callback){
+    if(q.select)
+        Video.count({$or:[ {'username': q.select}, {'title': {$regex : ".*"+q.select+".*"}}, 
+                {'description': {$regex : ".*"+q.select+".*"} }]})
+                .sort([[q.sort, -1]])
+                .exec(callback);
+}
+
+
+
 
 module.exports.addVideo = function(newVideo, callback){
     //we first get some of the uploader's data
@@ -147,6 +159,11 @@ module.exports.following = function(query,callback){
 
     });
 }
+
+
+
+
+
 
 /*
 //Conditions: identify the video    Update:vote the video   Options:unique update

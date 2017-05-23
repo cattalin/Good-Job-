@@ -224,18 +224,37 @@ router.get('/feedCount', (req, res) => {
 
 // Search stuff
 router.get('/search', (req, res, next) => {
+  const query = {
+    sort: req.query.sort,
+    select: req.query.select,
+    limit: req.query.limit,
+    skip: req.query.skip,
+  }
+  SearchManager.getVideosAndUsers(query,(err,videos)=>{
+    if (err) throw err;
+    if (!videos) {
+      return res.json({ success: false, msg: 'Videos not found' });
+    }
 
-  /*Tag.addTag({name:'test1',videos:'NOTHING'});
-  Tag.addTag({name:'test2',videos:'NOTHING2'});*/
- /* if (req.body.type == 'reqTags') {
-    Tag.getAllTags((err, tags) => {
-      return res.json({ tags: tags });
-    })
+    res.json({ success: true, videos: videos });
 
-  }*/
-  SearchManager.getVideosAndUsers(req.query.val,(err,result)=>{
+  })
+});
 
-        res.json({sucess:true, videos:result});
+
+router.get('/searchCount', (req, res) => {
+  const query = {
+    sort: req.query.sort,
+    select: req.query.select,
+    limit: req.query.limit,
+    skip: req.query.skip,
+  }
+   SearchManager.countVideosAndUsers(query, (err, nrVideos) => {
+    if (err) throw err;
+    if (!nrVideos) {
+      return res.json({ success: false, msg: 'Videos not found' });
+    }
+    res.json({ success: true, nrVideos: nrVideos });
   })
 });
 

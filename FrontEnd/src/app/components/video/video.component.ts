@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class VideoComponent implements OnInit {
 
-  isShowComments = false;
+
   newComment: any = null;
   loaded=false;
   isMyVideo=false;
@@ -140,12 +140,7 @@ export class VideoComponent implements OnInit {
     }
   }
 
-  toggleComments() {
 
-    if(this.isShowComments===false)
-          this.isShowComments=true;
-    else this.isShowComments=false;
-  }
   
   deleteVideo() {
 
