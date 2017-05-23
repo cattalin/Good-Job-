@@ -2,7 +2,7 @@
 <div class="btn-group btn-group-xs" role="group">
   <button class="btn btn-group-xs btn-primary" (click)="toggleByRating(1)" [disabled]="byRating"> by Rating </button>
   <button class="btn btn-group-xs btn-primary" (click)="toggleByRating(2)" [disabled]="byDate"> by Date </button>
-    <button class="btn btn-group-xs btn-primary" (click)="toggleByRating(3)" [disabled]="following"> following </button>
+  <button class="btn btn-group-xs btn-primary" (click)="toggleByRating(3)" [disabled]="following">by Following </button>
 </div>
 <div align="center">
   <app-video-feed [query]="query" [currentUser]="currentUser"></app-video-feed>
