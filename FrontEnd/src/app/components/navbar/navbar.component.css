@@ -5,6 +5,15 @@
   border-color:black;
 }
 
+#GJ{
+  font-family:Lobster!important;
+}
+
+#BETA{
+  font-family: 'Fjalla One', sans-serif;
+  font-size:18px;
+}
+
 
 
 .navbarlink:hover{

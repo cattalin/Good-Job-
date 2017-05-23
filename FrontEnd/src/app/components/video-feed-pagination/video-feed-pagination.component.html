@@ -3,7 +3,7 @@
 
 
 
-<li class="page-item" [class.active]= "selectedPage==1">
+<li class="page-item" *ngIf="pages.length>0" [class.active]= "selectedPage==1">
     <a class="page-link" (click) = "pageChanged($event)">{{pages[0]}}</a>
 </li>
 
@@ -24,7 +24,7 @@
 <li class="page-item" *ngIf="pages.length>1" [class.active]= "pages.length==selectedPage">
     <a class="page-link" (click) = "pageChanged($event)">{{pages.length}}</a>
 </li>
-<span class="dropdown">
+<span class="dropdown" *ngIf="pages.length>0">
   <button class="btn btn-default dropdown-toggle custom-dropdown" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     Show:
     <span class="caret"></span>
