@@ -51,6 +51,7 @@ export class UserProfileComponent implements OnInit {
   numberOfGoodVideosProcentage: String;
   numberOfDecentVideosProcentage: String;
   qualityVideoProcentage: String;
+  
 
   rating:String;
   //-----------------------------------------------------------------------------------------------//
