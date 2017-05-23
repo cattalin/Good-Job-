@@ -72,7 +72,7 @@ export class VideoFeedPaginationComponent implements OnInit {
       this.leftLimit=1;
       this.beginDots=false;
     }
-    if((this.selectedPage+this.activeSize) < (this.pages.length - this.concatlimit))
+    if((this.selectedPage+this.activeSize) <= (this.pages.length - this.concatlimit))
     {
      this.rightLimit=this.selectedPage+this.activeSize;
      this.endDots=true; 

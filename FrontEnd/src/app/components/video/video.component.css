@@ -10,31 +10,32 @@
   float:right;
   margin-right: 10px;
 }
-#vR div{
 
-}
 #vR{
-  border-radius: 4px;
-  background-color: #aaaabb;
-  width: 560px;
-  height: 100px;
+  background-color: #337ab7;
+  height:auto;
 }
 #voteB{
   float:right;
   padding-right: 10px;
   margin-right: 6px;
 }
+
 #containerVideo{
   width:63%;
-  background-color: darkseagreen;
+  background-color:white;
+  border-radius:0px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+#containerVideo:hover{
+   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
 #raitingB{
   position:relative;
   left:35%;
-}
-#buttonVote:{
-  background-color: #000066;
 }
 
 .voteraiting{
@@ -45,11 +46,19 @@
   margin-left: 10px;
   position: relative;
   font-size: 15px;
+  word-break: break-all;
 }
+
+.description{
+  margin:3px;
+  font-size: 15px;
+  word-break: break-all;
+  color:white;
+}
+
 #VRD{
   padding-left: 10px;
 }
-
 
 
 .text-left-align{
@@ -75,10 +84,11 @@
 
 }
 */
-#commentB{
+.comment-btn{
   margin-top:2px;
-
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
+
 .reponsive{
   margin:5px;
   padding:5px;

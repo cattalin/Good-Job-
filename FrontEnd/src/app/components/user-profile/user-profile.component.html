@@ -8,7 +8,7 @@
     <li class="list-group-item">Username: {{user.username}}</li>
     <li class="list-group-item">Name: {{user.name}}
 
-      <button (click)="toggleName()" *ngIf="!editPassword && !editName && !editEmail"> Edit </button>
+      <button class="btn btn-primary" (click)="toggleName()" *ngIf="!editPassword && !editName && !editEmail"> Edit </button>
 
       <!-- EDIT NAME -->
       <div *ngIf="editName">
@@ -22,15 +22,15 @@
             </div>
           </div>
 
-          <button [disabled]="!isValidNameForm()" type="button" (click)="updateUserName()">Save</button>
-          <button type="button" (click)="cancel()" *ngIf="editPassword || editName || editEmail"> Cancel </button>
+          <button class="btn btn-primary" [disabled]="!isValidNameForm()" type="button" (click)="updateUserName()">Save</button>
+          <button class="btn btn-primary" type="button" (click)="cancel()" *ngIf="editPassword || editName || editEmail"> Cancel </button>
         </form>
       </div>
 
     </li>
 
     <li class="list-group-item">Email: {{user.email}}
-      <button (click)="toggleEmail()" *ngIf="!editPassword && !editName && !editEmail"> Edit </button>
+      <button class="btn btn-primary" (click)="toggleEmail()" *ngIf="!editPassword && !editName && !editEmail"> Edit </button>
 
       <!-- EDIT E-MAIL -->
       <div *ngIf="editEmail"><br>
@@ -51,8 +51,8 @@
             </div>
           </div>
 
-          <button type="button" [disabled]="!checkEmail()" (click)="updateUserEmail()">Save</button>
-          <button type="button" (click)="cancel()" *ngIf="editPassword || editName || editEmail"> Cancel </button>
+          <button class="btn btn-primary" type="button" [disabled]="!checkEmail()" (click)="updateUserEmail()">Save</button>
+          <button class="btn btn-primary" type="button" (click)="cancel()" *ngIf="editPassword || editName || editEmail"> Cancel </button>
         </form>
 
       </div>
@@ -103,9 +103,10 @@
 </div>
 
 <div>
-  <button (click)="togglePassword() " *ngIf="!editPassword && !editName && !editEmail "> Change password </button>
-  <!--<button *ngIf="!editPassword && !editName && !editEmail "> Favourites </button>!-->
-  <button *ngIf="!editPassword && !editName && !editEmail " (click)="showFollowingVideos()"> Following </button>
+  <button class="btn btn-primary" (click)="togglePassword() " *ngIf="!editPassword && !editName && !editEmail "> Change password </button>
+  <!--<button class="btn btn-primary" *ngIf="!editPassword && !editName && !editEmail "> Favourites </button>-->
+  <button class="btn btn-primary" *ngIf="!editPassword && !editName && !editEmail " (click)="showFollowingVideos()"> Following </button>
+
 </div>
 
 
