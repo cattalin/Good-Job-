@@ -61,6 +61,10 @@ export class VideoFeedService {
 
     options.search = params;
     let ep = prepEndpoint('routes/feed');
+    if(query.followerId != null){
+      ep = prepEndpoint('routes/feedByFollow');
+    }
+    
     return this.http.get(ep, options).map(res => {
       let data = res.json();
 

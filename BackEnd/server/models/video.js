@@ -72,6 +72,14 @@ module.exports.countVideos = function(q, callback){
 
 //SEARCH ADDS
 
+module.exports.getByFollowedIds = function(q, followedIds, callback){
+    Video.find({username: { $in : followedIds }})
+            .sort([[q.sort, -1]])
+            .limit(parseInt(q.limit))
+            .skip(parseInt(q.skip))
+            .exec(callback);
+}
+
 
 module.exports.getByTitleOrDescriptionOrUsername = function(q, callback){
     if(q.select)
