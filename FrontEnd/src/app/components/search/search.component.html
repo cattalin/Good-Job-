@@ -1,40 +1,7 @@
 
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-<div class="container">
-  <div class="jumbotron">
-    <form autocomplete="on" id="searchBox">
-       <span class="icon"><i class="fa fa-search"></i></span>
-       <span class="separator">xddd</span>
-       <input class="searchbox" (focus)="checktags()" placeholder="Tags..." type="text" [(ngModel)]="search_text" name="search_text" class="search_control">
-       <div *ngFor="let Tag of Tags" id="testBOX">{{Tag.name}}</div>
-    </form>
-  </div>
-</div>
 
 
-<div class="container" id="searchBar">
-    <div class="container-fluid">
-      <div class="navbar-header">
-
-        <a class="navbar-brand" href="#">Full Screen Search</a>
-      </div>
 
 
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <div class="nav navbar-nav navbar-center" id="searchBarButton">
-          <a id="MAMATA" href="#search"><span class="glyphicon glyphicon-search"></span> Search</a>
-        </div>
-      </div>
-    </div>
-</div>
-
-
-<div id="search">
-  <button type="button" class="close">×</button>
-  <form>
-    <input type="search" value="" placeholder="type keyword(s) here" />
-    <button type="submit" class="btn btn-primary">Search</button>
-  </form>
-</div>
 

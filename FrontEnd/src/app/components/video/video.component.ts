@@ -85,15 +85,22 @@ export class VideoComponent implements OnInit {
     this.isPostComment=false;
   }
   addRateAndButtons(event){
+    console.log("apas buton");
     this.addButtons(event);
+
     this.rate(event);
   }
 
   addButtons(event){
     console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-    event.Target.classList.remove(' btn-primary'); // To Remove
-    event.Target.classList.add(' btn-warning'); // To ADD
-    //event.target.classList.add('class3'); // To ADD
+    var target = event.target;
+    console.log(target.className);
+      if (target.className == "ui primary button")
+      {
+      target.classList.remove("primary");
+        console.log('asdasdasdas',target.className,target.classList);
+      }
+
   }
 
 }

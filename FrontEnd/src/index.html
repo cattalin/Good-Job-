@@ -2,6 +2,14 @@
 <html>
 
 <head>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.css">
+  <link rel="stylesheet" type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js">
+  <link rel="stylesheet" type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.js">
+
+
+
+  <link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
   <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -11,30 +19,14 @@
 
   <script src="jquery-3.2.1.min.js"></script>
   <script async type="text/javascript">
-
-    // aici este partea de js cu functionalitate pe butonul de search ....
-
-    $(function () {
-      $('a[href="#search"]').on('click', function(event) {
-        event.preventDefault();
-        $('#search').addClass('open');
-        $('#search').attr('z-idex',1);
-        $('#search > form > input[type="search"]').focus();
-      });
-
-      $('#search, #search button.close').on('click keyup', function(event) {
-        if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
-          $(this).removeClass('open');
-        }
-      });
+    $(document).ready(function(){
 
 
-
-      $('form').submit(function(event) {
-        event.preventDefault();
-        return false;
-      })
+      $("[data-toggle=tooltip]").tooltip();
     });
+
+
+
   </script>
 
 

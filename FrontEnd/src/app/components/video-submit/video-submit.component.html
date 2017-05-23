@@ -1,28 +1,55 @@
-<div class="container">
+<div class="container" id="ffxx">
 <form (submit)="submitVideo()">
-<div class="input-group input-group-sm">
-  <span class="input-group-addon">Url Link:</span>
-  <input type="text" style="width: 50%;" class="form-control" placeholder="https://www.youtube.com/..." size="50" [(ngModel)]="link" name="link" >
-</div>
+
+
+      <div class="container">
+        <div class="input-group input-group-sm">
+          <span class="input-group-addon">Url Link:</span>
+          <input type="text" style="width: 50%;" class="form-control" placeholder="https://www.youtube.com/..." size="50" [(ngModel)]="link" name="link" >
+        </div>
+      </div>
 
 
 
-
-
-  <div class="input-group input-group-sm">
-    <span class="input-group-addon">Title:</span>
-    <input type="text" style="width: 51%;" class="form-control" placeholder="Video Title..." size="50" [(ngModel)]="title" name="title" >
+  <div class="container">
+    <div class="input-group input-group-sm">
+      <span class="input-group-addon">Title:</span>
+      <input type="text" style="width: 51%;" class="form-control" placeholder="Video Title..." size="50" [(ngModel)]="title" name="title" >
+    </div>
   </div>
+<br/>
+
+
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-6">
+        <div class="widget-area no-padding blank">
+          <div class="status-upload">
+            <form>
+              <textarea placeholder="Comment..." name="Text1" cols="40" rows="5" class="form-control" maxlength="200" [(ngModel)]="description" name="description" style="resize:none"></textarea>
+
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+<br/>
+
+
   <div class="form-group">
-    <label>Describe in a few words:</label>
-    <textarea name="Text1" cols="50" rows="5" class="form-control" maxlength="200"
-    [(ngModel)]="description" name="description" style="resize:none"></textarea>
+    <label>Rating</label>&nbsp;<label name="value">{{rating}}</label>
+
+    <div class="ui inverted range">
+      <div class="ui inverted segment"> <input  type="range" min="0" max="5" [(ngModel)]="rating" name="rating" ></div>
+
+    </div>
+
   </div>
-  <div class="form-group">
-    <label>Rating</label>
-    <input type="range" class="form-control" min="0" max="5" [(ngModel)]="rating" name="rating" >
-    <label name="value">{{rating}}</label>
-  </div>
-  <input type="submit" class="btn btn-primary" value="Submit">
+  <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Submit</button>
 </form>
 </div>

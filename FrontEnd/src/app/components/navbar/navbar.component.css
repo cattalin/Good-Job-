@@ -1,3 +1,10 @@
 .navbar-default{
   background-color: #343d46;
 }
+#searchbox{
+  position:absolute;
+  left:23%;
+}
+#searchboxText{
+  width: 300px;
+}
