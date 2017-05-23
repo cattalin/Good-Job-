@@ -16,7 +16,9 @@ export class DashboardComponent implements OnInit {
     followerId: null,//only use for searching the videos of the users that one user follows(following system)
 }
 
+  byDate: boolean = true;
   byRating: boolean = false;
+  following: boolean = false;
   currentUser: any;
 
 
@@ -55,24 +57,43 @@ export class DashboardComponent implements OnInit {
 
 
 
-  toggleByRating() {
-    if (this.byRating === true){
+  toggleByRating(param) {
+
+    if(param===1) {
+      this.byDate=false;
+      this.following=false;
+      this.byRating=true;
+
       this.query = {
         sort:   '_id',
         select: null, 
         followerId: null,
       };
-      this.byRating = false;
-    }
 
-    else {
-      this.byRating = true;
+    } else if(param===2) {
+      this.byDate=true;
+      this.following=false;
+      this.byRating=false;
+
       this.query = {
         sort:   'rating',
         select: null,
         followerId: null,
       };
+
+    } else if(param===3) {
+      this.byDate=false;
+      this.following=true;
+      this.byRating=false;
+
+      this.query = {
+        sort:   '_id',
+        select: null,
+        followerId: this.currentUser._id,
+      };
+
     }
+
   }
 
 
