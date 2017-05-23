@@ -55,13 +55,12 @@
   margin-left: 10px;
   position: relative;
   font-size: 15px;
-  word-break: break-all;
 }
 
 .description{
   margin:5px;
   font-size: 15px;
-  word-break: break-all;
+  word-break:keep-all;
   color:white;
   font-family: 'Quicksand', sans-serif;
 }
