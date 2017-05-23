@@ -18,6 +18,7 @@ export class VideoComponent implements OnInit {
   loaded=false;
   isMyVideo=false;
   selectedRateButton: String = "none";
+  exists = true;
   @Input() isPostComment=false;
   @Input() data: VideoData;
   @Input() user: any;
@@ -145,10 +146,11 @@ export class VideoComponent implements OnInit {
   deleteVideo() {
 
     this.videoService.remove(this.data).subscribe(res =>{
-          if (res.success){
-            console.log("success");
-          }
-        })
+      if (res.success){
+        this.exists = false;
+        console.log("success");
+      }
+    })
   }
 
 
