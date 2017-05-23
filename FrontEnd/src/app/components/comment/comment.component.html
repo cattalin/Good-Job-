@@ -15,17 +15,17 @@
 
               <div class="title h5">
                     <p [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
-                        <a (click)="redirect()" class = "link-cursor">by {{comment.username}}</a>
+                        <a (click)="redirect()" class = "link-cursor text-left">by {{comment.username}}</a>
                     </p>
 
               </div>
-              <h6 class="text-muted time"><p>{{getTimestamp()}}</p></h6>
+              <h6 class="text-muted time customDate"><p>{{getTimestamp()}}</p></h6>
             </div>
           </div>
 
 
 
-          <div class="post-description">
+          <div class="post-description text-left commentText">
             <p>{{comment.text}}</p>
             <!--<div class="stats">
               <a href="#" class="btn btn-default stat-item">
@@ -36,7 +36,7 @@
               </a>
             </div>-->
             <div class="pull-right" style = "margin-top:-5%;" *ngIf="isMyComment">
-                <button class="btn btn-warning btn-md" type="button" (click)="deleteComment()" id="commentB">Delete</button>
+                <button class="btn btn-danger btn-md" type="button" (click)="deleteComment()" id="commentB">Delete</button>
             </div>
           </div>
 
