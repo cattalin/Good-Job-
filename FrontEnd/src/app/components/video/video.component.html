@@ -9,18 +9,20 @@
     <h6 class="text-muted time"><p>{{getTimestamp()}}</p></h6>
 
 <div *ngIf="isMyVideo">
-  <button class="btn btn-warning btn-md"  type="button" (click)="deleteVideo()" id="commentB">Delete</button>
+  <button class="btn btn-danger btn-md"  type="button" (click)="deleteVideo()" id="commentB">Delete</button>
 </div>
 
+<div class="embed-responsive embed-responsive-16by9">
     <iframe width="560" height="315" [src]='getCode()' frameborder="0" allowfullscreen>
     </iframe>
+    </div>
       <!--<video width="560" height="315" src='https://www.youtube.com/watch?v=k2bOl_x1dXM' controlsList='nodownload' html5=True></video>!
     <object [data]="getCode"
    width="560" height="315"></object>-->
         <div id="vR" class="voteraiting responsive" role="group">
-            <p id="descriere">{{this.data.description}}</p>
+            <p class="description row"> {{this.data.description}}</p>
                 <div>
-                  <div id="raiting">Rating:{{this.data.rating}}</div>
+                  <div id="raiting"><p>Rating: {{this.data.rating}}</p></div>
                   <div class="btn-group" id="votingButtons">
                     <button type="button" (click)="rate($event)" [ngClass]="{'btn-warning': selectedRateButton === 'gj'}" class="btn btn-primary" id = "gj">~GJ~</button>
                     <button type="button" (click)="rate($event)" [ngClass]="{'btn-warning': selectedRateButton === 'cool'}" class="btn btn-primary" id = "cool">Cool</button>     <!-- doua clase btn-primary si btn-warning !!!-->
@@ -37,18 +39,17 @@
 
 
 
-<div class="responsive">
+<div class="row responsive">
   <app-comment-feed [videoId]="data._id" [newComment] = "this.newComment" [user]="user"></app-comment-feed>
 </div>
   <!--  POST COMMENT  -->
-  <div class="responsive">
-    <button class="btn btn-warning btn-md" *ngIf="!isPostComment" type="button" (click)="postComment()" id="commentB">Comment</button>
-
-      <div *ngIf="isPostComment">
+      <span *ngIf="isPostComment">
           <app-comment-submit [videoId]="data._id" [user]="user" (newCommentData)="getNewComment($event)"></app-comment-submit>
-          <button type="button" (click)="cancelComment()">Cancel</button>
-      </div>
+          <span class="input-group"><button class="btn btn-primary" type="button" (click)="cancelComment()">Cancel</button></span>
+      </span>
 
+<div class="row responsive center-block text-center">
+  <button class="btn btn-warning btn-md comment-btn" *ngIf="!isPostComment" type="button" (click)="postComment()" id="commentB">Comment</button>
   </div>
 </div>
 

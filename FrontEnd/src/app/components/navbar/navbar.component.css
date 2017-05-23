@@ -1,4 +1,15 @@
 .navbar-default{
   background-color: #343d46;
   height:50px;
+  border-radius:0px!important;
+  border-color:black;
+}
+
+
+
+.navbarlink:hover{
+  width:auto;
+  height:auto;
+  background-color:#337ab7!important;
+  color:white!important;
 }

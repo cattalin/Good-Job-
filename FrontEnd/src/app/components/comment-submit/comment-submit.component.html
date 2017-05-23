@@ -1,13 +1,13 @@
-<div>
+<span>
 
-<form [formGroup]="submitCommentForm" autocomplete="off" novalidate>
+<form class="input-group" [formGroup]="submitCommentForm" autocomplete="off" novalidate>
 
-    <div class="form-field">
+    <div>
         <label>Add a public comment...</label>
     <textarea formControlName="text" name="text" cols="30" rows="3" class="form-control" maxlength="600" 
         [(ngModel)]="text" style="resize:none"></textarea>    </div>
 
-    <input type="button" (click)="submitComment()" value="Send">
+    <input class="btn btn-primary" type="button" (click)="submitComment()" value="Send">
 </form>
 
-</div>
+</span>
