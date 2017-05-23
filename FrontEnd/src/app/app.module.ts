@@ -82,7 +82,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule
   ],
   providers: [VideoFeedService, AuthenticateService, AuthGuard, ValidateService, SearchService,
-    CheckVideoService, SubmitVideoService, UserProfileService,CheckclassService],
+    CheckVideoService, SubmitVideoService, UserProfileService, CheckclassService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

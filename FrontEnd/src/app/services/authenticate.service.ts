@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { tokenNotExpired } from 'angular2-jwt';
+import { prepEndpoint } from './server-connection.service';
 
 @Injectable()
 export class AuthenticateService {
@@ -16,7 +17,7 @@ export class AuthenticateService {
   registerUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    let ep = this.prepEndpoint('routes/register');
+    let ep = prepEndpoint('routes/register');
     return this.http.post(ep, user, { headers: headers })
       .map(res => res.json());
   }
@@ -24,7 +25,7 @@ export class AuthenticateService {
   updateUserName(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    let ep = this.prepEndpoint('routes/updateName');
+    let ep = prepEndpoint('routes/updateName');
     return this.http.post(ep, user, { headers: headers })
       .map(res => res.json());
   }
@@ -32,7 +33,7 @@ export class AuthenticateService {
   updateUserEmail(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    let ep = this.prepEndpoint('routes/updateEmail');
+    let ep = prepEndpoint('routes/updateEmail');
     return this.http.post(ep, user, { headers: headers })
       .map(res => res.json());
   }
@@ -40,7 +41,7 @@ export class AuthenticateService {
   updateUserPassword(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    let ep = this.prepEndpoint('routes/updatePassword');
+    let ep = prepEndpoint('routes/updatePassword');
     return this.http.post(ep, user, { headers: headers })
       .map(res => res.json());
   }
@@ -48,7 +49,7 @@ export class AuthenticateService {
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    let ep = this.prepEndpoint('routes/authenticate');
+    let ep = prepEndpoint('routes/authenticate');
     return this.http.post(ep, user, { headers: headers })
       .map(res => res.json());
   }
@@ -58,7 +59,7 @@ export class AuthenticateService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    let ep = this.prepEndpoint('routes/profile');
+    let ep = prepEndpoint('routes/profile');
     return this.http.get(ep, { headers: headers })
       .map(res => res.json());
   }
@@ -83,9 +84,5 @@ export class AuthenticateService {
     this.authToken = null;
     this.user = null;
     localStorage.clear();
-  }
-
-  prepEndpoint(ep) {
-    return 'http://localhost:8000/' + ep;
   }
 }
