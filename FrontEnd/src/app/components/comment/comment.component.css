@@ -1,5 +1,5 @@
 .panel-shadow {
-  box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px 3px;
 }
 .panel-white {
   background-color: #428bca;
@@ -88,23 +88,27 @@
   font-weight: bold;
   display: inline;
   margin-top: 0;
-  margin-right: 10px;
+  margin-left:0px;
 }
 .post .post-footer .comments-list .comment .comment-heading .time {
   font-size: 12px;
-  color: #aaa;
+  color:white!important;
   margin-top: 0;
   display: inline;
 }
 .post .post-footer .comments-list .comment .comment-body {
-  margin-left: 50px;
 }
 .post .post-footer .comments-list .comment > .comments-list {
   margin-left: 50px;
 }
-#commentbox{
-  background-color: ;
-}
 .link-cursor{
   cursor: pointer;
+}
+
+.commentText{
+  color:white;
+}
+
+.customDate{
+  color:lightcyan!important;
 }
