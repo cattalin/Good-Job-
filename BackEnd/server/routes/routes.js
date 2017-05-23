@@ -213,7 +213,11 @@ router.get('/feedByFollow', (req, res) => {
     followerId: req.query.followerId,
   }
   //db.collection.find( { field : { $in : array } } );
-  Follow.searchByFollowerId(query, (err, followedIds) => {
+  Follow.getFollowedIds(query, (err, ids) => {
+    let followedIds = [];
+    ids.forEach(id => {
+      followedIds.push(id.followedId);
+    })
       Video.getByFollowedIds(query, followedIds, (err, videos) => {
       if (err) throw err;
       if (!videos) {
@@ -244,6 +248,31 @@ router.get('/feedCount', (req, res) => {
   })
 });
 
+
+
+router.get('/feedCountByFollow', (req, res) => {
+ const query = {
+    sort: req.query.sort,
+    select: req.query.select,
+    limit: req.query.limit,
+    skip: req.query.skip,
+    followerId: req.query.followerId,
+  }
+  Follow.getFollowedIds(query, (err, ids) => {
+    let followedIds = [];
+    ids.forEach(id => {
+      followedIds.push(id.followedId);
+    })
+    Video.countVideosByFollowing(query, followedIds,  (err, nrVideos) => {
+      if (err) throw err;
+      if (!nrVideos) {
+        return res.json({ success: false, msg: 'Videos not found' });
+      }
+
+      res.json({ success: true, nrVideos: nrVideos });
+    })
+  })
+});
 
 // Search stuff
 router.get('/search', (req, res, next) => {
