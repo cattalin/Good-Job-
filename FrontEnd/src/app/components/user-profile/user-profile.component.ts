@@ -123,7 +123,8 @@ export class UserProfileComponent implements OnInit {
                                           (newClass.result.goal.rateOfDecentVideos-newClass.result.previous.rateOfDecentVideos))*100);
           if(temp>100)
                 temp=100;  
-          this.qualityVideoProcentage =temp+"%";
+          if(isNaN(temp)) this.qualityVideoProcentage ="0%";
+            else this.qualityVideoProcentage =temp+"%";
           if(newClass.result.newClass.indexOf(newClass.result.oldClass)!=0){
             this.flashMessage.show("FELICITARI ! Ai urcat de la clasa "+newClass.result.oldClass+" la clasa "+newClass.result.newClass,{ cssClass: 'alert-success' });
           }
