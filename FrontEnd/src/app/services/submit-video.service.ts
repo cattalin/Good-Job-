@@ -12,6 +12,7 @@ export class SubmitVideoService {
   submitVideo(videoInformation){
     let headers=new Headers();
     headers.append('Content-Type','application/json');
+    let ep = prepEndpoint('routes/upload');
     return this.http.post(ep,videoInformation,
     {headers:headers}).map(res=>res.json());
   }
@@ -19,6 +20,7 @@ export class SubmitVideoService {
   submitComment(commentInformation) {
       let headers=new Headers();
       headers.append('Content-Type','application/json');
+      let ep = prepEndpoint('routes/postComment');
       return this.http.post(ep,commentInformation,
       {headers:headers}).map(res=>res.json());
   }
