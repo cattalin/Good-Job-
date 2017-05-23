@@ -108,6 +108,7 @@
 .commentText{
   color:white;
   font-family: 'Quicksand', sans-serif;
+    word-break:keep-all!important;
 }
 
 .customDate{

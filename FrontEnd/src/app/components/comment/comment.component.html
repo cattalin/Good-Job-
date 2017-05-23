@@ -14,12 +14,12 @@
               
 
               <div class="title h5">
-                    <p [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+                    <p class="text-left" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
                         <a (click)="redirect()" class = "link-cursor text-left">by {{comment.username}}</a>
                     </p>
 
               </div>
-              <h6 class="text-muted time customDate"><p>{{getTimestamp()}}</p></h6>
+              <h6 class="text-muted customDate"><p>{{getTimestamp()}}</p></h6>
             </div>
           </div>
 
