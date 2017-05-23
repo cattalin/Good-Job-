@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    background-color:#f7f7f7;
+}
+
+.btn{
+transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    border-radius:0px;
+}
+
+.pagination{
+    border-radius:0px;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.page-link{
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+a{
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+a:hover{
+    color:black!important;
+}
+
+.navbar-brand:hover{
+    color:white!important;
+}
+
