@@ -3,6 +3,9 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { tokenNotExpired } from 'angular2-jwt';
 import { URLSearchParams, RequestOptions } from '@angular/http';
+import { prepEndpoint } from './server-connection.service';
+
+
 @Injectable()
 export class CheckclassService {
 
@@ -15,7 +18,7 @@ export class CheckclassService {
       params.set(key.toString(), query[key]);
     }
     options.search = params;
-    let ep = this.prepEndpoint('routes/updateClass');
+    let ep = prepEndpoint('routes/updateClass');
     return this.http.get(ep,options).map(res=>res.json())}
       //console.log(data);
       // if(data.success){
@@ -27,9 +30,5 @@ export class CheckclassService {
       // else {
       //   console.log("FFS");
       // }
-    
-
-  private prepEndpoint(ep){
-    return 'http://localhost:8000/'+ep;
-  }
+ 
 }

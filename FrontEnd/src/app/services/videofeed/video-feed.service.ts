@@ -5,6 +5,7 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { tokenNotExpired } from 'angular2-jwt';
 import { URLSearchParams, RequestOptions } from '@angular/http';
+import { prepEndpoint } from '../server-connection.service';
 
 @Injectable()
 export class VideoFeedService {
@@ -22,7 +23,7 @@ export class VideoFeedService {
       params.set(key.toString(), query[key]);
     }
     options.search = params;
-    let ep = this.prepEndpoint('routes/comments');
+    let ep = prepEndpoint('routes/comments');
 
     return this.http.get(ep, options).map(res => {
       let data = res.json();
@@ -59,7 +60,11 @@ export class VideoFeedService {
    
 
     options.search = params;
-    let ep = this.prepEndpoint('routes/feed');
+    let ep = prepEndpoint('routes/feed');
+    if(query.followerId != null){
+      ep = prepEndpoint('routes/feedByFollow');
+    }
+    
     return this.http.get(ep, options).map(res => {
       let data = res.json();
 
@@ -86,7 +91,7 @@ export class VideoFeedService {
    
 
     options.search = params;
-    let ep = this.prepEndpoint('routes/search');
+    let ep = prepEndpoint('routes/search');
     return this.http.get(ep, options).map(res => {
       let data = res.json();
         if(data.success){
@@ -112,7 +117,7 @@ export class VideoFeedService {
 
     }
     options.search = params;
-    let ep = this.prepEndpoint('routes/feedCount');
+    let ep = prepEndpoint('routes/feedCount');
     return this.http.get(ep, options).map(res => {
       let data = res.json();
 
@@ -133,7 +138,7 @@ export class VideoFeedService {
 
     }
     options.search = params;
-    let ep = this.prepEndpoint('routes/searchCount');
+    let ep = prepEndpoint('routes/searchCount');
     return this.http.get(ep, options).map(res => {
       let data = res.json();
 
@@ -153,7 +158,7 @@ export class VideoFeedService {
   rate(rate){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    let ep = this.prepEndpoint('routes/rate');
+    let ep = prepEndpoint('routes/rate');
     return this.http.post(ep, rate, { headers: headers })
       .map(res => res.json());
   }
@@ -167,7 +172,7 @@ export class VideoFeedService {
     }
     options.search = params;
 
-    let ep = this.prepEndpoint('routes/hasRated');
+    let ep = prepEndpoint('routes/hasRated');
     return this.http.get(ep, options).map(res => res.json());
   }
 
@@ -175,7 +180,7 @@ export class VideoFeedService {
   remove(id) {
      let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    let ep = this.prepEndpoint('routes/delete');
+    let ep = prepEndpoint('routes/delete');
     return this.http.post(ep, id, { headers: headers })
       .map(res => res.json());
   }
@@ -184,8 +189,4 @@ export class VideoFeedService {
   private dateFromObjectId(objectId) {
     return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
   };
-  private prepEndpoint(ep){
-    return 'http://localhost:8000/'+ep;
-  }
-
 }
