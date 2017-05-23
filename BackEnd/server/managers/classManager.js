@@ -75,7 +75,7 @@ module.exports.updateUserClass = function(userId, callback){
                     rules.rateOfDecentVideos=rules.nrOfDecentVids/rules.nrOfVideos;
                 else rules.rateOfDecentVideos=0;
 
-                Follow.countFollowers({followedId:userId._id}, (err, nrOfFollowers) => {
+                Follow.countFollowers({followedId: userId._id}, (err, nrOfFollowers) => {
                 // verificam cate nivele a crescut baiatu
                 rules.nrOfFollowers=nrOfFollowers;
                 let procentage=0.0;

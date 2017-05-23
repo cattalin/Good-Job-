@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { prepEndpoint } from './server-connection.service';
+
 
 @Injectable()
 export class SubmitVideoService {
@@ -10,27 +12,25 @@ export class SubmitVideoService {
   submitVideo(videoInformation){
     let headers=new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.post('http://localhost:8000/routes/upload',videoInformation,
+    let ep = prepEndpoint('routes/upload');
+    return this.http.post(ep,videoInformation,
     {headers:headers}).map(res=>res.json());
   }
 
   submitComment(commentInformation) {
-     let headers=new Headers();
-     headers.append('Content-Type','application/json');
-     return this.http.post('http://localhost:8000/routes/postComment',commentInformation,
-    {headers:headers}).map(res=>res.json());
+      let headers=new Headers();
+      headers.append('Content-Type','application/json');
+      let ep = prepEndpoint('routes/postComment');
+      return this.http.post(ep,commentInformation,
+      {headers:headers}).map(res=>res.json());
   }
 
   remove(id) {
      let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    let ep = this.prepEndpoint('routes/deletecomm');
+    let ep = prepEndpoint('routes/deletecomm');
     return this.http.post(ep, id, { headers: headers })
       .map(res => res.json());
-  }
-
-   private prepEndpoint(ep){
-    return 'http://localhost:8000/'+ep;
   }
 
 }

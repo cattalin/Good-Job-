@@ -58,38 +58,44 @@
       </div>
     </li>
   </ul>
+  <p>number Of Videos</p>
     <div class="progress">
     <div class="progress-bar" role="progressbar" aria-valuenow="70"
       aria-valuemin="0" aria-valuemax="100"  [style.width]="numberOfVideosProcentage">
-      <p>number Of Videos</p>
+      <p>{{numberOfVideosProcentage}}</p>
      <span class="sr-only">70% Complete</span>
     </div>
   </div> 
+  <p>number Of Followers</p>
   <div class="progress">
     <div class="progress-bar" role="progressbar" aria-valuenow="70"
       aria-valuemin="0" aria-valuemax="100" [style.width]="numberOfFollowersProcentage">
-      <p>number Of Followers</p>
+      <p>{{numberOfFollowersProcentage}}</p>
      <span class="sr-only">70% Complete</span>
     </div>
   </div> 
+  <p>number Of Good Videos</p>
   <div class="progress">
     <div class="progress-bar" role="progressbar" aria-valuenow="70"
       aria-valuemin="0" aria-valuemax="100" [style.width]=" numberOfGoodVideosProcentage">
-      <p>number Of Good Videos</p>
+      <p>{{numberOfGoodVideosProcentage}}</p>
      <span class="sr-only">70% Complete</span>
     </div>
   </div> 
+  <p>number Of Decent Videos</p>
   <div class="progress">
     <div class="progress-bar" role="progressbar" aria-valuenow="70"
       aria-valuemin="0" aria-valuemax="100" [style.width]="numberOfDecentVideosProcentage">
-      <p>number Of Decent Videos</p>
+      <p>{{numberOfDecentVideosProcentage}}</p>
      <span class="sr-only">70% Complete</span>
     </div>
   </div> 
+  <p>Procentage of quality videos</p> 
   <div class="progress">
+    
     <div class="progress-bar" role="progressbar" aria-valuenow="70"
       aria-valuemin="0" aria-valuemax="100" [style.width]="qualityVideoProcentage">
-      <p>Procentage of quality videos</p>
+      <p>{{qualityVideoProcentage}}</p>
      <span class="sr-only">70% Complete</span>
     </div>
   </div> 
@@ -98,7 +104,7 @@
 
 <div>
   <button (click)="togglePassword() " *ngIf="!editPassword && !editName && !editEmail "> Change password </button>
-  <button *ngIf="!editPassword && !editName && !editEmail "> Favourites </button>
+  <!--<button *ngIf="!editPassword && !editName && !editEmail "> Favourites </button>!-->
   <button *ngIf="!editPassword && !editName && !editEmail " (click)="showFollowingVideos()"> Following </button>
 </div>
 

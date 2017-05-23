@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { tokenNotExpired } from 'angular2-jwt';
 import { VideoData } from '../models/video-data';
 import 'rxjs/add/operator/map';
-
+import { prepEndpoint } from './server-connection.service';
 
 @Injectable()
 export class SearchService {
@@ -27,7 +27,7 @@ export class SearchService {
     options.search = params;
 
 
-  let ep = this.prepEndpoint('routes/search');
+  let ep = prepEndpoint('routes/search');
     return this.http.get(ep, {search:params}).map(res=>{
         let data = res.json();
         this.videos = [];
@@ -44,9 +44,4 @@ export class SearchService {
       });
   
   };
-
-   private prepEndpoint(ep){
-    return 'http://localhost:8000/'+ep;
-  }
-
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { URLSearchParams, RequestOptions } from '@angular/http';
 import { ViewProfileComponent } from '../components/view-profile/view-profile.component';
-
+import { prepEndpoint } from './server-connection.service';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class UserProfileService {
   followUser(followerId:String, followedId:String){//not auto tested
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    let ep = this.prepEndpoint('routes/follow');
+    let ep = prepEndpoint('routes/follow');
     return this.http.post(ep, {followerId, followedId}, { headers: headers })
       .map(res => res.json());
   }
@@ -34,7 +34,7 @@ export class UserProfileService {
     let params: URLSearchParams = new URLSearchParams();
     params.set("followerId", followerId);
     options.search = params;
-    let ep = this.prepEndpoint('routes/listOfFollowings');
+    let ep = prepEndpoint('routes/listOfFollowings');
     return this.http.get(ep, options).map(res => {
       let data = res.json();
       if (data) {
@@ -51,7 +51,7 @@ export class UserProfileService {
     let params: URLSearchParams = new URLSearchParams();
     params.set("followedId", followedId);
     options.search = params;
-    let ep = this.prepEndpoint('routes/numberOfFollowers');
+    let ep = prepEndpoint('routes/numberOfFollowers');
     return this.http.get(ep, options).map(res => {
       let data = res.json();
       if (data) {
@@ -69,7 +69,7 @@ export class UserProfileService {
     let params: URLSearchParams = new URLSearchParams();
     params.set("username", username);
     options.search = params;
-    let ep = this.prepEndpoint('routes/userprofile');
+    let ep = prepEndpoint('routes/userprofile');
     return this.http.get(ep, options).map(res => {
       let data = res.json();
       if (data.success) {
@@ -87,7 +87,7 @@ export class UserProfileService {
     let params: URLSearchParams = new URLSearchParams();
     params.set("email", email);
     options.search = params;
-    let ep = this.prepEndpoint('routes/userprofilebyemail');
+    let ep = prepEndpoint('routes/userprofilebyemail');
     return this.http.get(ep, options).map(res => {
       let data = res.json();
       if (data.success) {
@@ -97,9 +97,4 @@ export class UserProfileService {
       console.log('error');
     });
   }
-
-  prepEndpoint(ep) {
-    return 'http://localhost:8000/' + ep;
-  }
-
 }
