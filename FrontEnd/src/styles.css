@@ -6,6 +6,7 @@ body{
 .btn{
 transition: all 0.3s cubic-bezier(.25,.8,.25,1);
     border-radius:0px;
+    font-family:Arimo;
 }
 
 .pagination{
@@ -19,6 +20,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 
 a{
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    font-family: 'Fjalla One', sans-serif;
 }
 
 a:hover{
