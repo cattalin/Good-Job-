@@ -54,5 +54,16 @@ module.exports = {
         nameOfnextRank:'top',
         nameOfpreviosRank:'D',
         nameInDatabase:'E'
+    },
+    top: {
+        nrOfVideos: 50,//change to 100
+        nrOfFollowers: 50,//change to 250
+        nrOfGoodVids: 50,//change to 50
+        nrOfDecentVids: 50,//change to 100
+        rateOfDecentVideos:50,//change to 0.75
+        nrOfVotes:50,
+        nameOfnextRank:'top',
+        nameOfpreviosRank:'E',
+        nameInDatabase:'E'
     }
 }

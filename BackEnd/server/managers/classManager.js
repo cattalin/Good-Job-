@@ -80,7 +80,7 @@ module.exports.updateUserClass = function(userId, callback){
                 rules.nrOfFollowers=nrOfFollowers;
                 let procentage=0.0;
                 rules._class=user.class;
-                rules._class=classrules[rules._class].nameOfnextRank;
+                //rules._class=classrules[rules._class].nameOfnextRank;
                 do {//console.log(procentage);
                     if(rules._class.indexOf("top")>-1)//daca are cel mai mare nivel posibil
                         procentage=-1;
@@ -91,6 +91,8 @@ module.exports.updateUserClass = function(userId, callback){
                     }
                 }while(procentage==1);
                 //console.log(procentage+rules);
+               //if(rules._class.indexOf('top')>=0)
+                 console.log(rules._class);
                 if(!(rules._class.indexOf(user.class)>-1))//daca s-a schimbat clasa acestui user
                     User.updateUserClass({id: user._id , class: classrules[classrules[rules._class].nameOfpreviosRank ].nameInDatabase},(erro,us)=>{
                         if(erro)
