@@ -12,8 +12,8 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "*",
-    "@angular/compiler": "*",
+    "@angular/common": "^5.0.0",
+    "@angular/compiler":"^5.0.0",
     "@angular/core": "*",
     "@angular/forms": "*",
     "@angular/http": "*",
@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@angular/cli": "*",
-    "@angular/compiler-cli": "^4.1.0",
+    "@angular/compiler-cli": "^5.0.0",
     "@types/jasmine": "*",
     "@types/node": "*",
     "codelyzer": "*",
