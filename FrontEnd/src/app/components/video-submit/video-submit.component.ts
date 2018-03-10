@@ -26,11 +26,13 @@ export class VideoSubmitComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
+      console.warn('The current profile is ' + profile.user.username);
       this.userId=profile.user._id;
       this.username=profile.user.username;
       this.class = profile.user.class;
     },
     err => {
+      console.warn('The current profile req failed  ');
       console.log(err);
       return false;
     });

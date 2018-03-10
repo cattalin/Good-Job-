@@ -4,11 +4,12 @@ const User = require('../models/user');
 const config = require('../config/database');
 
 module.exports = function(passport){
-  let opts = {};
-  opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
-  opts.secretOrKey = config.secret;
-  passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
-    User.getUserById(jwt_payload._doc._id, (err, user) => {
+  let jwtOptions = {};
+  jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
+  jwtOptions.secretOrKey = config.secret;
+  
+  let strategy = new JwtStrategy(jwtOptions, (jwt_payload, done) => {
+    User.getUserById(jwt_payload._id, (err, user) => {
       if(err){
         return done(err, false);
       }
@@ -19,5 +20,7 @@ module.exports = function(passport){
         return done(null, false);
       }
     });
-  }));
+  })
+
+  passport.use(strategy);
 }
