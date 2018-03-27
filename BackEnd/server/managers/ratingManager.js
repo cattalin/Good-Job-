@@ -16,10 +16,8 @@ module.exports.rateVideo = function(conditions, data, callback){
     Voter.searchByBoth(query, (err, voter) => {//we search for the vote of the user on that video
         if(!err)
             if(voter){
-                console.log("found"+voter);
                 if(isSameVote(voter, data))//if it's the same it means we need to remove it
                 {
-                    console.log("removing...");
                     Voter.removeVote(query, (err, res) => {
                         if(!err){
                             this.recalculateRating(query, (err, newRating) => {
@@ -31,11 +29,9 @@ module.exports.rateVideo = function(conditions, data, callback){
                     });
                 }
                 else{//different vote found by the same user -> we update it
-                    console.log("updating...");
                     Voter.updateVote(query, data, (err, res) => {
                         if(!err){
                             this.recalculateRating(query, (err, newRating) => {
-                                console.log("changing...");
                                 Video.updateVideo(query, newRating, (err, x) => {
                                     callback(null, {rating:newRating.rating, votes:newRating.votes, 
                                         currentVote:data.rating})})//custom callback with our needed parameters that we sent to the frontend
@@ -45,7 +41,6 @@ module.exports.rateVideo = function(conditions, data, callback){
                 }
             }
             else{//a vote doesn t exist so we need to insert it
-                console.log("adding..."+data);
                 Voter.addVote(conditions, data, (err, res) => {
                     if(!err){
                         this.recalculateRating(query, (err, newRating) => {
@@ -112,7 +107,6 @@ module.exports.recalculateRating = function(query, callback){
                 }
             })
             update.rating = (sum/update.votes).toFixed(2);
-            console.log("the actual rating is "+update.rating);
             callback(err, update);
         }
     })
@@ -124,6 +118,5 @@ function isSameVote(vote1, vote2){
 
     if (vote1.rating == vote2.rating&&vote1.voterId == vote2.voterId)
         return true;
-    //console.log(vote1.voterId +" "+ vote2.voterId+" "+vote1.rating +" "+vote2.rating)
     return false;
 } 

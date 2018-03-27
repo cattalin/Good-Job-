@@ -5,12 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const morgan = require('morgan');
 
-//port number
-const PORT = 8000 || process.env.PORT;
-//Express environment
-var app = express();
 
 //Connecting to DataBase
 const config = require('./config/database');
@@ -24,14 +19,23 @@ mongoose.connection.on('error', (err) => {
 
 
 
+//port number
+const PORT = 8000 || process.env.PORT;
+
+
+
+//Express environment
+var app = express();
+
+
 // CORS Middleware
 app.use(cors());
 
-// Set Static Folder
-app.use(express.static(path.join(__dirname, 'public')));
-
 // Body Parser Middleware
 app.use(bodyParser.json());
+
+// Set Static Folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Passport Middleware
 app.use(passport.initialize());
@@ -40,18 +44,8 @@ require('./config/passport')(passport);
 
 
 //Routing
-const routes = require('./routes/routes');
-app.use('/routes', routes);
-
-// Index Route
-app.get('/', (req, res) => {
-    res.send('Invalid Endpoint');
-});
-
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/index.html'));
-});
-
+let Router = require('./routes/Router');
+Router = new Router(app);
 
 
 // Start Server

@@ -32,7 +32,6 @@ module.exports.removeComment = function(query,callback) {
 }
 
 module.exports.addComment = function(data, callback){
-    console.log(data);
     let finalData = new Comment(data);
     finalData.save(callback);
 }

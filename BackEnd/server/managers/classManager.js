@@ -9,35 +9,27 @@ const Voters=require('../models/voter');
 // Update user class, will be triggered by the frontend (idea: can be changed to be triggered once per minute)
 
 GetProcentage=function(rules){
-    //console.log(rules);
     let procentage=0.0;
     if(rules.nrOfVideos>=classrules[rules._class].nrOfVideos)
         procentage+=0.2;
     else if(rules.nrOfVideos!=0)
         procentage+=classrules[rules._class].nrOfVideos/rules.nrOfVideos*0.2;
-    //console.log(procentage);
     if(rules.nrOfFollowers>=classrules[rules._class].nrOfFollowers)
         procentage+=0.2;
     else if(rules.nrOfFollowers!=0)
         procentage+=classrules[rules._class].nrOfFollowers/rules.nrOfFollowers*0.2;
-    //console.log(procentage);
     if(rules.nrOfGoodVids>=classrules[rules._class].nrOfGoodVids)
         procentage+=0.2;
     else if(rules.nrOfGoodVids!=0)
         procentage+=classrules[rules._class].nrOfGoodVids/rules.nrOfGoodVids *0.2;
-       //console.log(procentage); 
     if(rules.nrOfDecentVids>=classrules[rules._class].nrOfDecentVids)
         procentage+=0.2;
     else if(rules.nrOfDecentVids!=0)
         procentage+=classrules[rules._class].nrOfDecentVids/rules.nrOfDecentVids*0.2;
-    //console.log(procentage);
     if(rules.rateOfDecentVideos>=classrules[rules._class].rateOfDecentVideos)
         procentage+=0.2;
     else if(rules.rateOfDecentVideos!=0)
         procentage+=classrules[rules._class].rateOfDecentVideos/rules.rateOfDecentVideos*0.2;
-        //console.log(procentage);
-        //console.log(procentage.toFixed(2));
-        //console.log("deasupra");
     return procentage.toFixed(2);
 }
 
@@ -52,7 +44,6 @@ module.exports.updateUserClass = function(userId, callback){
     }
     User.getUserById(userId._id,(err,user)=>{
         if(err) throw err;
-        //console.log("the result is "+user);
          let q = {
                 sort:   '_id',
                 select: user.username,
@@ -80,8 +71,7 @@ module.exports.updateUserClass = function(userId, callback){
                 rules.nrOfFollowers=nrOfFollowers;
                 let procentage=0.0;
                 rules._class=user.class;
-                //rules._class=classrules[rules._class].nameOfnextRank;
-                do {//console.log(procentage);
+                do {
                     if(rules._class.indexOf("top")>-1)//daca are cel mai mare nivel posibil
                         procentage=-1;
                     else{
@@ -90,16 +80,11 @@ module.exports.updateUserClass = function(userId, callback){
                             rules._class=classrules[rules._class].nameOfnextRank;
                     }
                 }while(procentage==1);
-                //console.log(procentage+rules);
-               //if(rules._class.indexOf('top')>=0)
-                 console.log(rules._class);
                 if(!(rules._class.indexOf(user.class)>-1))//daca s-a schimbat clasa acestui user
                     User.updateUserClass({id: user._id , class: classrules[classrules[rules._class].nameOfpreviosRank ].nameInDatabase},(erro,us)=>{
                         if(erro)
                             throw erro;
                     });
-                //console.log("vechea clasa : "+user.class+" , "+"noua clasa : "+ rules._class);
-                console.log(nrOfFollowers);
                 callback(null,{ oldClass:user.class , 
                                 newClass:classrules[classrules[rules._class].nameOfpreviosRank ].nameInDatabase,
                                 previous:classrules[classrules[rules._class].nameOfpreviosRank ], 
