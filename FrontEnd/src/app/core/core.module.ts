@@ -1,15 +1,23 @@
 import { NgModule } from '@angular/core';
 
-import { ApiService } from './api';
+import {
+  ApiService,
+  AuthenticationService,
+  JwtService,
+  UserService ,
+} from './api';
 
 @NgModule({
     imports: [
 
     ],
     providers: [
-        ApiService
+        ApiService,
+        AuthenticationService,
+        JwtService,
+        UserService,
     ]
 })
 export class CoreModule {
- 
+
 }
