@@ -7,8 +7,6 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
 import { AppComponent } from './app.component';
 import { VideoComponent } from './components/video/video.component';
-
-
 import { AuthGuard } from './guards/auth.guard';
 
 // --WIP--Sebi
@@ -41,8 +39,8 @@ import { VideoSearchResultsComponent } from './components/video-search-results/v
 import { VideoFeedPaginationComponent } from './COmponents/video-feed-pagination/video-feed-pagination.component';
 
 
-
-
+//--------------------------------------------------------------------//
+// import { ViewsModule } from './views/views.module';
 
 const appRoutes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
@@ -79,7 +77,9 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
+    // ViewsModule
   ],
   providers: [VideoFeedService, AuthenticateService, AuthGuard, ValidateService, SearchService,
     CheckVideoService, SubmitVideoService, UserProfileService, CheckclassService],
