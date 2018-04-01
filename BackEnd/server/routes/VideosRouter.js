@@ -1,5 +1,6 @@
 
 
+const passport = require('passport');
 const express = require('express');
 const router = express.Router();
 
@@ -8,8 +9,12 @@ const Video = require('../models/video');
 
 
 //the the basic feed of videos
-router.get('/feed', (req, res) => {
+router.get('/feed', passport.authenticate('jwt', {session: false}), (req, res) => {
+
+    console.log('Current user: ' + JSON.stringify(req.user));
+
     Video.getVideos(req.query, (err, videos) => {
+
         if (err) throw err;
 
         if (!videos) {
@@ -17,6 +22,7 @@ router.get('/feed', (req, res) => {
         }
 
         res.json({success: true, videos: videos});
+
     })
 });
 

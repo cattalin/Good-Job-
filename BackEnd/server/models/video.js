@@ -54,7 +54,7 @@ module.exports.getVideos = function(q, callback){
             .limit(parseInt(q.limit))
             .skip(parseInt(q.skip))
             .exec(callback);
-}
+};
 
 
 

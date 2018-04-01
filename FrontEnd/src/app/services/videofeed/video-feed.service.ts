@@ -40,7 +40,7 @@ export class VideoFeedService {
               this.comments.push(comm);
         });
         return this.comments;
-      } 
+      }
       else{
         console.log("Nice error")
       }},
@@ -51,20 +51,31 @@ export class VideoFeedService {
 
 
   getVideos(query: any){
-    let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
-    let headers = new Headers();
+    let options = new RequestOptions();
+    let headers = new Headers({'Content-Type': 'application/json'});
     let params: URLSearchParams = new URLSearchParams();
+
+
+    //todo remove this when rewriting
+    const token = localStorage.getItem('id_token');
+    console.warn(token);
+    headers.append('Authorization', token);
+
+
+
+
     for (let key in query){
       params.set(key.toString(), query[key]);
     }
-   
+
 
     options.search = params;
+    options.headers = headers;
     let ep = prepEndpoint('routes/feed');
     if(query.followerId != null){
       ep = prepEndpoint('routes/feedByFollow');
     }
-    
+
     return this.http.get(ep, options).map(res => {
       let data = res.json();
 
@@ -75,7 +86,7 @@ export class VideoFeedService {
             this.videos.push(vid);
           });
           return this.videos;
-        }  
+        }
         else{
           console.log("Nice error")
         }
@@ -88,7 +99,7 @@ export class VideoFeedService {
     for (let key in query){
       params.set(key.toString(), query[key]);
     }
-   
+
 
     options.search = params;
     let ep = prepEndpoint('routes/search');
@@ -97,12 +108,12 @@ export class VideoFeedService {
         if(data.success){
           this.videos = [];
           data['videos'].forEach(video => {
-            var vid: VideoData = new VideoData(video._id, video.link, video.description, 
+            var vid: VideoData = new VideoData(video._id, video.link, video.description,
             video.title, video.username, video.rating);
             this.videos.push(vid);
           });
           return this.videos;
-        }  
+        }
         else{
           console.log("Nice error")
         }
@@ -126,7 +137,7 @@ export class VideoFeedService {
 
         if(data.success){
           return data.nrVideos;
-        }  
+        }
         else{
           console.log("Nice error")
         }
@@ -147,7 +158,7 @@ export class VideoFeedService {
 
         if(data.success){
           return data.nrVideos;
-        }  
+        }
         else{
           console.log("Nice error")
         }
@@ -165,7 +176,7 @@ export class VideoFeedService {
     return this.http.post(ep, rate, { headers: headers })
       .map(res => res.json());
   }
-  
+
   hasRated(target: any){
     let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
     let headers = new Headers();
