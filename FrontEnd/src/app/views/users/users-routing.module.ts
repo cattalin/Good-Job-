@@ -8,12 +8,28 @@ import {Routes, RouterModule} from '@angular/router';
 // import { AuthGuard } from 'app/core';
 
 //Components
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/',
-    pathMatch: 'full'
+    children: [
+
+      {
+        path: 'profile',
+        component: UserProfileComponent
+      },
+      {
+        path: 'register',
+        component: RegisterComponent
+      },
+      {
+        path: 'login',
+        component: LoginComponent
+      },
+    ]
   }
 ];
 

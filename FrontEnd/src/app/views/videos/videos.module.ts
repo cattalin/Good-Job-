@@ -1,14 +1,14 @@
 // Angular
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 // Modules
 import { ComponentsModule } from 'app/components/components.module';
 import { CoreModule } from 'app/core/core.module';
 
 // Components
- 
+
 //Routing
 import { VideosRoutingModule } from './videos-routing.module';
 
@@ -22,7 +22,6 @@ import { VideosRoutingModule } from './videos-routing.module';
   ],
   declarations: [
 
-  ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  ]
 })
 export class VideosModule { }
