@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
+
+import { JwtService } from './auth/jwt.service';
 
 @Injectable()
 export class ApiService {
@@ -13,7 +15,7 @@ export class ApiService {
         return this.http.delete(`${this.apiUrl}${path}`, {headers: this.setHeaders()})
             .catch(err => this.errorHandler(err)
         );
-    } 
+    }
 
     //-----------------------------------------------------------------------------//
 
@@ -29,7 +31,7 @@ export class ApiService {
         return this.http.put(`${this.apiUrl}${path}`, JSON.stringify(body), {headers: this.setHeaders()})
             .catch(err => this.errorHandler(err)
         );
-    }    
+    }
 
     //-----------------------------------------------------------------------------//
 
@@ -44,10 +46,11 @@ export class ApiService {
     private setHeaders() {
         const headers = {};
         headers['Content-Type'] = 'application/json';
+        headers['Authorization'] = `${this.jwtService.getToken()}`;
         return headers;
     }
 
-    //-----------------------------------------------------------------------------// 
+    //-----------------------------------------------------------------------------//
 
     private errorHandler(error: any) {
         return Observable.throw(error);
@@ -55,6 +58,9 @@ export class ApiService {
 
     //-----------------------------------------------------------------------------//
 
-    constructor(private http: HttpClient) {}
+    constructor(
+      private http: HttpClient,
+      private jwtService: JwtService
+    ) { }
 
 }
