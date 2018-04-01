@@ -1,5 +1,3 @@
-
-
 const passport = require('passport');
 const express = require('express');
 const router = express.Router();
@@ -12,21 +10,43 @@ const Video = require('../models/video');
 router.get('/feed', passport.authenticate('jwt', {session: false}), (req, res) => {
 
     console.log('Current user: ' + JSON.stringify(req.user));
+    console.log('Search query: ' + JSON.stringify(req.query));
 
-    Video.getVideos(req.query, (err, videos) => {
+    let query = {};
+    Object.keys(req.query).forEach(key => {
+        if (req.query[key])// && req.query[key] !== '')
+            query[key] = req.query[key]
+    });
 
-        if (err) throw err;
+    if (!query.limit) {
+        query.limit = 50;
+    }
 
-        if (!videos) {
-            return res.json({success: false, msg: 'Videos not found'});
-        }
+    console.log('Parsed search query: ' + JSON.stringify(query));
 
-        res.json({success: true, videos: videos});
+    Video.getVideos(query, (err, videos) => {
+
+        if (err) return res.json({success: false, code: 404, status: 'resource_unavailable'});
+        if (!videos) return res.json({success: false, code: 404, status: 'no_videos_found'});
+
+        videos = videos.map(
+            (userVideo) => {
+
+                let res = JSON.parse(JSON.stringify(userVideo));//dupe a mongoose object
+
+                if (res.userId.toString() === req.user._id.toString()){
+                    res.ownVideo = true;
+                }
+
+                return res;
+            });
+
+        res.json({success: true, code: 200, count: videos.length, videos: videos});
 
     })
 });
 
-router.get('/feedCount', (req, res) => {
+router.get('/feedCount', (req, res) => {//todo remove this, deprecated
 
     const query = {
         sort: req.query.sort,
@@ -36,6 +56,7 @@ router.get('/feedCount', (req, res) => {
     };
 
     Video.countVideos(query, (err, nrVideos) => {
+
         if (err) throw err;
 
         if (!nrVideos) {
@@ -43,56 +64,6 @@ router.get('/feedCount', (req, res) => {
         }
 
         res.json({success: true, nrVideos: nrVideos});
-    })
-});
-
-//post a video
-router.post('/upload', (req, res) => {
-
-    let newVideo = {
-        link: req.body.link,
-        title: req.body.title,
-        description: req.body.description,
-        userId: req.body.userId,
-        username: req.body.username,
-        rating: req.body.rating,
-        class: req.body.class
-    };
-
-    Video.addVideo(new Video(newVideo), (err, video) => {
-        if (err) {
-            res.json({success: false, msg: 'Failed to upload video'});
-        }
-        else {
-            let conditions = {
-                _id: video._id
-            }
-            let data = {
-                voterId: newVideo.userId,
-                rating: newVideo.rating,
-                class: newVideo.class
-            }
-            RatingManager.rateVideo(conditions, data, (err2, result) => {
-                if (err2) {
-                    console.log('Failed to rate video');
-                } else {
-                    console.log('Video rated');
-                }
-            })
-            res.json({success: true, msg: 'Video saved'});
-        }
-    })
-});
-
-router.post('/delete', (req, res, next) => {
-    let todel = req.body._id;
-
-    Video.removeVideo(todel, (err, user) => {
-        if (err) {
-            res.json({success: false, msg: 'Failed to remove'});
-        } else {
-            res.json({success: true, msg: 'removed'});
-        }
     })
 });
 
@@ -170,6 +141,56 @@ router.post('/rate', (req, res, next) => {
             })
         }
     });
+});
+
+//post a video
+router.post('/upload', (req, res) => {
+
+    let newVideo = {
+        link: req.body.link,
+        title: req.body.title,
+        description: req.body.description,
+        userId: req.body.userId,
+        username: req.body.username,
+        rating: req.body.rating,
+        class: req.body.class
+    };
+
+    Video.addVideo(new Video(newVideo), (err, video) => {
+        if (err) {
+            res.json({success: false, msg: 'Failed to upload video'});
+        }
+        else {
+            let conditions = {
+                _id: video._id
+            }
+            let data = {
+                voterId: newVideo.userId,
+                rating: newVideo.rating,
+                class: newVideo.class
+            }
+            RatingManager.rateVideo(conditions, data, (err2, result) => {
+                if (err2) {
+                    console.log('Failed to rate video');
+                } else {
+                    console.log('Video rated');
+                }
+            })
+            res.json({success: true, msg: 'Video saved'});
+        }
+    })
+});
+
+router.post('/delete', (req, res, next) => {
+    let todel = req.body._id;
+
+    Video.removeVideo(todel, (err, user) => {
+        if (err) {
+            res.json({success: false, msg: 'Failed to remove'});
+        } else {
+            res.json({success: true, msg: 'removed'});
+        }
+    })
 });
 
 module.exports = router;
