@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./video-feed.component.css']
 })
 export class VideoFeedComponent implements OnInit, OnChanges {
-  
+
   @Input() currentUser: any;//here should be a user class
   @Input() query: any = {
     sort:   '_id',  //user to sort out of database
@@ -27,14 +27,14 @@ export class VideoFeedComponent implements OnInit, OnChanges {
   @Input() searchMode = false;
   videos: VideoData[] = [];
   nrVideos: number = 0;
-  
-  
+
+
   constructor(private videoService: VideoFeedService,
               private route: ActivatedRoute,
               private searchService :SearchService) {
     this.query=null;
   }
-  
+
   ngOnInit() {
     this.requestVideos();
   }
@@ -50,21 +50,21 @@ export class VideoFeedComponent implements OnInit, OnChanges {
       this.videoService.countVideos(this.query).subscribe(nrVideos => {
         this.nrVideos = nrVideos;
         let currentQuery = {
-          sort:   this.query.sort, 
-          select: this.query.select,  
+          sort:   this.query.sort,
+          select: this.query.select,
           followerId: this.query.followerId,
           limit:  this.paginationQuery.limit,
           skip:   this.paginationQuery.skip
         }
-        this.videoService.getVideos(currentQuery).subscribe(vids => {this.videos=vids;});
+        this.videoService.requestVideos(currentQuery).subscribe(vids => {this.videos=vids;});
       })
     }
-      
+
     else {
       this.route.queryParams.subscribe(params => {
         let currentQuery = {
-            sort:   '_id', 
-            select: params['title'],  
+            sort:   '_id',
+            select: params['title'],
             followerId: null,
             limit:  this.paginationQuery.limit,
             skip:   this.paginationQuery.skip
@@ -81,7 +81,7 @@ export class VideoFeedComponent implements OnInit, OnChanges {
 
   getPaginationQuery(event){
     if(event!=null){
-      
+
       this.paginationQuery = event;
       this.selectedPage = this.paginationQuery.skip/5+1;
       this.requestVideos();

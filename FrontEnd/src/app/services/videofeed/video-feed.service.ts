@@ -50,7 +50,7 @@ export class VideoFeedService {
   }
 
 
-  getVideos(query: any){
+  requestVideos(query: any){
     let options = new RequestOptions();
     let headers = new Headers({'Content-Type': 'application/json'});
     let params: URLSearchParams = new URLSearchParams();

@@ -19,17 +19,11 @@ export class LoginComponent {
   submit(){
 
     this.authService.login(this.credentials).subscribe(data => {
-      if(data.success){
-        this.flashMessage.show('You are now logged in', {
-          cssClass: 'alert-success',
-          timeout: 5000});
-        // this.router.navigate(['']);
-      } else {
-        this.flashMessage.show(data.msg, {
-          cssClass: 'alert-danger',
-          timeout: 5000});
-        // this.router.navigate(['login']);
-      }
+      console.log(JSON.stringify(data));
+      this.flashMessage.show('You are now logged in', {
+        cssClass: 'alert-success',
+        timeout: 5000});
+      // this.router.navigate(['']);
     }, err=> {
       this.flashMessage.show('There was an error. Please try again.', {
         cssClass: 'alert-danger',

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
 import { JwtService } from './jwt.service';
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class AuthenticationService {
@@ -24,9 +25,17 @@ export class AuthenticationService {
 
     return this.apiService.post(`${this.resourceUrl}/authenticate`, credentials)
       .map(res => {
-        this.jwtService.saveToken(res.token); //TODO: complete after backend refactor
-        this.setAuth(res.user);
-        return res.user;
+        if (res.success){
+          console.log('pula1')
+          this.jwtService.saveToken(res.token); //TODO: complete after backend refactor
+          this.setAuth(res.user);
+          return res.user;
+        }
+        else {
+          console.log('pula2')
+          throw 'plm'
+        }
+
       });
   }
 

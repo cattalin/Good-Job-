@@ -1,7 +1,8 @@
 const passport = require('passport');
 const express = require('express');
 const router = express.Router();
-
+const jwt = require('jsonwebtoken');
+const config = require('../config/database');
 
 const User = require('../models/user');
 
@@ -53,18 +54,18 @@ router.post('/updatePassword', passport.authenticate('jwt', {session: false}), (
     let newPassword = req.body.password;
 
     // if (err)            return res.json ({success: false, code: 400, status:'missing_user_id'});
-    if (!req.user) return res.json({success: false, code: 404, status: 'user_not_found'});
-    if (!newPassword) return res.json({success: false, code: 400, status: 'invalid_new_password'});
+    if (!req.user)      return res.json({success: false, code: 404, status: 'user_not_found'});
+    if (!newPassword)   return res.json({success: false, code: 400, status: 'invalid_new_password'});
 
     User.comparePassword(req.body.oldPassword, req.user.password, (err, isMatch) => {
 
-        if (err) return res.json({success: false, code: 400, status: 'invalid_old_password'});
-        if (!isMatch) return res.json({success: false, code: 404, status: 'wrong_password'});
+        if (err)        return res.json({success: false, code: 400, status: 'invalid_old_password'});
+        if (!isMatch)   return res.json({success: false, code: 404, status: 'wrong_password'});
 
         User.updatePassword({id: req.body._id, password: req.body.password}, (err) => {
 
-            if (err) return res.json({success: false, code: 404, status: 'password_update_failed'});
-            else return res.json({success: true, code: 200, status: 'password_updated'});
+            if (err)    return res.json({success: false, code: 404, status: 'password_update_failed'});
+            else        return res.json({success: true,  code: 200, status: 'password_updated'});
 
         });
     });
@@ -121,20 +122,22 @@ router.post('/authenticate', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
+
     User.getUserByUsername(username, (err, user) => {
-        if (err) throw err;
-        if (!user) {
-            return res.json({success: false, msg: 'User not found'});
-        }
+
+        if (err)     return res.json({success: false, code:400, status:'invalid_user_data'});
+        if (!user)   return res.json({success: false, code:404, status:'user_not_found'});
 
         User.comparePassword(password, user.password, (err, isMatch) => {
-            if (err) throw err;
+
+            if (err) return res.json({success: false, code:400, status:'invalid_password'});
+
             if (isMatch) {
                 const token = jwt.sign(user.toJSON(), config.secret, {
                     expiresIn: 604800 // 1 week
                 });
 
-                res.json({
+                return res.json({
                     success: true,
                     token: 'JWT ' + token,
                     user: {
@@ -142,10 +145,12 @@ router.post('/authenticate', (req, res) => {
                         name: user.name,
                         username: user.username,
                         email: user.email
-                    }
+                    },
+                    code:200
                 });
-            } else {
-                return res.json({success: false, msg: 'Wrong password'});
+            }
+            else {
+                return res.json({success: false, code:400, status:'wrong_password'});
             }
         });
     });
