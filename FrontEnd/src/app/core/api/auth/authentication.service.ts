@@ -9,7 +9,7 @@ export class AuthenticationService {
   private currentUser: any;
   private isAuthenticated: boolean;
 
-  private readonly resourceUrl: string = ''; //TODO: change after backend refactor if needed
+  private readonly resourceUrl: string = '/users'; //TODO: change after backend refactor if needed
 
   //-----------------------------------------------------------------------------//
 
@@ -22,7 +22,7 @@ export class AuthenticationService {
   //-----------------------------------------------------------------------------//
 
   login(credentials) {
-
+ 
     return this.apiService.post(`${this.resourceUrl}/authenticate`, credentials)
       .map(res => {
         this.jwtService.saveToken(res.token); //TODO: complete after backend refactor

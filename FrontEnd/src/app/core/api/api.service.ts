@@ -7,7 +7,7 @@ import { JwtService } from './auth/jwt.service';
 @Injectable()
 export class ApiService {
 
-    private readonly apiUrl = '/routes'; //TODO:
+    private readonly apiUrl = '';
 
     //-----------------------------------------------------------------------------//
 

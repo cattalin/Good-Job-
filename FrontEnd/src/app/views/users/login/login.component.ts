@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AuthentiactionService } from 'app/core/api/auth/authentication.service';
+import { AuthenticationService } from 'app/core/api/auth/authentication.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
+
 
 @Component({
   templateUrl: 'login.component.html',
@@ -9,36 +10,38 @@ import { AuthentiactionService } from 'app/core/api/auth/authentication.service'
 export class LoginComponent {
 
   credentials = {
-    username = '',
-    password = ''
+    username: '',
+    password: ''
   };
 
   //------------------------------------------------------------------------------//
 
   submit(){
 
-    this.authService.authenticateUser(user).subscribe(data => {
+    this.authService.login(this.credentials).subscribe(data => {
       if(data.success){
-        this.authService.storeUserData(data.token, data.user);//todo move this to authenticateUser service
         this.flashMessage.show('You are now logged in', {
           cssClass: 'alert-success',
           timeout: 5000});
-        console.log(data.user+"+"+data.token);
-        this.router.navigate(['']);
+        // this.router.navigate(['']);
       } else {
         this.flashMessage.show(data.msg, {
           cssClass: 'alert-danger',
           timeout: 5000});
-        this.router.navigate(['login']);
+        // this.router.navigate(['login']);
       }
+    }, err=> {
+      this.flashMessage.show('There was an error. Please try again.', {
+        cssClass: 'alert-danger',
+        timeout: 5000});
     });
   }
 
   //------------------------------------------------------------------------------//
 
-  constructor(private router: Router,
-              private route: ActivatedRoute,
-              private authService: AuthentiactionService
+  constructor(
+    private authService: AuthenticationService,
+    private flashMessage:FlashMessagesService
   ) { }
 
 }
