@@ -13,7 +13,6 @@ import { FlashMessagesService } from 'angular2-flash-messages';
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css']
 })
-
 export class UserProfileComponent implements OnInit {
 
   private q = {

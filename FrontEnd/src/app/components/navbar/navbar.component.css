@@ -14,11 +14,13 @@
   font-size:18px;
 }
 
-
-
 .navbarlink:hover{
   width:auto;
   height:auto;
   background-color:#337ab7!important;
   color:white!important;
+}
+
+.navbar-left {
+  width: 250px;
 }

@@ -48,6 +48,12 @@ export class AuthenticationService {
 
   //-----------------------------------------------------------------------------//
 
+  isLoggedIn() {
+    return this.isAuthenticated;
+  }
+
+  //-----------------------------------------------------------------------------//
+
   constructor(
     private apiService: ApiService,
     private jwtService: JwtService

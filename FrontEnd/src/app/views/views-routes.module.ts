@@ -1,4 +1,3 @@
-
 // Angular
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -11,15 +10,15 @@ import { CoreModule } from '../core/core.module';
 
 //Components
 import { RootComponent } from './_root/root.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const appRoutes: Routes = [{
   path: '',
   component: RootComponent,
   children: [
-
     {
-      path: 'profile',
-      // loadChildren: './prop65compliance/prop65compliance.module#Prop65ComplianceModule',
+      path: 'user-profile',
+      component: UserProfileComponent
     }
   ]
 },{

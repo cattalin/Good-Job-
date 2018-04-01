@@ -1,3 +1,8 @@
-.searchBar{
+.search-bar{
   font-family: 'Quicksand', sans-serif;
+  width: 250px;
+  margin-top: -1px;
+  border-radius: 15px;
+  border-color: gray;
+  padding-left: 10px;
 }
