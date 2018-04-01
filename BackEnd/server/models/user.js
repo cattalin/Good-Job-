@@ -28,13 +28,17 @@ module.exports.getUserById = function (id, callback) {
 };
 
 
-module.exports.updateName = function (update, callback) {
-    User.update({_id: update.id}, {name: update.name}, callback);
-}
+module.exports.updateData = function (update, callback) {
 
-module.exports.updateEmail = function (update, callback) {
-    User.update({_id: update.id}, {email: update.email}, callback);
-}
+    let newData = {};
+
+    if (update.name)
+        newData.name = update.name;
+    if (update.email)
+        newData.email = update.email;
+
+    User.update({_id: update.id}, newData, callback);
+};
 
 module.exports.updatePassword = function (update, callback) {
     bcrypt.genSalt(10, (err, salt) => {

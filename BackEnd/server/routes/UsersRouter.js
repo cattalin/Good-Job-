@@ -27,48 +27,41 @@ router.post('/register', (req, res, next) => {
 
 
 // Update User: Name
-router.post('/updateName', (req, res, next) => {
-    User.updateName({id: req.body._id, name: req.body.name}, (err, user) => {
+router.post('/update', passport.authenticate('jwt', {session: false}), (req, res) => {
+
+    User.updateData({id: req.user._id,  name: req.body.name, email: req.body.email}, (err) => {
+
         if (err) {
-            res.json({success: false, msg: 'Failed to update name'});
-        } else {
-            res.json({success: true, msg: 'Name updated'});
+            res.json({success: false, code:400, status:'update_failed'});
         }
+        else {
+            res.json({success: true,  code:200, status:'update_successful'});
+        }
+
     });
+
 });
 
-// Update User: Email
-router.post('/updateEmail', (req, res, next) => {
-    User.updateEmail({id: req.body._id, email: req.body.email}, (err, user) => {
-        if (err) {
-            res.json({success: false, msg: 'Failed to update e-mail'});
-        } else {
-            res.json({success: true, msg: 'E-mail updated'});
-        }
-    });
-});
 
 // Update User: Password
-router.post('/updatePassword', (req, res) => {
-    User.getUserById(req.body._id, (err, user) => {
+router.post('/updatePassword', passport.authenticate('jwt', {session: false}), (req, res) => {
 
-        if (err)   console.log(err);
-        if (err)   return res.json ({success: false, code: 400, status:'missing_user_id'});
-        if (!user) return res.json ({success: false, code: 404, status:'user_not_found'});
-        if (!req.body.password)
-                   return res.json ({success: false, code: 400, status:'missing_new_password'});
+    let newPassword = req.body.password;
 
-        User.comparePassword(req.body.oldPassword, user.password, (err, isMatch) => {
+    // if (err)            return res.json ({success: false, code: 400, status:'missing_user_id'});
+    if (!req.user)      return res.json ({success: false, code: 404, status:'user_not_found'});
+    if (!newPassword)   return res.json ({success: false, code: 400, status:'invalid_new_password'});
 
-            if (err)      return res.json ({success: false, code: 400, status:'invalid_actual_password'});
-            if (!isMatch) return res.json ({success: false, code: 404, status:'wrong_password'});
+    User.comparePassword(req.body.oldPassword, req.user.password, (err, isMatch) => {
 
-            User.updatePassword({id: req.body._id, password: req.body.password}, (err) => {
+        if (err)        return res.json ({success: false, code: 400, status:'invalid_old_password'});
+        if (!isMatch)   return res.json ({success: false, code: 404, status:'wrong_password'});
 
-                if (err)  return res.json ({success: false, code: 404, status:'password_update_failed'});
-                else      return res.json ({success: true,  code: 200, status:'password_updated'});
+        User.updatePassword({id: req.body._id, password: req.body.password}, (err) => {
 
-            });
+            if (err)    return res.json ({success: false, code: 404, status:'password_update_failed'});
+            else        return res.json ({success: true,  code: 200, status:'password_updated'});
+
         });
     });
 });
