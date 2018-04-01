@@ -9,8 +9,8 @@ const Voter = require('../models/voter');
 
 module.exports.getVideosAndUsers = function(query, callback)
 {
-    Video.getByTitleOrDescriptionOrUsername(query,callback);
-}
+    Video.searchVideos(query,callback);
+};
 
 module.exports.countVideosAndUsers = function(query, callback)
 {

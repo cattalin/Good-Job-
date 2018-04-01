@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('../config/database');
 const User = require('../models/user');
-const Follow=require('../models/follow');
+const Follow = require('../models/follow');
 
 
 VideoSchema = mongoose.Schema({
@@ -10,107 +10,118 @@ VideoSchema = mongoose.Schema({
     description: String,
     rating: Number,
     username: String,
-    userId:{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     rating: Number,
     votes: Number,
 
 });
 Video = module.exports = mongoose.model('Video', VideoSchema);
 
+module.exports.getVideoById = function (id, callback) {
 
-
-
-
-//method for updating the rating
-
-module.exports.removeVideo = function(query,callback) {
-    console.log(query)
-    Video.remove({_id:query}, callback);
-}
-
-
-
-module.exports.updateVideo = function(query, data, callback){
-    Video.update({_id: query._id}, 
-    { rating: data.rating, votes: data.votes }, {upsert:false }, callback);
-}
-
-module.exports.getVideoById = function(id, callback){
     Video.findById(id, callback);
-}
 
+};
 
+module.exports.getVideos = function (q, callback) {
 
-module.exports.getVideos = function(q, callback){
-    if(q.select)
-        Video.find({username: q.select})
-            .sort([[q.sort, -1]])
-            .limit(parseInt(q.limit))
-            .skip(parseInt(q.skip))
-            .exec(callback);
-    else
-        Video.find({})
-            .sort([[q.sort, -1]])
-            .limit(parseInt(q.limit))
-            .skip(parseInt(q.skip))
-            .exec(callback);
+    console.log(buildSimpleSearchConditionObject(q));
+
+    Video.find(buildSimpleSearchConditionObject(q))
+        .sort([[q.sort, -1]])
+        .limit(parseInt(q.limit))
+        .skip(parseInt(q.skip))
+        .exec(callback);
+
 };
 
 
+module.exports.searchVideos = function (q, callback) {
 
-module.exports.countVideos = function(q, callback){
-    if(q.select)
-        Video.count({username: q.select})
-            .sort([[q.sort, -1]])
-            .exec(callback);
-    else
-        Video.count({})
-            .sort([[q.sort, -1]])
-            .exec(callback);
+    Video.find(buildAdvancedSearchConditionObject(q))
+        .sort([[q.sort, -1]])
+        .limit(parseInt(q.limit))
+        .skip(parseInt(q.skip))
+        .exec(callback);
+
+};
+
+function buildSimpleSearchConditionObject(q) {
+
+    if (q.uploadersIds) {
+        return {userId: {$in: q.uploadersIds}}
+    }
+    else if (q.select){
+        return {username: q.select}
+    }
+    else {
+        return {};
+    }
 }
 
-module.exports.countVideosByFollowing = function(q, followedIds, callback){
-    
-        Video.count({userId: { $in : followedIds }})
-            .sort([[q.sort, -1]])
-            .exec(callback);
-}
-
-
-//SEARCH ADDS
-
-module.exports.getByFollowedIds = function(q, followedIds, callback){
-    Video.find({userId: { $in : followedIds }})
-            .sort([[q.sort, -1]])
-            .limit(parseInt(q.limit))
-            .skip(parseInt(q.skip))
-            .exec(callback);
-}
-
-
-module.exports.getByTitleOrDescriptionOrUsername = function(q, callback){
-    if(q.select)
-        Video.find({$or:[ {'username': q.select}, {'title': {$regex : ".*"+q.select+".*"}}, 
-                {'description': {$regex : ".*"+q.select+".*"} }]})
-                .sort([[q.sort, -1]])
-                .limit(parseInt(q.limit))
-                .skip(parseInt(q.skip))
-                .exec(callback);;
-}
-module.exports.countByTitleOrDescriptionOrUsername = function(q, callback){
-    if(q.select)
-        Video.count({$or:[ {'username': q.select}, {'title': {$regex : ".*"+q.select+".*"}}, 
-                {'description': {$regex : ".*"+q.select+".*"} }]})
-                .sort([[q.sort, -1]])
-                .exec(callback);
+function buildAdvancedSearchConditionObject(q) {
+    return {
+        $or: [
+            {'username': q.select},
+            {'title': {$regex: ".*" + q.select + ".*"}},
+            {'description': {$regex: ".*" + q.select + ".*"}}
+        ]
+    }
 }
 
 
+module.exports.countByTitleOrDescriptionOrUsername = function (q, callback) {
+
+    Video.count({
+        $or: [{'username': q.select}, {'title': {$regex: ".*" + q.select + ".*"}},
+            {'description': {$regex: ".*" + q.select + ".*"}}]
+    })
+        .sort([[q.sort, -1]])
+        .exec(callback);
+
+}
 
 
-module.exports.addVideo = function(newVideo, callback){
+module.exports.countVideosByFollowing = function (q, followedIds, callback) {
+
+    Video.count({userId: {$in: followedIds}})
+        .sort([[q.sort, -1]])
+        .exec(callback);
+};
+
+
+module.exports.countVideos = function (q, callback) {
+
+    Video.count(q.select ? {username: q.select} : {})
+        .sort([[q.sort, -1]])
+        .exec(callback);
+
+};
+
+
+module.exports.removeVideo = function (query, callback) {
+
+    Video.remove({_id: query}, callback);
+
+};
+
+module.exports.updateVideo = function (query, data, callback) {
+
+    let newVideo = {
+        rating: data.rating,
+        votes: data.votes
+    };
+
+    let options = {
+        upsert: false
+    };
+
+    Video.update({_id: query._id}, newVideo, options, callback);
+};
+
+module.exports.addVideo = function (newVideo, callback) {
     //we first get some of the uploader's data
-    User.getClassById(newVideo.userId, (err, user) =>{
+    User.getClassById(newVideo.userId, (err, user) => {
 
         //basic law relation between user class and his voting power
         switch (user.class) {
@@ -136,48 +147,39 @@ module.exports.addVideo = function(newVideo, callback){
 }
 
 
-
-
-
-
-
-
-//finds a video that by _id and voterId criteria 
+//finds a video that by _id and voterId criteria
 //TODELETE
-module.exports.findWithVoter = function(query, callback){
-    let options = { 
+module.exports.findWithVoter = function (query, callback) {
+    let options = {
         multi: false,
         upsert: true
     }
     console.log(query.voterId);
-    Video.findOne({ _id: query._id, "voters.voterId": query.voterId})
-    .populate({path: 'voters', model: Voters,
-              match: { voterId: {$eq: query.voterId}}})
-    .exec(callback);
+    Video.findOne({_id: query._id, "voters.voterId": query.voterId})
+        .populate({
+            path: 'voters', model: Voters,
+            match: {voterId: {$eq: query.voterId}}
+        })
+        .exec(callback);
 }
 
 
-
-module.exports.following = function(query,callback){
+module.exports.following = function (query, callback) {
 
     let follow = {
-    followerId: query.followerId,
+        followerId: query.followerId,
     };
 
-    Follow.searchByFollowerId(follow, (err, list) =>{
+    Follow.searchByFollowerId(follow, (err, list) => {
 
-    for (let entry of list) {
-     Video.findOne({"follow.followerId": list.followerId})
-        .populate({path: 'follow', model: Follow})
-        .exec(callback);
-    }
+        for (let entry of list) {
+            Video.findOne({"follow.followerId": list.followerId})
+                .populate({path: 'follow', model: Follow})
+                .exec(callback);
+        }
 
     });
 }
-
-
-
-
 
 
 /*

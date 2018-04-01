@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 const Video = require('../models/video');
-
+const Follow = require('../models/follow');
 
 //the the basic feed of videos
 router.get('/feed', passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -14,7 +14,7 @@ router.get('/feed', passport.authenticate('jwt', {session: false}), (req, res) =
 
     let query = {};
     Object.keys(req.query).forEach(key => {
-        if (req.query[key])// && req.query[key] !== '')
+        if (req.query[key])
             query[key] = req.query[key]
     });
 
@@ -29,12 +29,12 @@ router.get('/feed', passport.authenticate('jwt', {session: false}), (req, res) =
         if (err) return res.json({success: false, code: 404, status: 'resource_unavailable'});
         if (!videos) return res.json({success: false, code: 404, status: 'no_videos_found'});
 
-        videos = videos.map(
+        videos = videos.map(//mark the ones belonging to the current user
             (userVideo) => {
 
                 let res = JSON.parse(JSON.stringify(userVideo));//dupe a mongoose object
 
-                if (res.userId.toString() === req.user._id.toString()){
+                if (res.userId.toString() === req.user._id.toString()) {
                     res.ownVideo = true;
                 }
 
@@ -48,7 +48,7 @@ router.get('/feed', passport.authenticate('jwt', {session: false}), (req, res) =
 
 router.get('/feedCount', (req, res) => {//todo remove this, deprecated
 
-    const query = {
+    let query = {
         sort: req.query.sort,
         select: req.query.select,
         limit: req.query.limit,
@@ -67,27 +67,43 @@ router.get('/feedCount', (req, res) => {//todo remove this, deprecated
     })
 });
 
-router.get('/feedByFollow', (req, res) => {
-    const query = {
-        sort: req.query.sort,
+router.get('/feedByFollow', passport.authenticate('jwt', {session: false}), (req, res) => {
+
+    let query = {
+        followerId: req.query.followerId,
         select: req.query.select,
         limit: req.query.limit,
         skip: req.query.skip,
-        followerId: req.query.followerId,
-    }
-    //db.collection.find( { field : { $in : array } } );
-    Follow.getFollowedIds(query, (err, ids) => {
-        let followedIds = [];
-        ids.forEach(id => {
-            followedIds.push(id.followedId);
-        })
-        Video.getByFollowedIds(query, followedIds, (err, videos) => {
-            if (err) throw err;
-            if (!videos) {
-                return res.json({success: false, msg: 'Videos not found'});
-            }
+        sort: req.query.sort,
+    };
 
-            res.json({success: true, videos: videos});
+
+    Follow.getFollowedIds(query, (err, ids) => {
+
+        query.uploadersIds = [];
+        ids.forEach(id => {
+            query.uploadersIds.push(id.followedId);
+        });
+
+        Video.getVideos(query, (err, videos) => {
+
+            if (err) return res.json({success: false, code: 404, status: 'resource_unavailable'});
+            if (!videos) return res.json({success: false, code: 404, status: 'no_videos_found'});
+
+            videos = videos.map(//mark the ones belonging to the current user
+                (userVideo) => {
+
+                    let res = JSON.parse(JSON.stringify(userVideo));//dupe a mongoose object
+
+                    if (res.userId.toString() === req.user._id.toString()) {
+                        res.ownVideo = true;
+                    }
+
+                    return res;
+                });
+
+            res.json({success: true, code: 200, count: videos.length, videos: videos});
+
         })
     })
 });

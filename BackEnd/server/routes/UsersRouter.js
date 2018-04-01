@@ -7,30 +7,6 @@ const config = require('../config/database');
 const User = require('../models/user');
 
 
-// Register
-router.post('/register', (req, res) => {
-
-    let newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        username: req.body.username,
-        password: req.body.password,
-        class: req.body.class
-    });
-
-    User.addUser(newUser, (err) => {
-
-        if (err) {
-            res.json({success: false, code: 400, status: 'update_failed'});
-        }
-        else {
-            res.json({success: true,  code: 200, status: 'update_successful'});
-        }
-
-    });
-});
-
-
 // Update User Account Data
 router.post('/update', passport.authenticate('jwt', {session: false}), (req, res) => {
 
@@ -156,5 +132,28 @@ router.post('/authenticate', (req, res) => {
     });
 });
 
+
+// Register
+router.post('/register', (req, res) => {
+
+    let newUser = new User({
+        name: req.body.name,
+        email: req.body.email,
+        username: req.body.username,
+        password: req.body.password,
+        class: req.body.class
+    });
+
+    User.addUser(newUser, (err) => {
+
+        if (err) {
+            res.json({success: false, code: 400, status: 'update_failed'});
+        }
+        else {
+            res.json({success: true,  code: 200, status: 'update_successful'});
+        }
+
+    });
+});
 
 module.exports = router;
