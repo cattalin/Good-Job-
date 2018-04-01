@@ -2,9 +2,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-//Modules
-import { CoreModule } from '../core/core.module';
-
 //Guards
 // import { AuthGuard } from 'app/core';
 
@@ -17,7 +14,7 @@ const appRoutes: Routes = [{
   children: [
     {
       path: 'users',
-      loadChildren: './users/users.module#UsersModule',
+      loadChildren: './users/users.module#UsersModule', 
     },
     {
       path: 'videos',
@@ -33,7 +30,6 @@ const appRoutes: Routes = [{
 @NgModule({
   imports: [
     RouterModule.forRoot(appRoutes),
-    // CoreModule
   ],
   exports: [
     RouterModule

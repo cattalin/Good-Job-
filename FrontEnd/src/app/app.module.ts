@@ -79,9 +79,10 @@ import { AppComponent } from './app.component';
     FormsModule,
     ReactiveFormsModule,
 
+    ViewsModule,
     ComponentsModule,
     CoreModule,
-    ViewsModule
+
   ],
   // providers: [VideoFeedService, AuthenticateService, AuthGuard, ValidateService, SearchService,
   //   CheckVideoService, SubmitVideoService, UserProfileService, CheckclassService],

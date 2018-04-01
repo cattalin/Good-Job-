@@ -3,10 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'app/core/api/user.service';
 
 @Component({
-  templateUrl: 'user-profile.component.html',
-  styleUrls: ['user-profile.component.css']
+  templateUrl: 'register.component.html',
+  styleUrls: ['register.component.css']
 })
-export class UserProfileComponent implements OnInit {
+export class RegisterComponent implements OnInit {
 
   //------------------------------------------------------------------------------//
 
