@@ -8,8 +8,6 @@ import { ActivatedRoute } from '@angular/router';
 import { CheckclassService } from '../../services/checkclass.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
-
-
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -51,7 +49,7 @@ export class UserProfileComponent implements OnInit {
   numberOfGoodVideosProcentage: String;
   numberOfDecentVideosProcentage: String;
   qualityVideoProcentage: String;
-  
+
 
   rating:String;
   //-----------------------------------------------------------------------------------------------//
@@ -96,40 +94,40 @@ export class UserProfileComponent implements OnInit {
          console.log(newClass);
           this.rating=newClass.result.newClass;
           let temp=0;
-          temp=(((newClass.result.progress.nrOfVideos-newClass.result.previous.nrOfVideos)/ 
-                                          (newClass.result.goal.nrOfVideos-newClass.result.previous.nrOfVideos))*100);                          
+          temp=(((newClass.result.progress.nrOfVideos-newClass.result.previous.nrOfVideos)/
+                                          (newClass.result.goal.nrOfVideos-newClass.result.previous.nrOfVideos))*100);
           this.numberOfVideosProcentage=temp.toFixed(2)+"%";
 
-          
-          temp=(((newClass.result.progress.nrOfFollowers-newClass.result.previous.nrOfFollowers)/ 
+
+          temp=(((newClass.result.progress.nrOfFollowers-newClass.result.previous.nrOfFollowers)/
                                           (newClass.result.goal.nrOfFollowers-newClass.result.previous.nrOfFollowers))*100);
           if(temp>100)
-                temp=100; 
+                temp=100;
           this.numberOfFollowersProcentage=temp.toFixed(2)+"%";
 
           this.numberOfDecentVideosProcentage
-          temp=(((newClass.result.progress.nrOfDecentVids-newClass.result.previous.nrOfDecentVids)/ 
+          temp=(((newClass.result.progress.nrOfDecentVids-newClass.result.previous.nrOfDecentVids)/
                                           (newClass.result.goal.nrOfDecentVids-newClass.result.previous.nrOfDecentVids))*100);
           if(temp>100)
                 temp=100;
           this.numberOfDecentVideosProcentage  =temp.toFixed(2)+"%";
-      
-          temp=(((newClass.result.progress. nrOfGoodVids-newClass.result.previous. nrOfGoodVids)/ 
+
+          temp=(((newClass.result.progress. nrOfGoodVids-newClass.result.previous. nrOfGoodVids)/
                                           (newClass.result.goal. nrOfGoodVids-newClass.result.previous. nrOfGoodVids))*100);
           if(temp>100)
-                temp=100;   
+                temp=100;
           this.numberOfGoodVideosProcentage=temp.toFixed(2)+"%";
-          
-          temp=(((newClass.result.progress.rateOfDecentVideos-newClass.result.previous.rateOfDecentVideos)/ 
+
+          temp=(((newClass.result.progress.rateOfDecentVideos-newClass.result.previous.rateOfDecentVideos)/
                                           (newClass.result.goal.rateOfDecentVideos-newClass.result.previous.rateOfDecentVideos))*100);
           if(temp>100)
-                temp=100;  
+                temp=100;
           if(isNaN(temp)) this.qualityVideoProcentage ="0%";
             else this.qualityVideoProcentage =temp.toFixed(2)+"%";
           if(newClass.result.newClass.indexOf(newClass.result.oldClass)!=0){
             this.flashMessage.show("FELICITARI ! Ai urcat de la clasa "+newClass.result.oldClass+" la clasa "+newClass.result.newClass,{ cssClass: 'alert-success' });
           }
-          
+
       });
     })
     })
