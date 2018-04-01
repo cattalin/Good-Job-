@@ -10,15 +10,18 @@ import { CoreModule } from '../core/core.module';
 
 //Components
 import { RootComponent } from './_root/root.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const appRoutes: Routes = [{
   path: '',
   component: RootComponent,
   children: [
     {
-      path: 'user-profile',
-      component: UserProfileComponent
+      path: 'users',
+      loadChildren: './users/users.module#UsersModule',
+    },
+    {
+      path: 'videos',
+      loadChildren: './videos/videos.module#VideosModule',
     }
   ]
 },{
@@ -30,7 +33,7 @@ const appRoutes: Routes = [{
 @NgModule({
   imports: [
     RouterModule.forRoot(appRoutes),
-    CoreModule
+    // CoreModule
   ],
   exports: [
     RouterModule
