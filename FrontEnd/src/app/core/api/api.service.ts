@@ -7,7 +7,7 @@ import { JwtService } from './auth/jwt.service';
 @Injectable()
 export class ApiService {
 
-    private readonly apiUrl = '';
+    private readonly apiUrl = 'http://localhost:8000';
 
     //-----------------------------------------------------------------------------//
 

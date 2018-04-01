@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { ApiService } from '../api.service';
 import { JwtService } from './jwt.service';
 
@@ -9,7 +8,7 @@ export class AuthenticationService {
   private currentUser: any;
   private isAuthenticated: boolean;
 
-  private readonly resourceUrl: string = '/users'; //TODO: change after backend refactor if needed
+  private readonly resourceUrl: string = '/users';
 
   //-----------------------------------------------------------------------------//
 
@@ -22,7 +21,7 @@ export class AuthenticationService {
   //-----------------------------------------------------------------------------//
 
   login(credentials) {
- 
+
     return this.apiService.post(`${this.resourceUrl}/authenticate`, credentials)
       .map(res => {
         this.jwtService.saveToken(res.token); //TODO: complete after backend refactor
