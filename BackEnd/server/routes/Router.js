@@ -6,7 +6,7 @@ module.exports = function(app) {
     const oldRouter    = require ('./routes');
 
     app.use('/routes', VideosRouter);
-    app.use('/routes', UsersRouter);
+    app.use('/users', UsersRouter);
     app.use('/routes', oldRouter);
 
 };
