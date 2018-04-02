@@ -1,0 +1,94 @@
+<div class="container" style="width: 50%;">
+
+  <div class="row">
+    <flash-messages></flash-messages>
+  </div>
+
+  <div class="row">
+      <h2 class="page-header">Sign Up</h2>
+  </div>
+
+  <form [formGroup]="credentials">
+
+  <div class="row">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" id="name" class="form-control" formControlName="name" placeholder="Your Name"/>
+      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+        <div *ngIf="name.errors.required">Please enter your name.</div>
+        <div *ngIf="name.errors.minlength">Your name must be at least 4 characters long.</div>
+        <div *ngIf="name.errors.maxlength">Your name can't be longer than 20 characters.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" class="form-control" formControlName="username" placeholder="Username"/>
+      <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
+        <div *ngIf="username.errors.required">Please pick a yousername.</div>
+        <div *ngIf="username.errors.minlength">The username must be at least 4 characters long.</div>
+        <div *ngIf="username.errors.maxlength">The username can't be longer than 15 characters.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input (change)="compareEmails()" type="email" id="email" class="form-control" formControlName="email" placeholder="email@example.com"/>
+      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+        <div *ngIf="email.errors.required">Plese enter an email address.</div>
+        <div *ngIf="email.errors.email">Plese enter a valid email address.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <label for="conf_email">Confirm Email</label>
+      <input (change)="compareEmails()" (focus)="conf_email_focus = true" (blur)="conf_email_focus = false" type="email" id="conf_email" class="form-control" formControlName="conf_email" placeholder="email@example.com"/>
+      <div *ngIf="conf_email.invalid && (conf_email.dirty || conf_email.touched)" class="alert alert-danger">
+        <div *ngIf="conf_email.errors.required">Please confirm your email address.</div>
+      </div>
+      <div *ngIf="conf_email.value && email.value && !conf_email_focus && !isEmailConfirmed" class="alert alert-danger">
+        <div>Emails do not match.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input (change)="comparePasswords()" type="password" id="password" class="form-control" formControlName="password" placeholder="******"/>
+      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+        <div *ngIf="password.errors.required">Please pick a password.</div>
+        <div *ngIf="password.errors.minlength">Your password must be at least 6 characters long.</div>
+        <div *ngIf="password.errors.maxlength">Your password can't be longer than 20 characters.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <label for="conf_password">Confirm Password</label>
+      <input (change)="comparePasswords()" (focus)="conf_password_focus = true" (blur)="conf_password_focus = false" type="password" id="conf_password" class="form-control" formControlName="conf_password" placeholder="******"/>
+      <div *ngIf="conf_password.invalid && (conf_password.dirty || conf_password.touched)" class="alert alert-danger">
+        <div *ngIf="conf_password.errors.required">Please confirm your password.</div>
+      </div>
+      <div *ngIf="conf_password.value && password.value && !conf_password_focus && !isPasswordConfirmed" class="alert alert-danger">
+        <div>Passwords do not match.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <button (click)="submit()" type="submit" class="btn btn-primary" [disabled]="!credentials.valid || !isEmailConfirmed || !isPasswordConfirmed" (click)="submit()">Register</button>
+    </div>
+  </div>
+
+  </form>
+
+</div>

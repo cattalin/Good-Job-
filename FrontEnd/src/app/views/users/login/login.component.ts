@@ -16,7 +16,7 @@ export class LoginComponent {
 
   //------------------------------------------------------------------------------//
 
-  submit(){ 
+  submit(){
 
     this.authService.login(this.credentials).subscribe(data => {
       this.flashMessage.show('You are now logged in', {

@@ -5,6 +5,8 @@ import { NgModule } from '@angular/core';
 
 import { FlashMessagesModule } from 'angular2-flash-messages';
 
+// Services
+import { DataValidationService } from 'app/core/helpers/data-validation.service';
 
 // Modules
 import { ComponentsModule } from 'app/components/components.module';
@@ -32,6 +34,9 @@ import { UsersRoutingModule } from './users-routing.module';
     LoginComponent,
     RegisterComponent,
     UserProfileComponent
+  ],
+  providers: [
+    DataValidationService
   ]
 })
 export class UsersModule { }

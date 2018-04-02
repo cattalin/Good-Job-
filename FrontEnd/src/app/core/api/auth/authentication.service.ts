@@ -16,7 +16,10 @@ export class AuthenticationService {
   register(user) {
 
     return this.apiService.post(`${this.resourceUrl}/register`, user)
-      .map(user => user);
+      .map(res => {
+        if(res.success) return res;
+        else throw res.status;
+      });
   }
 
   //-----------------------------------------------------------------------------//
