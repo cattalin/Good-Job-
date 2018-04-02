@@ -8,15 +8,16 @@
     "start": "node app"
   },
   "dependencies": {
-    "express": "*",
-    "mongoose": "*",
     "bcryptjs": "*",
-    "cors": "*",
-    "jsonwebtoken": "*",
     "body-parser": "*",
+    "cors": "*",
+    "express": "*",
+    "jsonwebtoken": "*",
+    "mongoose": "*",
+    "morgan": "*",
+    "nodemon": "^1.17.3",
     "passport": "*",
-    "passport-jwt": "*",
-    "morgan": "*"
+    "passport-jwt": "*"
   },
   "author": "MEAN Team",
   "license": "ISC"

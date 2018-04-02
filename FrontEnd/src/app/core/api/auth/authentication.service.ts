@@ -26,14 +26,25 @@ export class AuthenticationService {
     return this.apiService.post(`${this.resourceUrl}/authenticate`, credentials)
       .map(res => {
         if (res.success){
-          console.log('pula1')
-          this.jwtService.saveToken(res.token); //TODO: complete after backend refactor
+          this.jwtService.saveToken(res.token);
           this.setAuth(res.user);
           return res.user;
         }
         else {
-          console.log('pula2')
-          throw 'plm'
+
+          if(res.code==400)
+          {
+            if(res.status=='invalid_user_data') throw 'There was an error. Please try again.';
+            if(res.status=='invalid_password' || res.status=='wrong_password') throw 'Invalid password.';
+          }
+          else if(res.code==404)
+          {
+            if(res.status=='user_not_found') throw 'User not found.'
+          }
+          else
+          {
+            throw res.status;
+          }
         }
 
       });
