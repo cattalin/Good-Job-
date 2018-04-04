@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { AuthenticationService } from 'app/core/api/auth/authentication.service';
+import { Component, NgZone } from '@angular/core';
+import { AuthenticationService } from 'app/core/api/authentication.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 
@@ -19,14 +19,7 @@ export class LoginComponent {
   submit(){
 
     this.authService.login(this.credentials).subscribe(data => {
-      this.flashMessage.show('You are now logged in', {
-        cssClass: 'alert-success',
-        timeout: 5000});
-      this.router.navigate(['']);
-    }, err=> {
-      this.flashMessage.show(err, {
-        cssClass: 'alert-danger',
-        timeout: 5000});
+        this.router.navigate(['/users/register'])
     });
   }
 
@@ -35,7 +28,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthenticationService,
     private flashMessage:FlashMessagesService,
-    private router: Router
+    private router: Router ,
+    private zone: NgZone
   ) { }
 
 }

@@ -1,8 +1,10 @@
+// Angular
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 
-import { JwtService } from './auth/jwt.service';
+// Services
+import { JwtService } from 'app/core/services/jwt.service';
 
 @Injectable()
 export class ApiService {

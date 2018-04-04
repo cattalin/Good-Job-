@@ -1,13 +1,16 @@
+// Angular
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import {
-  ApiService,
-  AuthenticationService,
-  JwtService,
-  UserService ,
-} from './api';
+// Guards
+import { AuthGuard } from 'app/core/guards/auth.guard';
+
+//Services
+import { ApiService } from 'app/core/api/api.service';
+import { AuthenticationService } from 'app/core/api/authentication.service';
+import { UserService } from 'app/core/api/user.service';
+import { JwtService } from 'app/core/services/jwt.service';
 
 @NgModule({
     imports: [
@@ -15,10 +18,11 @@ import {
       HttpClientModule
     ],
     providers: [
+        AuthGuard,
         ApiService,
         AuthenticationService,
-        JwtService,
         UserService,
+        JwtService
     ]
 })
 export class CoreModule {

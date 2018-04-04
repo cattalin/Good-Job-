@@ -14,7 +14,7 @@ const appRoutes: Routes = [{
   children: [
     {
       path: 'users',
-      loadChildren: './users/users.module#UsersModule', 
+      loadChildren: './users/users.module#UsersModule',
     },
     {
       path: 'videos',
@@ -23,7 +23,7 @@ const appRoutes: Routes = [{
   ]
 },{
   path: '**',
-  redirectTo: '/',
+  redirectTo: '',
   pathMatch: 'full'
 }];
 

@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 
 // Services
-import { DataValidationService } from 'app/core/helpers/data-validation.service';
+import { DataValidationService } from 'app/core/services/data-validation.service';
 
 // Modules
 import { ComponentsModule } from 'app/components/components.module';

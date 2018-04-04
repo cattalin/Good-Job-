@@ -1,15 +1,17 @@
+// Angular
 import { Injectable } from '@angular/core';
-import { ApiService } from '../api.service';
-import { JwtService } from './jwt.service';
-import {Observable} from "rxjs/Observable";
+
+// Services
+import { ApiService } from 'app/core/api/api.service';
+import { JwtService } from 'app/core/services/jwt.service';
 
 @Injectable()
 export class AuthenticationService {
 
   private currentUser: any;
   private isAuthenticated: boolean;
-
   private readonly resourceUrl: string = '/users';
+
 
   //-----------------------------------------------------------------------------//
 
@@ -55,6 +57,13 @@ export class AuthenticationService {
 
   //-----------------------------------------------------------------------------//
 
+  getCurrentUser() {
+    return this.apiService.get(`${this.resourceUrl}/current`)
+      .map(res=> { this.setAuth(res.user); return res.user;}, err=>{return null;})
+  }
+
+  //-----------------------------------------------------------------------------//
+
   logout() {
     this.jwtService.destroyToken();
     this.currentUser = null;
@@ -70,7 +79,7 @@ export class AuthenticationService {
 
   //-----------------------------------------------------------------------------//
 
-  isLoggedIn() {
+  public isLoggedIn() {
     return this.isAuthenticated;
   }
 

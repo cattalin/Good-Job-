@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from 'app/core/api/auth/authentication.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { FlashMessagesService } from 'angular2-flash-messages';
+import { Component, OnInit }                    from '@angular/core';
+import { Router }                               from '@angular/router';
+import { AuthenticationService }                from 'app/core/api/authentication.service';
+import { FormGroup, FormBuilder, Validators }   from '@angular/forms';
+import { FlashMessagesService }                 from 'angular2-flash-messages';
 
-import { DataValidationService } from 'app/core/helpers/data-validation.service';
-
+import { DataValidationService }                from 'app/core/services/data-validation.service';
 
 @Component({
   templateUrl: 'register.component.html',
@@ -75,7 +74,6 @@ export class RegisterComponent implements OnInit {
   conf_password_focus: boolean = false;
   isPasswordConfirmed: boolean = false;
   comparePasswords(): void {
-    console.log(this.password.value, this.conf_password.value)
     this.isPasswordConfirmed = this.compare(this.password.value, this.conf_password.value);
   }
 
@@ -89,7 +87,6 @@ export class RegisterComponent implements OnInit {
   //------------------------------------------------------------------------------//
 
   constructor(private router: Router,
-              private route: ActivatedRoute,
               private formBuilder: FormBuilder,
               private flashMessage:FlashMessagesService,
               private dataValidationService: DataValidationService,

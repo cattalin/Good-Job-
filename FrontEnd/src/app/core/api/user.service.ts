@@ -1,8 +1,11 @@
+// Angular
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
+
+// Services
+import { ApiService } from 'app/core/api/api.service';
 
 @Injectable()
-export class UserService { 
+export class UserService {
 
   private readonly resourceUrl: string = ''; //TODO: change after backend refactor if needed
 
