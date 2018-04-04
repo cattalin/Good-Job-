@@ -122,7 +122,8 @@ router.post('/authenticate', (req, res) => {
                         username: user.username,
                         email: user.email
                     },
-                    code:200
+                    code:200,
+                    status: 'logged_id'
                 });
             }
             else {

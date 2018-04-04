@@ -56,14 +56,6 @@ router.get('/comments', (req, res) => {
 
 })
 
-/*
-  -------------------VIDEO STUFF---------------------
-*/
-
-
-
-
-
 router.post('/deletecomm', (req, res, next) => {
     let todel = req.body._id;
     Comment.removeComment(todel, (err, user) => {
@@ -74,6 +66,14 @@ router.post('/deletecomm', (req, res, next) => {
         }
     })
 });
+
+/*
+  -------------------VIDEO STUFF---------------------
+*/
+
+
+
+
 
 router.get('/hasRated', (req, res, next) => {
     let query = {
