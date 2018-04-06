@@ -23,12 +23,12 @@ module.exports.getVideoById = function (id, callback) {
 
 module.exports.getVideos = function (q, callback) {
 
-    console.log(buildSimpleSearchConditionObject(q));
+    console.log(buildSearchConditionsFromQuery(q));
 
-    Video.find(buildSimpleSearchConditionObject(q))
+    Video.find(buildSearchConditionsFromQuery(q))
         .count((err, count) => {//can't do the fucking count differently
 
-            Video.find(buildSimpleSearchConditionObject(q))
+            Video.find(buildSearchConditionsFromQuery(q))
                 .sort([[q.sort, -1]])
                 .limit(parseInt(q.limit))
                 .skip(parseInt(q.skip))
@@ -50,26 +50,36 @@ module.exports.searchVideos = function (q, callback) {
 
 };
 
-function buildSimpleSearchConditionObject(q) {
+function buildSearchConditionsFromQuery(q) {
 
-    if (q.uploadersIds) {
-        return {userId: {$in: q.uploadersIds}}
+    switch (q.criteria) {
+
+        case 'username':
+
+            return {username: q.searchedContent};
+
+        case 'following':
+
+            return {userId: {$in: q.uploadersIds}};
+
+        case 'search':
+
+            return {$or: [
+                {'username': q.searchedContent},
+                {'title': {$regex: ".*" + q.searchedContent + ".*"}},
+                {'description': {$regex: ".*" + q.searchedContent + ".*"}}
+            ]};
+
+        default:
+            return {};
+
     }
-    else if (q.select){
-        return {username: q.select}
-    }
-    else {
-        return {};
-    }
+
 }
 
 function buildAdvancedSearchConditionObject(q) {
     return {
-        $or: [
-            {'username': q.select},
-            {'title': {$regex: ".*" + q.select + ".*"}},
-            {'description': {$regex: ".*" + q.select + ".*"}}
-        ]
+
     }
 }
 

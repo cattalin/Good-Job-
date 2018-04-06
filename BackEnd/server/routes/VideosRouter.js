@@ -2,94 +2,36 @@ const passport = require( 'passport' );
 const express  = require( 'express' );
 const router   = express.Router();
 
-const Video  = require( '../models/video' );
-const Follow = require( '../models/follow' );
-const RatingManager = require('../managers/ratingManager');
-
-
-function getQueryFromReq(req) {//todo move this to search manager
-
-    let query = {
-        followerId: req.query.followerId,
-        select:     req.query.select,
-        limit:      req.query.limit,
-        skip:       req.query.skip,
-        sort:       req.query.sort
-    };
-
-    console.log( 'Current user: ' + JSON.stringify( req.user ) );
-    console.log( 'Search query: ' + JSON.stringify( req.query ) );
-
-    //remove empty entries
-    query = {};
-    Object.keys( req.query ).forEach( key => {
-        if(req.query[key]) {
-            query[key] = req.query[key]
-        }
-    } );
-
-    query.userId = req.user._id;
-
-    if(!query.limit) {
-        query.limit = 50;
-    }
-
-    console.log( 'Parsed search query: ' + JSON.stringify( query ) );
-
-    return query;
-}
-
-
-function retrieveVideos(query, res) {
-    Video.getVideos( query, (err, videos) => {
-
-        if(err) return res.json( {success: false, code: 404, status: 'resource_unavailable'} );
-        if(!videos) return res.json( {success: false, code: 404, status: 'no_videos_found'} );
-
-
-
-        videos.results = videos.results.map(//mark the ones belonging to the current user
-            (userVideo) => {
-
-                let parsedVideo = JSON.parse( JSON.stringify( userVideo ) );//dupe a mongoose object
-
-                if(parsedVideo.userId.toString() === query.userId.toString()) {
-                    parsedVideo.ownVideo = true;
-                }
-
-                return parsedVideo;
-            } );
-
-        res.json( {success: true, code: 200, count: videos.count, videos: videos} );
-
-    } )
-}
+const Video         = require( '../models/video' );
+const Follow        = require( '../models/follow' );
+const RatingManager = require( '../managers/ratingManager' );
+const SearchManager = require( '../managers/searchManager' );
 
 
 //the the basic feed of videos
-router.get( '/search', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
+router.post( '/search', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
 
-    let query = getQueryFromReq( req );
+    let query = SearchManager.getQueryFromReq( req );
 
-    return retrieveVideos( query, res );
+    if(query.criteria === 'following') {
 
-} );
+        Follow.getFollowedIds( req.user._id, (err, ids) => {
 
-router.get( '/feedByFollow', passport.authenticate( 'jwt', {session: false} ), (req, res) => {//todo these 2 and the one from search
-    // manager need to be merged
+            query.uploadersIds = [];
+            ids.forEach( id => {
+                query.uploadersIds.push( id.followedId );
+            } );
 
-    getQueryFromReq( req );
+            return SearchManager.retrieveVideos( query, res );
+        } )
 
+    }
+    else {
 
-    Follow.getFollowedIds( query, (err, ids) => {
+        return SearchManager.retrieveVideos( query, res );
 
-        query.uploadersIds = [];
-        ids.forEach( id => {
-            query.uploadersIds.push( id.followedId );
-        } );
+    }
 
-        return retrieveVideos( query, res );
-    } )
 } );
 
 
@@ -184,7 +126,7 @@ router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =
 
     newVideo.userId = req.user._id;
 
-    console.log(JSON.stringify(newVideo));
+    console.log( JSON.stringify( newVideo ) );
 
     Video.addVideo( new Video( newVideo ), (err, video) => {
         if(err) {
@@ -218,15 +160,14 @@ router.delete( '/', passport.authenticate( 'jwt', {session: false} ), (req, res)
 
     Video.removeVideo( videoId, (err, removedVideosCount) => {
         if(err) {
-            res.json( {success: false, code: 400, status:'invalid_id'} );
+            res.json( {success: false, code: 400, status: 'invalid_id'} );
         }
         else {
-            if( removedVideosCount.n === 0 )
-            {
-                res.json( {success: false, code: 404, status:'video_not_found'} );
+            if(removedVideosCount.n === 0) {
+                res.json( {success: false, code: 404, status: 'video_not_found'} );
             }
             else {
-                res.json( {success: false, code: 200, status:'remove_ok'} );
+                res.json( {success: false, code: 200, status: 'remove_ok'} );
             }
         }
     } )

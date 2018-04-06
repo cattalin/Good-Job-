@@ -14,11 +14,11 @@ module.exports.searchByFollowerId = function(query, callback){//get the persons 
     Follows.find( {followerId:query.followerId}, callback );
 }
 
-module.exports.getFollowedIds = function(query, callback){//get the persons that you are following      (you are their follower)
-    Follows.find( {followerId:query.followerId})
+module.exports.getFollowedIds = function(followerId, callback){//get the persons that you are following      (you are their follower)
+    Follows.find( {followerId:followerId})
             .select('followedId')
             .exec(callback);
-}
+};
 
 module.exports.searchByFollowedId = function(query, callback){//get the persons that follow you             (you are their followed)
     Follows.find( {followedId:query.followedId}, callback );
