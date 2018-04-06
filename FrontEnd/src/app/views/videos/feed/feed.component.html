@@ -1,1 +1,5 @@
 <p>Feed Component</p>
+
+<div class = "centered" *ngFor="let video of videos">
+  <app-video [data]="video" [user]="currentUser"></app-video>
+</div>
