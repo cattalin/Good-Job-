@@ -9,6 +9,7 @@ import { ComponentsModule } from '../components/components.module';
 import { CoreModule } from 'app/core/core.module';
 
 //Components
+import { NavbarComponent } from '../components/navbar/navbar.component';
 import { RootComponent } from './_root/root.component';
 
 @NgModule({
@@ -21,6 +22,7 @@ import { RootComponent } from './_root/root.component';
     ViewsRoutingModule,
   ],
   declarations: [
+    NavbarComponent,
     RootComponent,
   ],
   exports: [

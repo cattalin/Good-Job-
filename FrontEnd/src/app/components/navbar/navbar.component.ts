@@ -15,18 +15,15 @@ export class NavbarComponent implements OnInit {
   currentUser: any;
 
   ngOnInit() {
-    console.log("initialize ")
   }
 
   onLogoutClick(event){
     this.authService.logout();
-    this.router.navigate(['/users/login']);
-    event.preventDefault()
+    // event.preventDefault();
     // return false;
   }
 
-  iaPula(){
-    console.log('pulicica ' + this.authService.isLoggedIn());
+  checkLoginStatus(){
     return this.authService.isLoggedIn();
   }
 

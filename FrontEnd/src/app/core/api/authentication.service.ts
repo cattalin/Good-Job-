@@ -92,6 +92,8 @@ export class AuthenticationService {
   constructor(
     private apiService: ApiService,
     private jwtService: JwtService
-  ) { }
+  ) {
+    console.log('Initializing: Authentication Service');
+  }
 
 }

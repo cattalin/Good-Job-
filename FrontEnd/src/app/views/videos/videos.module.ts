@@ -16,7 +16,7 @@ import { VideosRoutingModule } from './videos-routing.module';
   imports: [
     CommonModule,
     ComponentsModule,
-    CoreModule,
+    // CoreModule,
     FormsModule,
     VideosRoutingModule,
   ],

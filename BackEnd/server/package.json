@@ -17,7 +17,8 @@
     "morgan": "*",
     "nodemon": "^1.17.3",
     "passport": "*",
-    "passport-jwt": "*"
+    "passport-jwt": "*",
+    "swagger-ui-express": "^3.0.6"
   },
   "author": "MEAN Team",
   "license": "ISC"

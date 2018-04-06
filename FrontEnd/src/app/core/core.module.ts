@@ -27,4 +27,8 @@ import { JwtService } from 'app/core/services/jwt.service';
 })
 export class CoreModule {
 
+  constructor(){
+    console.log('Initializing: Code Module')
+  }
+
 }

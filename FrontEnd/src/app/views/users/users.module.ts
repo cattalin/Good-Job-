@@ -39,4 +39,8 @@ import { UsersRoutingModule } from './users-routing.module';
     DataValidationService
   ]
 })
-export class UsersModule { }
+export class UsersModule {
+  constructor(){
+    console.log('Initializing: Users Module')
+  }
+}
