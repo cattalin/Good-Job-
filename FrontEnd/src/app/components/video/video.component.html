@@ -42,19 +42,19 @@
 
 
   <!--  POST COMMENT  -->
-     
 
-<div class="row center-block text-center">
-  <div class="container-fluid row center-block text-center comment-btn">
-  <app-comment-feed class="row comment-btn" [videoId]="data._id" [newComment] = "this.newComment" [user]="user"></app-comment-feed>
-  </div>
-   <div class="container-fluid"  *ngIf="isPostComment">
-          <app-comment-submit [videoId]="data._id" [user]="user" (newCommentData)="getNewComment($event)"></app-comment-submit>
-          <div class="input-group container-fluid"><button class="btn btn-primary cancelCustom" type="button" (click)="cancelComment()">Cancel</button></div>
-    </div>
 
-  <button class="btn btn-warning btn-md comment-btn" *ngIf="!isPostComment" type="button" (click)="postComment()" id="commentB">Comment</button>
-  </div>
-</div>
+<!--<div class="row center-block text-center">-->
+  <!--<div class="container-fluid row center-block text-center comment-btn">-->
+  <!--<app-comment-feed class="row comment-btn" [videoId]="data._id" [newComment] = "this.newComment" [user]="user"></app-comment-feed>-->
+  <!--</div>-->
+   <!--<div class="container-fluid"  *ngIf="isPostComment">-->
+          <!--<app-comment-submit [videoId]="data._id" [user]="user" (newCommentData)="getNewComment($event)"></app-comment-submit>-->
+          <!--<div class="input-group container-fluid"><button class="btn btn-primary cancelCustom" type="button" (click)="cancelComment()">Cancel</button></div>-->
+    <!--</div>-->
+
+  <!--<button class="btn btn-warning btn-md comment-btn" *ngIf="!isPostComment" type="button" (click)="postComment()" id="commentB">Comment</button>-->
+  <!--</div>-->
+<!--</div>-->
 
  </div>

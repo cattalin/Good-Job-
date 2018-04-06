@@ -12,6 +12,16 @@ export class VideoService {
 
   //-----------------------------------------------------------------------------//
 
+  getVideoFeed(criteria) {
+    return this.apiService.post(`${this.resourceUrl}/search`, criteria)
+      .map(res => {
+        if(res.success) return res;
+        else throw res.status;
+      });
+  }
+
+  //-----------------------------------------------------------------------------//
+
   constructor(
     private apiService: ApiService
   ) { }
