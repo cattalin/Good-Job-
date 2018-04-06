@@ -1,7 +1,6 @@
 // Angular
 import { Component, OnInit }       from '@angular/core';
 import { Router }                  from '@angular/router';
-import { FlashMessagesService }    from 'angular2-flash-messages';
 
 // Services
 import { AuthenticationService }   from 'app/core/api/authentication.service';
@@ -16,14 +15,19 @@ export class NavbarComponent implements OnInit {
   currentUser: any;
 
   ngOnInit() {
- 
-
+    console.log("initialize ")
   }
 
-  onLogoutClick(){
+  onLogoutClick(event){
     this.authService.logout();
     this.router.navigate(['/users/login']);
-    return false;
+    event.preventDefault()
+    // return false;
+  }
+
+  iaPula(){
+    console.log('pulicica ' + this.authService.isLoggedIn());
+    return this.authService.isLoggedIn();
   }
 
   constructor(

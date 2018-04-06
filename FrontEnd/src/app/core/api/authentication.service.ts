@@ -8,7 +8,7 @@ import { JwtService } from 'app/core/services/jwt.service';
 @Injectable()
 export class AuthenticationService {
 
-  private currentUser: any;
+  public currentUser: any;
   private isAuthenticated: boolean;
   private readonly resourceUrl: string = '/users';
 
@@ -59,7 +59,7 @@ export class AuthenticationService {
 
   getCurrentUser() {
     return this.apiService.get(`${this.resourceUrl}/current`)
-      .map(res=> { this.setAuth(res.user); return res.user;}, err=>{return null;})
+      .map(res=> { this.setAuth(res.user); console.log("!!!! 1");return res.user;}, err=>{ console.log("!!!! 2");return null;})
   }
 
   //-----------------------------------------------------------------------------//
@@ -68,6 +68,8 @@ export class AuthenticationService {
     this.jwtService.destroyToken();
     this.currentUser = null;
     this.isAuthenticated = false;
+
+    console.log('Switching authenticated state to: ' + this.isAuthenticated);
   }
 
   //-----------------------------------------------------------------------------//
@@ -75,6 +77,8 @@ export class AuthenticationService {
   setAuth(user) {
     this.currentUser = user;
     this.isAuthenticated = true;
+    console.log('Switching authenticated state to: ' + this.isAuthenticated);
+    // this.userService.currentUser=user;
   }
 
   //-----------------------------------------------------------------------------//

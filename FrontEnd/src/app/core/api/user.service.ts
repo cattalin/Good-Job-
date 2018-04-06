@@ -7,7 +7,8 @@ import { ApiService } from 'app/core/api/api.service';
 @Injectable()
 export class UserService {
 
-  private readonly resourceUrl: string = ''; //TODO: change after backend refactor if needed
+  currentUser: any;
+  private readonly resourceUrl: string = '';
 
   //-----------------------------------------------------------------------------//
 

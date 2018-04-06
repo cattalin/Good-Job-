@@ -8,10 +8,13 @@ import { UserService } from 'app/core/api/user.service';
 })
 export class UserProfileComponent implements OnInit {
 
+  currentUser: any;
+
   //------------------------------------------------------------------------------//
 
   ngOnInit() {
-
+    this.currentUser=this.userService.currentUser;
+    console.log(this.currentUser)
   }
 
   //------------------------------------------------------------------------------//

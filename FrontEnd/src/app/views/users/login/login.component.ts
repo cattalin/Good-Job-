@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
   credentials = {
-    username: '',
-    password: ''
+    username: 'alinuta',
+    password: 'testing'
   };
 
   //------------------------------------------------------------------------------//
@@ -19,7 +19,8 @@ export class LoginComponent {
   submit(){
 
     this.authService.login(this.credentials).subscribe(data => {
-        this.router.navigate(['/users/register'])
+      console.log(data)
+        this.router.navigate(['/users/profile']) //TODO: homepage redirect
     });
   }
 
