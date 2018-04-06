@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const config = require('../config/database');
 const User = require('../models/user');
 const Follow = require('../models/follow');
 
@@ -10,9 +9,8 @@ VideoSchema = mongoose.Schema({
     description: String,
     rating: Number,
     username: String,
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    rating: Number,
     votes: Number,
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 
 });
 Video = module.exports = mongoose.model('Video', VideoSchema);
@@ -28,11 +26,17 @@ module.exports.getVideos = function (q, callback) {
     console.log(buildSimpleSearchConditionObject(q));
 
     Video.find(buildSimpleSearchConditionObject(q))
-        .sort([[q.sort, -1]])
-        .limit(parseInt(q.limit))
-        .skip(parseInt(q.skip))
-        .exec(callback);
+        .count((err, count) => {//can't do the fucking count differently
 
+            Video.find(buildSimpleSearchConditionObject(q))
+                .sort([[q.sort, -1]])
+                .limit(parseInt(q.limit))
+                .skip(parseInt(q.skip))
+                .exec((err, results) => {
+                    callback(err, {results:results, count:count});
+                });
+
+    });
 };
 
 

@@ -46,7 +46,9 @@ function retrieveVideos(query, res) {
         if(err) return res.json( {success: false, code: 404, status: 'resource_unavailable'} );
         if(!videos) return res.json( {success: false, code: 404, status: 'no_videos_found'} );
 
-        videos = videos.map(//mark the ones belonging to the current user
+
+
+        videos.results = videos.results.map(//mark the ones belonging to the current user
             (userVideo) => {
 
                 let parsedVideo = JSON.parse( JSON.stringify( userVideo ) );//dupe a mongoose object
@@ -58,7 +60,7 @@ function retrieveVideos(query, res) {
                 return parsedVideo;
             } );
 
-        res.json( {success: true, code: 200, count: videos.length, videos: videos} );
+        res.json( {success: true, code: 200, count: videos.count, videos: videos} );
 
     } )
 }
