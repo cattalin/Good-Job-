@@ -8,6 +8,8 @@ import { ComponentsModule } from 'app/components/components.module';
 import { CoreModule } from 'app/core/core.module';
 
 // Components
+import { FeedComponent } from './feed/feed.component';
+import { UploadComponent } from './upload/upload.component';
 
 //Routing
 import { VideosRoutingModule } from './videos-routing.module';
@@ -21,7 +23,8 @@ import { VideosRoutingModule } from './videos-routing.module';
     VideosRoutingModule,
   ],
   declarations: [
-
+    FeedComponent,
+    UploadComponent
   ]
 })
 export class VideosModule { }

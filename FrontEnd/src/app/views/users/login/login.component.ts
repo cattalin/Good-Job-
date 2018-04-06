@@ -19,8 +19,11 @@ export class LoginComponent {
   submit(){
 
     this.authService.login(this.credentials).subscribe(data => {
-      console.log(data)
-        this.router.navigate(['/users/profile']) //TODO: homepage redirect
+        this.router.navigate(['/videos'])
+    }, err => {
+      this.flashMessage.show(err, {
+        cssClass: 'alert-danger',
+        timeout: 5000});
     });
   }
 

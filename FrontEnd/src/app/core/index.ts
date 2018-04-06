@@ -1,3 +1,3 @@
-export * from './api/index';
-export * from './guards/index';
-export * from './services/index';
+export * from './api';
+export * from './guards';
+export * from './services';

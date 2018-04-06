@@ -23,7 +23,7 @@ const appRoutes: Routes = [{
   ]
 },{
   path: '**',
-  redirectTo: '',
+  redirectTo: '/videos',
   pathMatch: 'full'
 }];
 
