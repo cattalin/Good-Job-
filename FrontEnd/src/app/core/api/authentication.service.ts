@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 // Services
 import { ApiService } from 'app/core/api/api.service';
 import { JwtService } from 'app/core/services/jwt.service';
+import { UserService } from 'app/core/api/user.service';
 
 @Injectable()
 export class AuthenticationService {
@@ -11,7 +12,6 @@ export class AuthenticationService {
   public currentUser: any;
   private isAuthenticated: boolean;
   private readonly resourceUrl: string = '/users';
-
 
   //-----------------------------------------------------------------------------//
 
@@ -59,7 +59,7 @@ export class AuthenticationService {
 
   getCurrentUser() {
     return this.apiService.get(`${this.resourceUrl}/current`)
-      .map(res=> { this.setAuth(res.user); console.log("!!!! 1");return res.user;}, err=>{ console.log("!!!! 2");return null;})
+      .map(res=> { this.setAuth(res.user); return res.user;}, err=>{ return null;})
   }
 
   //-----------------------------------------------------------------------------//
@@ -77,8 +77,9 @@ export class AuthenticationService {
   setAuth(user) {
     this.currentUser = user;
     this.isAuthenticated = true;
+    this.userService.currentUser=user;
     console.log('Switching authenticated state to: ' + this.isAuthenticated);
-    // this.userService.currentUser=user;
+
   }
 
   //-----------------------------------------------------------------------------//
@@ -91,7 +92,8 @@ export class AuthenticationService {
 
   constructor(
     private apiService: ApiService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private userService: UserService,
   ) {
     console.log('Initializing: Authentication Service');
   }

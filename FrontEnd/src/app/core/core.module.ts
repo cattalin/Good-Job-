@@ -11,6 +11,7 @@ import { ApiService } from 'app/core/api/api.service';
 import { AuthenticationService } from 'app/core/api/authentication.service';
 import { UserService } from 'app/core/api/user.service';
 import { JwtService } from 'app/core/services/jwt.service';
+import { VideoService } from 'app/core/api/video.service';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { JwtService } from 'app/core/services/jwt.service';
         ApiService,
         AuthenticationService,
         UserService,
-        JwtService
+        JwtService,
+        VideoService
     ]
 })
 export class CoreModule {

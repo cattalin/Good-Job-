@@ -27,7 +27,7 @@ import { UsersRoutingModule } from './users-routing.module';
     FlashMessagesModule,
 
     ComponentsModule,
-    CoreModule,
+    // CoreModule,
     UsersRoutingModule,
   ],
   declarations: [

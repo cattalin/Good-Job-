@@ -23,7 +23,7 @@ import { RootComponent } from './_root/root.component';
   ],
   declarations: [
     NavbarComponent,
-    RootComponent,
+    RootComponent
   ],
   exports: [
     ViewsRoutingModule,

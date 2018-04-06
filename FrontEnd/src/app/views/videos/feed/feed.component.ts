@@ -1,26 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from 'app/core/api/user.service';
+import { VideoService } from 'app/core/api/video.service';
 
 @Component({
-  templateUrl: 'user-profile.component.html',
-  styleUrls: ['user-profile.component.css']
+  templateUrl: 'feed.component.html',
+  styleUrls: ['feed.component.css']
 })
-export class UserProfileComponent implements OnInit {
+export class FeedComponent implements OnInit {
 
-  currentUser: any;
 
   //------------------------------------------------------------------------------//
 
   ngOnInit() {
-    this.currentUser=this.userService.currentUser;
+
   }
 
   //------------------------------------------------------------------------------//
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private userService: UserService
+              private videoService: VideoService
   ) { }
 
 }
