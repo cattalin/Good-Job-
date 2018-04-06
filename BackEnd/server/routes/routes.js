@@ -9,9 +9,9 @@ const Video = require('../models/video');
 const Comment = require('../models/comment');
 const Follow = require('../models/follow');
 
+const ClassManager = require('../managers/classManager');
 const RatingManager = require('../managers/ratingManager');
 const SearchManager = require('../managers/searchManager');
-const ClassManager = require('../managers/classManager');
 
 /*
   -------------------COMMENT STUFF---------------------
