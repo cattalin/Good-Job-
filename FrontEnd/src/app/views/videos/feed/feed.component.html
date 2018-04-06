@@ -1,5 +1,6 @@
-<p>Feed Component</p>
+<p style="font-weight: bold">Astea sunt videourile. Ca sa le accesati scrieti in browser "https://www.youtube.com/watch?v="
+si dati paste la ce e in "link"</p>
 
-<div class = "centered" *ngFor="let video of videos">
-  <app-video [data]="video" [user]="currentUser"></app-video>
+<div class = "centered" *ngFor="let video of feed">
+  {{video | json}}
 </div>
