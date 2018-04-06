@@ -1,3 +1,4 @@
+
 const passport = require( 'passport' );
 const express  = require( 'express' );
 const router   = express.Router();
@@ -32,52 +33,6 @@ router.post( '/search', passport.authenticate( 'jwt', {session: false} ), (req, 
 
     }
 
-} );
-
-
-router.get( '/feedCount', (req, res) => {//todo remove this, deprecated
-
-    let query = {
-        sort:   req.query.sort,
-        select: req.query.select,
-        limit:  req.query.limit,
-        skip:   req.query.skip,
-    };
-
-    Video.countVideos( query, (err, nrVideos) => {
-
-        if(err) throw err;
-
-        if(!nrVideos) {
-            return res.json( {success: false, msg: 'Videos not found'} );
-        }
-
-        res.json( {success: true, nrVideos: nrVideos} );
-    } )
-} );
-
-router.get( '/feedCountByFollow', (req, res) => {//todo remove this
-    const query = {
-        sort:       req.query.sort,
-        select:     req.query.select,
-        limit:      req.query.limit,
-        skip:       req.query.skip,
-        followerId: req.query.followerId,
-    }
-    Follow.getFollowedIds( query, (err, ids) => {
-        let followedIds = [];
-        ids.forEach( id => {
-            followedIds.push( id.followedId );
-        } )
-        Video.countVideosByFollowing( query, followedIds, (err, nrVideos) => {
-            if(err) throw err;
-            if(!nrVideos) {
-                return res.json( {success: false, msg: 'Videos not found'} );
-            }
-
-            res.json( {success: true, nrVideos: nrVideos} );
-        } )
-    } )
 } );
 
 //rate a video

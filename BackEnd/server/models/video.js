@@ -1,58 +1,48 @@
-const mongoose = require('mongoose');
-const User = require('../models/user');
-const Follow = require('../models/follow');
+const mongoose = require( 'mongoose' );
+const User     = require( '../models/user' );
+const Follow   = require( '../models/follow' );
 
 
-VideoSchema = mongoose.Schema({
-    link: String,
-    title: String,
+VideoSchema = mongoose.Schema( {
+    link:        String,
+    title:       String,
     description: String,
-    rating: Number,
-    username: String,
-    votes: Number,
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    rating:      Number,
+    username:    String,
+    votes:       Number,
+    userId:      {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 
-});
-Video = module.exports = mongoose.model('Video', VideoSchema);
+} );
+Video       = module.exports = mongoose.model( 'Video', VideoSchema );
 
-module.exports.getVideoById = function (id, callback) {
+module.exports.getVideoById = function(id, callback) {
 
-    Video.findById(id, callback);
-
-};
-
-module.exports.getVideos = function (q, callback) {
-
-    console.log(buildSearchConditionsFromQuery(q));
-
-    Video.find(buildSearchConditionsFromQuery(q))
-        .count((err, count) => {//can't do the fucking count differently
-
-            Video.find(buildSearchConditionsFromQuery(q))
-                .sort([[q.sort, -1]])
-                .limit(parseInt(q.limit))
-                .skip(parseInt(q.skip))
-                .exec((err, results) => {
-                    callback(err, {results:results, count:count});
-                });
-
-    });
-};
-
-
-module.exports.searchVideos = function (q, callback) {
-
-    Video.find(buildAdvancedSearchConditionObject(q))
-        .sort([[q.sort, -1]])
-        .limit(parseInt(q.limit))
-        .skip(parseInt(q.skip))
-        .exec(callback);
+    Video.findById( id, callback );
 
 };
+
+module.exports.getVideos = function(q, callback) {
+
+    console.log( buildSearchConditionsFromQuery( q ) );
+
+    Video.find( buildSearchConditionsFromQuery( q ) )
+        .count( (err, count) => {//can't do the fucking count differently
+
+            Video.find( buildSearchConditionsFromQuery( q ) )
+                .sort( [[q.sort, -1]] )
+                .limit( parseInt( q.limit ) )
+                .skip( parseInt( q.skip ) )
+                .exec( (err, results) => {
+                    callback( err, {results: results, count: count} );
+                } );
+
+        } );
+};
+
 
 function buildSearchConditionsFromQuery(q) {
 
-    switch (q.criteria) {
+    switch(q.criteria) {
 
         case 'username':
 
@@ -64,11 +54,13 @@ function buildSearchConditionsFromQuery(q) {
 
         case 'search':
 
-            return {$or: [
-                {'username': q.searchedContent},
-                {'title': {$regex: ".*" + q.searchedContent + ".*"}},
-                {'description': {$regex: ".*" + q.searchedContent + ".*"}}
-            ]};
+            return {
+                $or: [
+                    {'description': {$regex: ".*" + q.searchedContent + ".*"}},
+                    {'username': {$regex: ".*" + q.searchedContent + ".*"}},
+                    {'title': {$regex: ".*" + q.searchedContent + ".*"}}
+                ]
+            };
 
         default:
             return {};
@@ -77,68 +69,42 @@ function buildSearchConditionsFromQuery(q) {
 
 }
 
-function buildAdvancedSearchConditionObject(q) {
-    return {
 
-    }
-}
+module.exports.countVideos = function(q, callback) {
 
-
-module.exports.countByTitleOrDescriptionOrUsername = function (q, callback) {
-
-    Video.count({
-        $or: [{'username': q.select}, {'title': {$regex: ".*" + q.select + ".*"}},
-            {'description': {$regex: ".*" + q.select + ".*"}}]
-    })
-        .sort([[q.sort, -1]])
-        .exec(callback);
-
-}
-
-
-module.exports.countVideosByFollowing = function (q, followedIds, callback) {
-
-    Video.count({userId: {$in: followedIds}})
-        .sort([[q.sort, -1]])
-        .exec(callback);
-};
-
-
-module.exports.countVideos = function (q, callback) {
-
-    Video.count(q.select ? {username: q.select} : {})
-        .sort([[q.sort, -1]])
-        .exec(callback);
+    Video.count( q.select ? {username: q.select} : {} )
+        .sort( [[q.sort, -1]] )
+        .exec( callback );
 
 };
 
 
-module.exports.removeVideo = function (query, callback) {
+module.exports.removeVideo = function(query, callback) {
 
-    Video.remove({_id: query}, callback);
+    Video.remove( {_id: query}, callback );
 
 };
 
-module.exports.updateVideo = function (query, data, callback) {
+module.exports.updateVideo = function(query, data, callback) {
 
     let newVideo = {
         rating: data.rating,
-        votes: data.votes
+        votes:  data.votes
     };
 
     let options = {
         upsert: false
     };
 
-    Video.update({_id: query._id}, newVideo, options, callback);
+    Video.update( {_id: query._id}, newVideo, options, callback );
 };
 
-module.exports.addVideo = function (newVideo, callback) {
+module.exports.addVideo = function(newVideo, callback) {
     //we first get some of the uploader's data
-    User.getClassById(newVideo.userId, (err, user) => {
+    User.getClassById( newVideo.userId, (err, user) => {
 
         //basic law relation between user class and his voting power
-        switch (user.class) {
+        switch(user.class) {
             case 'A':
                 newVideo.votes = 1;
                 break;
@@ -155,44 +121,44 @@ module.exports.addVideo = function (newVideo, callback) {
                 newVideo.votes = 10;
                 break;
         }
-        console.log(newVideo);
-        newVideo.save(callback);
-    });
+        console.log( newVideo );
+        newVideo.save( callback );
+    } );
 }
 
 
 //finds a video that by _id and voterId criteria
 //TODELETE
-module.exports.findWithVoter = function (query, callback) {
+module.exports.findWithVoter = function(query, callback) {
     let options = {
-        multi: false,
+        multi:  false,
         upsert: true
     }
-    console.log(query.voterId);
-    Video.findOne({_id: query._id, "voters.voterId": query.voterId})
-        .populate({
-            path: 'voters', model: Voters,
+    console.log( query.voterId );
+    Video.findOne( {_id: query._id, "voters.voterId": query.voterId} )
+        .populate( {
+            path:  'voters', model: Voters,
             match: {voterId: {$eq: query.voterId}}
-        })
-        .exec(callback);
+        } )
+        .exec( callback );
 }
 
 
-module.exports.following = function (query, callback) {
+module.exports.following = function(query, callback) {
 
     let follow = {
         followerId: query.followerId,
     };
 
-    Follow.searchByFollowerId(follow, (err, list) => {
+    Follow.searchByFollowerId( follow, (err, list) => {
 
-        for (let entry of list) {
-            Video.findOne({"follow.followerId": list.followerId})
-                .populate({path: 'follow', model: Follow})
-                .exec(callback);
+        for(let entry of list) {
+            Video.findOne( {"follow.followerId": list.followerId} )
+                .populate( {path: 'follow', model: Follow} )
+                .exec( callback );
         }
 
-    });
+    } );
 }
 
 
