@@ -3,25 +3,37 @@ const User     = require( '../models/user' );
 const Follow   = require( '../models/follow' );
 
 
-VideoSchema = mongoose.Schema( {
-    link:        String,
-    title:       String,
-    description: String,
+const VideoSchema = mongoose.Schema( {
+    link:        {
+        type:     String,
+        required: true
+    },
+    title:       {
+        type:     String,
+        required: true
+    },
+    description: {
+        type:     String,
+        required: true
+    },
     rating:      Number,
     username:    String,
     votes:       Number,
     userId:      {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 
 } );
-Video       = module.exports = mongoose.model( 'Video', VideoSchema );
 
-module.exports.getVideoById = function(id, callback) {
+let Video = module.exports = mongoose.model( 'Video', VideoSchema );
 
-    Video.findById( id, callback );
+Video.getVideoById = function(id, callback) {
+
+    Video.findById( id )
+        .populate( 'userId' )
+        .exec( callback );
 
 };
 
-module.exports.getVideos = function(q, callback) {
+Video.getVideos = function(q, callback) {
 
     console.log( buildSearchConditionsFromQuery( q ) );
 
@@ -70,7 +82,7 @@ function buildSearchConditionsFromQuery(q) {
 }
 
 
-module.exports.countVideos = function(q, callback) {
+Video.countVideos = function(q, callback) {
 
     Video.count( q.select ? {username: q.select} : {} )
         .sort( [[q.sort, -1]] )
@@ -79,13 +91,13 @@ module.exports.countVideos = function(q, callback) {
 };
 
 
-module.exports.removeVideo = function(query, callback) {
+Video.removeVideo = function(query, callback) {
 
     Video.remove( {_id: query}, callback );
 
 };
 
-module.exports.updateVideo = function(query, data, callback) {
+Video.updateVideo = function(query, data, callback) {
 
     let newVideo = {
         rating: data.rating,
@@ -99,7 +111,7 @@ module.exports.updateVideo = function(query, data, callback) {
     Video.update( {_id: query._id}, newVideo, options, callback );
 };
 
-module.exports.addVideo = function(newVideo, callback) {
+Video.addVideo = function(newVideo, callback) {
     //we first get some of the uploader's data
     User.getClassById( newVideo.userId, (err, user) => {
 
@@ -122,7 +134,9 @@ module.exports.addVideo = function(newVideo, callback) {
                 break;
         }
         console.log( newVideo );
-        newVideo.save( callback );
+        newVideo
+            .save( callback )
+
     } );
 }
 

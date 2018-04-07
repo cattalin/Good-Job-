@@ -23,14 +23,14 @@ module.exports.searchByUser = function(){//for further in time
 }
 
 module.exports.searchByBoth = function(query, callback){//video and user
-    Voters.findOne( {videoId:query._id, voterId:query.voterId}, callback);
+    Voters.findOne( {videoId:query.videoId, voterId:query.voterId}, callback);
 }
 
 
 //let's add a vote without recalculation of the rating
-module.exports.addVote = function(query, data, callback){
+module.exports.addVote = function(data, callback){
     let finalData = new Voters(data);
-    finalData.videoId = query._id;
+    finalData.videoId = data.videoId;
     finalData.save(callback);
 }
 

@@ -7,11 +7,12 @@ const Voter = require('../models/voter');
 
 
 //Conditions: identify the video    Update:vote the video   Options:unique update
-module.exports.rateVideo = function(conditions, data, callback){
+module.exports.rateVideo = function(data, callback){
+
     let query= {
-        _id: conditions._id, 
+        videoId: data.videoId,
         voterId: data.voterId
-    }
+    };
 
     Voter.searchByBoth(query, (err, voter) => {//we search for the vote of the user on that video
         if(!err)
@@ -41,7 +42,7 @@ module.exports.rateVideo = function(conditions, data, callback){
                 }
             }
             else{//a vote doesn t exist so we need to insert it
-                Voter.addVote(conditions, data, (err, res) => {
+                Voter.addVote(data, (err, res) => {
                     if(!err){
                         this.recalculateRating(query, (err, newRating) => {
                             Video.updateVideo(query, newRating, (err, x) => {
@@ -58,7 +59,7 @@ module.exports.rateVideo = function(conditions, data, callback){
 
 module.exports.hasRated = function(query, callback){
     let q = {
-        _id: query.videoId,
+        videoId: query.videoId,
         voterId: query.userId
     }
     Voter.searchByBoth(q, (err, result) =>{

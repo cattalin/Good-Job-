@@ -52,6 +52,9 @@ function retrieveVideos(query, res) {
                 if(parsedVideo.userId.toString() === query.userId.toString()) {
                     parsedVideo.ownVideo = true;
                 }
+                else {
+                    parsedVideo.ownVideo = false;
+                }
 
                 return parsedVideo;
             } );

@@ -1,4 +1,3 @@
-
 const passport = require( 'passport' );
 const express  = require( 'express' );
 const router   = express.Router();
@@ -71,40 +70,56 @@ router.post( '/rate', (req, res) => {
 router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
 
     let newVideo = {
+        description: req.body.description,
+        rating:      req.body.rating,
         link:        req.body.link,
         title:       req.body.title,
-        description: req.body.description,
-        username:    req.body.username,
-        rating:      req.body.rating,
-        class:       req.body.class
+
+
+        username: req.user.username,//todo this one should be removed from here
+        class:    req.user.class,
+        userId:   req.user,
     };
 
-    newVideo.userId = req.user._id;
 
-    console.log( JSON.stringify( newVideo ) );
+    console.log( 'Inserting new video' + JSON.stringify( newVideo ) );
 
-    Video.addVideo( new Video( newVideo ), (err, video) => {
+    Video.addVideo( new Video( newVideo ), (err, insertedVideo) => {
+
         if(err) {
-            return res.json( {success: false, msg: 'Failed to upload video'} );
+
+            return res.json( {success: false, code: 400, msg: 'upload_failed'} );
+
         }
         else {
-            let conditions = {
-                _id: video._id
-            }
-            let data       = {
+
+            Video.findById(insertedVideo._id, (err, foundVideo) => {
+
+                console.log( 'trying to populate user data from video ' + JSON.stringify(foundVideo.userId) );
+
+            });
+
+            let data = {
                 voterId: newVideo.userId,
                 rating:  newVideo.rating,
-                class:   newVideo.class
-            }
-            RatingManager.rateVideo( conditions, data, (err2, result) => {
+                class:   newVideo.class,
+                videoId: insertedVideo._id
+            };
+
+            RatingManager.rateVideo( data, (err2, voted) => {
+
+                console.log( voted );
                 if(err2) {
-                    console.log( 'Failed to rate video' );
+
+                    return res.json( {success: true, code: 201, msg: 'success_without_rating'} );
+
                 }
                 else {
-                    console.log( 'Video rated' );
+
+                    return res.json( {success: true, code: 200, msg: 'success'} );
+
                 }
 
-                res.json( {success: true, msg: 'Video saved'} );
             } )
         }
     } )
