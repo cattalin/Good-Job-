@@ -75,8 +75,6 @@ router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =
         link:        req.body.link,
         title:       req.body.title,
 
-
-        username: req.user.username,//todo this one should be removed from here
         class:    req.user.class,
         userId:   req.user,
     };
@@ -93,11 +91,9 @@ router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =
         }
         else {
 
-            Video.findById(insertedVideo._id, (err, foundVideo) => {
-
-                console.log( 'trying to populate user data from video ' + JSON.stringify(foundVideo.userId) );
-
-            });
+            //save the changes to user also
+            // req.user.uploadedVideos.push(insertedVideo._id);
+            // req.user.save();
 
             let data = {
                 voterId: newVideo.userId,

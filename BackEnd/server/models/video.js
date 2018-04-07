@@ -19,7 +19,10 @@ const VideoSchema = mongoose.Schema( {
     rating:      Number,
     username:    String,
     votes:       Number,
-    userId:      {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    userId:      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:  'User'
+    }
 
 } );
 
@@ -41,6 +44,7 @@ Video.getVideos = function(q, callback) {
         .count( (err, count) => {//can't do the fucking count differently
 
             Video.find( buildSearchConditionsFromQuery( q ) )
+                .populate( 'userId' )
                 .sort( [[q.sort, -1]] )
                 .limit( parseInt( q.limit ) )
                 .skip( parseInt( q.skip ) )
@@ -112,6 +116,7 @@ Video.updateVideo = function(query, data, callback) {
 };
 
 Video.addVideo = function(newVideo, callback) {
+
     //we first get some of the uploader's data
     User.getClassById( newVideo.userId, (err, user) => {
 
@@ -133,16 +138,19 @@ Video.addVideo = function(newVideo, callback) {
                 newVideo.votes = 10;
                 break;
         }
+
         console.log( newVideo );
+
         newVideo
+            .populate( 'userId' )
             .save( callback )
 
     } );
-}
+};
 
 
 //finds a video that by _id and voterId criteria
-//TODELETE
+//TODO DELETE
 module.exports.findWithVoter = function(query, callback) {
     let options = {
         multi:  false,

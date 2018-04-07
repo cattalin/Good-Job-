@@ -1,7 +1,4 @@
-
-const Video = require('../models/video');
-
-
+const Video = require( '../models/video' );
 
 
 function getQueryFromReq(req) {//todo move this to search manager
@@ -49,6 +46,9 @@ function retrieveVideos(query, res) {
 
                 let parsedVideo = JSON.parse( JSON.stringify( userVideo ) );//dupe a mongoose object
 
+                parsedVideo.username = parsedVideo.userId.username;
+                parsedVideo.userId   = parsedVideo.userId._id;
+
                 if(parsedVideo.userId.toString() === query.userId.toString()) {
                     parsedVideo.ownVideo = true;
                 }
@@ -65,7 +65,6 @@ function retrieveVideos(query, res) {
 }
 
 
-
 // module.exports.getVideosAndUsers = function(query, callback)
 // {
 //     Video.searchVideos(query,callback);
@@ -77,10 +76,9 @@ function retrieveVideos(query, res) {
 // }
 
 
-
 let searchManager = {};
 
-searchManager.retrieveVideos = retrieveVideos;
+searchManager.retrieveVideos  = retrieveVideos;
 searchManager.getQueryFromReq = getQueryFromReq;
 
 module.exports = searchManager;
