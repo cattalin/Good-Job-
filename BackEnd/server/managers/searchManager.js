@@ -46,7 +46,7 @@ function retrieveVideos(query, res) {
 
                 let parsedVideo = JSON.parse( JSON.stringify( userVideo ) );//dupe a mongoose object
 
-                parsedVideo.username = parsedVideo.userId.username;
+                parsedVideo.username = parsedVideo.userId.username;//TODO these are here just to keep the old data structure
                 parsedVideo.userId   = parsedVideo.userId._id;
 
                 if(parsedVideo.userId.toString() === query.userId.toString()) {

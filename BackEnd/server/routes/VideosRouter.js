@@ -104,7 +104,6 @@ router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =
 
             RatingManager.rateVideo( data, (err2, voted) => {
 
-                console.log( voted );
                 if(err2) {
 
                     return res.json( {success: true, code: 201, msg: 'success_without_rating'} );
@@ -125,17 +124,21 @@ router.delete( '/', passport.authenticate( 'jwt', {session: false} ), (req, res)
     let videoId = req.body._id;
 
     Video.removeVideo( videoId, (err, removedVideosCount) => {
+
         if(err) {
             res.json( {success: false, code: 400, status: 'invalid_id'} );
         }
         else {
+
             if(removedVideosCount.n === 0) {
                 res.json( {success: false, code: 404, status: 'video_not_found'} );
             }
             else {
                 res.json( {success: false, code: 200, status: 'remove_ok'} );
             }
+
         }
+
     } )
 } );
 
