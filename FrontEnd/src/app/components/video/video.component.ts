@@ -1,10 +1,14 @@
-import { Component, Input, OnInit, SecurityContext } from '@angular/core';
-import { VideoData } from '../../models/video-data';
-import { DomSanitizer, SafeUrl} from '@angular/platform-browser';
-import { FormsModule, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { VideoFeedService } from '../../services/videofeed/video-feed.service';
-import { Router } from '@angular/router';
+// Angular
+import { Component, Input, OnInit }     from '@angular/core';
+import { Router }                       from '@angular/router';
+import { DomSanitizer, SafeUrl}         from '@angular/platform-browser';
 
+
+// Services
+import { UserService } from 'app/core/api/user.service';
+
+
+import { VideoFeedService } from '../../services/videofeed/video-feed.service';
 
 @Component({
   selector: 'app-video',
@@ -13,58 +17,43 @@ import { Router } from '@angular/router';
 })
 export class VideoComponent implements OnInit {
 
+  @Input() video;
+  currentUser;
+
+
 
   newComment: any = null;
-  loaded=false;
-  isMyVideo=false;
   selectedRateButton: String = "none";
   exists = true;
-  @Input() isPostComment=false;
-  @Input() data: VideoData;
-  @Input() user: any;
-  private safeLink: SafeUrl;
-
-  constructor(private sanitizer: DomSanitizer,
-              private videoService: VideoFeedService,
-              private router: Router){ } 
-
+  isPostComment=false;
 
   ngOnInit() {
-    if(this.user!=null)
-    if(this.data.username===this.user.username)  {
-            this.isMyVideo=true;
-    }
 
+    this.currentUser = this.userService.currentUser;
+    this.ratingManager(); //TODO: refactor
 
-
-
-    let target = {
-      userId: this.user._id,
-      videoId: this.data._id,
-    }
-    this.videoService.hasRated(target).subscribe(res =>{
-        this.hasRated(res.result);
-        
-    });
-
-
-
-
-
-    this.safeLink = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/"+this.data.link);
-    this.isPostComment = false;
+    this.isPostComment = false; //TODO: rename
   }
 
-  public getCode() : SafeUrl{
-    return this.safeLink;
+  ratingManager() {
+    let target = {
+      userId: this.currentUser._id,
+      videoId: this.video._id,
+    }
+    // this.videoService.hasRated(target).subscribe(res =>{
+    //   this.hasRated(res.result);
+    // });
+  }
+
+  public getVideoSrc() : SafeUrl{
+    return this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/"
+           +this.video.link);
   }
 
   getTimestamp(){
-    let date = new Date(parseInt(this.data._id.toString().slice(0,8), 16)*1000);
+    let date = new Date(parseInt(this.video._id.toString().slice(0,8), 16)*1000);
     return "on " + date.toLocaleDateString()+" at "+date.toLocaleTimeString();
   }
-
-
 
   hasRated(value){
     switch (value){
@@ -87,12 +76,12 @@ export class VideoComponent implements OnInit {
 
   rate(event){
     const rate = {
-      _id: this.data._id,
-      userId: this.user._id,
-      class: this.user.class,
+      _id: this.video._id,
+      userId: this.currentUser._id,
+      class: this.currentUser.class,
       rating: 0
     }
- 
+
 
     switch (event.currentTarget.id){
       case 'gj':
@@ -109,14 +98,14 @@ export class VideoComponent implements OnInit {
       break;
     }
 
-    this.videoService.rate(rate).subscribe(res =>{
-      if (res.success){
-        this.data.rating = res.result.rating;
-        if(res.result.currentVote==0){
-          this.selectedRateButton = "none";
-        }
-      }
-    })
+    // this.videoService.rate(rate).subscribe(res =>{
+    //   if (res.success){
+    //     this.video.rating = res.result.rating;
+    //     if(res.result.currentVote==0){
+    //       this.selectedRateButton = "none";
+    //     }
+    //   }
+    // })
   }
 
 
@@ -130,7 +119,7 @@ export class VideoComponent implements OnInit {
     this.isPostComment=false;
   }
   redirect(){
-    this.router.navigate(['/user-profile'], {queryParams: {username: this.data.username}})
+    this.router.navigate(['/user-profile'], {queryParams: {username: this.video.username}})
   }
 
 
@@ -142,16 +131,22 @@ export class VideoComponent implements OnInit {
   }
 
 
-  
+
   deleteVideo() {
 
-    this.videoService.remove(this.data).subscribe(res =>{
-      if (res.success){
-        this.exists = false;
-        console.log("success");
-      }
-    })
+    // this.videoService.remove(this.video).subscribe(res =>{
+    //   if (res.success){
+    //     this.exists = false;
+    //     console.log("success");
+    //   }
+    // })
   }
+
+  //------------------------------------------------------------------------------//
+
+  constructor(private sanitizer: DomSanitizer,
+              private router: Router,
+              private userService: UserService){ }
 
 
 }

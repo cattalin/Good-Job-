@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 // Components
 import { SearchComponent } from './search/search.component';
 import { VideoComponent } from './video/video.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   imports: [
@@ -17,14 +18,16 @@ import { VideoComponent } from './video/video.component';
   ],
   declarations: [
     SearchComponent,
-    VideoComponent
+    VideoComponent,
+    PaginationComponent
   ],
   exports: [
     FormsModule,
     ReactiveFormsModule,
 
     SearchComponent,
-    VideoComponent
+    VideoComponent,
+    PaginationComponent
   ],
   providers: [],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

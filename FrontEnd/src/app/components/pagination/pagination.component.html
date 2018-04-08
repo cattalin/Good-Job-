@@ -1,0 +1,46 @@
+<ul *ngIf="pages!=[] || pages.length>1" class="pagination pagination-md">
+
+  <!-- First -->
+  <li [ngClass]="currentPage==0 ? 'disabled':''">
+    <a (click)="setPage(0)">
+      <span aria-hidden="true">&laquo;</span>
+    </a>
+  </li>
+
+  <!-- Prev -->
+  <li [ngClass]="currentPage==0 ? 'disabled':''">
+    <a (click)="prevPage()">
+      <span aria-hidden="true">&lsaquo;</span>
+    </a>
+  </li>
+
+  <!-- Pages -->
+  <li *ngFor="let n of pages.slice(startIndexForPages, startIndexForPages+5)"
+      [ngClass]="n == currentPage ? 'active':''"
+      (click)="setPage(n)">
+    <a>{{n+1}}</a>
+  </li>
+
+  <!-- Next -->
+  <li [ngClass]="currentPage == numberOfPages-1 ? 'disabled':''">
+    <a (click)="nextPage()" aria-label="Next">
+      <span aria-hisdden="true">&rsaquo;</span>
+    </a>
+  </li>
+
+  <!-- Last -->
+  <li [ngClass]="currentPage==numberOfPages-1 ? 'disabled':''">
+    <a (click)="setPage(numberOfPages-1)">
+      <span aria-hidden="true">&raquo;</span>
+    </a>
+  </li>
+
+  <li style="display: inline-block;margin-left: 10px;">
+    <select #o class="form-control" (change)="selectNumberOfItems(o.value)" style="border-radius: 0px;">
+      <option *ngFor="let nr of setOfItems; let i=index" [selected]="i==0" [value]="nr.number">
+        Display {{nr.number}}
+      </option>
+    </select>
+  </li>
+
+</ul>

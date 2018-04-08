@@ -1,6 +1,8 @@
-<p style="font-weight: bold">Astea sunt videourile. Ca sa le accesati scrieti in browser "https://www.youtube.com/watch?v="
-si dati paste la ce e in "link"</p>
+<div style="margin: auto" *ngFor="let video of feed">
+    <app-video [video]="video"></app-video>
+</div>
 
-<div class = "centered" *ngFor="let video of feed">
-  {{video | json}}
+<!--Pagination here-->
+<div *ngIf="feed" style="margin: auto">
+  <app-pagination [count]="count" ></app-pagination>
 </div>

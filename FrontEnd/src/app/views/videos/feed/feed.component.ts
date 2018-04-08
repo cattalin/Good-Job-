@@ -10,30 +10,50 @@ import { UserService } from 'app/core/api/user.service';
 export class FeedComponent implements OnInit {
 
   currentUser: any;
-
   feed: any;
-  criteria = {
-    filter: {
-      criteria: "",
-      searchedContent: "asd"
-    },
-    pagination: {
-      limit: 10,
-      skip: 0,
-      sort: -1
-    }
-  }
 
   //------------------------------------------------------------------------------//
 
   ngOnInit() {
 
-    this.currentUser=this.userService.currentUser;
+    this.currentUser = this.getCurrentUser();
+    this.feedHandler();
 
-    this.videoService.getVideoFeed(this.criteria).subscribe(res=>{
+  }
+
+  //------------------------------------------------------------------------------//
+
+  criteriaHandler() {
+
+    return {
+      filter: {
+        criteria: "",
+        searchedContent: ""
+      },
+      pagination: {
+        limit: 10,
+        skip: 0,
+        sort: -1
+      }
+    }
+
+  }
+
+count;
+  //------------------------------------------------------------------------------//
+
+  feedHandler() {
+    var criteria = this.criteriaHandler();
+    this.videoService.getVideoFeed(criteria).subscribe(res=>{
       this.feed=res.videos.results;
+      this.count=res.count;
     });
+  }
 
+  //------------------------------------------------------------------------------//
+
+  getCurrentUser() {
+    return this.userService.currentUser;
   }
 
   //------------------------------------------------------------------------------//

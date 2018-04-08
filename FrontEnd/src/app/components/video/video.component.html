@@ -3,27 +3,27 @@
 
  <div id="containerVideo" class="jumbotron responsive">
    <div class="text-left-align">
-    <h3>{{this.data.title}}</h3>
+    <h3>{{this.video.title}}</h3>
     <p [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
-        <a (click)="redirect()" class = "link-cursor">by {{data.username}}</a>
+        <a (click)="redirect()" class = "link-cursor">by {{video.username}}</a>
     </p>
     <h6 class="text-muted time"><p>{{getTimestamp()}}</p></h6>
 
-<div *ngIf="isMyVideo">
+<div *ngIf="video.ownVideo">
   <button class="btn btn-danger btn-md"  type="button" (click)="deleteVideo()" id="commentB">Delete</button>
 </div>
 
 <div class="embed-responsive embed-responsive-16by9">
-    <iframe width="560" height="315" [src]='getCode()' frameborder="0" allowfullscreen>
+    <iframe width="560" height="315" [src]='getVideoSrc()' frameborder="0" allowfullscreen>
     </iframe>
     </div>
       <!--<video width="560" height="315" src='https://www.youtube.com/watch?v=k2bOl_x1dXM' controlsList='nodownload' html5=True></video>!
     <object [data]="getCode"
    width="560" height="315"></object>-->
         <div id="vR" class="row voteraiting responsive" role="group">
-            <p class="description row"> {{this.data.description}}</p>
+            <p class="description row"> {{video.description}}</p>
                 <div>
-                  <div id="raiting"><p>Rating: {{this.data.rating}}</p></div>
+                  <div id="raiting"><p>Rating: {{video.rating}}</p></div>
                   <div class="btn-group" id="votingButtons">
                     <button type="button" (click)="rate($event)" [ngClass]="{'btn-warning': selectedRateButton === 'gj'}" class="btn btn-primary custom-rate" id = "gj">~GJ~</button>
                     <button type="button" (click)="rate($event)" [ngClass]="{'btn-warning': selectedRateButton === 'cool'}" class="btn btn-primary custom-rate" id = "cool">Cool</button>     <!-- doua clase btn-primary si btn-warning !!!-->
@@ -46,10 +46,10 @@
 
 <!--<div class="row center-block text-center">-->
   <!--<div class="container-fluid row center-block text-center comment-btn">-->
-  <!--<app-comment-feed class="row comment-btn" [videoId]="data._id" [newComment] = "this.newComment" [user]="user"></app-comment-feed>-->
+  <!--<app-comment-feed class="row comment-btn" [videoId]="data._id" [newComment] = "this.newComment" [user]="currentUser"></app-comment-feed>-->
   <!--</div>-->
    <!--<div class="container-fluid"  *ngIf="isPostComment">-->
-          <!--<app-comment-submit [videoId]="data._id" [user]="user" (newCommentData)="getNewComment($event)"></app-comment-submit>-->
+          <!--<app-comment-submit [videoId]="data._id" [user]="currentUser" (newCommentData)="getNewComment($event)"></app-comment-submit>-->
           <!--<div class="input-group container-fluid"><button class="btn btn-primary cancelCustom" type="button" (click)="cancelComment()">Cancel</button></div>-->
     <!--</div>-->
 
