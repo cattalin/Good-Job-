@@ -17,16 +17,7 @@ export class FeedComponent implements OnInit {
   ngOnInit() {
 
     this.currentUser = this.getCurrentUser();
-
-    var paramId = this.route.snapshot.queryParams['search'];
-    if (paramId) {
-      this.criteria.filter.searchedContent = paramId;
-      this.criteria.filter.criteria = 'search';
-      console.log(this.criteria)
-
-    }
-    this.feedHandler();
-
+    
   }
 
   //------------------------------------------------------------------------------//
@@ -78,13 +69,16 @@ export class FeedComponent implements OnInit {
     router.events.subscribe(res=> {
 
       if(res instanceof NavigationEnd) {
-        var paramId = this.route.snapshot.queryParams['search'];
 
+        var paramId = this.route.snapshot.queryParams['search'];
         if (paramId) {
           this.criteria.filter.searchedContent = paramId;
           this.criteria.filter.criteria = 'search';
-          this.feedHandler();
+        } else {
+          this.criteria.filter.searchedContent = '';
+          this.criteria.filter.criteria = '';
         }
+        this.feedHandler();
       }
     })
   }

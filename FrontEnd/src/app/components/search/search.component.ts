@@ -22,6 +22,9 @@ export class SearchComponent implements OnInit {
   onSubmit(){
 
     this.paginationService.setSearchFor(this.data.val);
-    this.router.navigate([`/videos`], {queryParams:{search:this.data.val}});
+    console.log(this.data.val.length)
+    if(this.data.val.length==0) this.router.navigate([`/videos`]);
+    else this.router.navigate([`/videos`], {queryParams:{search:this.data.val}});
+
   }
 }

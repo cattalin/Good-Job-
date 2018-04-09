@@ -9,7 +9,7 @@
 
  <div class="row" style="text-align: center;">
    <div *ngIf="feed && feed.length>0" style="margin: auto">
-     <app-pagination [count]="count" (selection)="requestItems($event)" ></app-pagination>
+     <app-pagination [count]="count" (selection)="requestItems($event)"></app-pagination>
    </div>
    <div *ngIf="feed && feed.length==0" style="margin: auto">
       <h3 style="color: gray">No results</h3>
