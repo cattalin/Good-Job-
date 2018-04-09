@@ -1,17 +1,21 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+import { PaginationService } from 'app/core/services/pagination.service';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: 'pagination.component.html',
-  styleUrls: ['pagination.component.css']
+  styleUrls: ['pagination.component.css'],
+  providers: [ PaginationService ]
 })
 export class PaginationComponent implements OnInit {
 
   @Input() count;
+  @Output() selection: EventEmitter<any> = new EventEmitter<any>();
 
   currentPage = 0;
   setOfItems=[{number: 10}, {number: 20}, {number: 30}];
-  selectedSetOfItems= this.setOfItems[0];
+  selectedSetOfItems = this.setOfItems[0];
   startIndexForPages=0;
   numberOfPages;
   pages = [];
@@ -20,26 +24,32 @@ export class PaginationComponent implements OnInit {
 
   ngOnInit() {
 
-    this.computePages();
+    this.paginationService.setNumberOfItems(this.count);
+    this.pages = this.paginationService.getPages();
+    this.numberOfPages = this.pages.length;
 
   }
 
   //------------------------------------------------------------------------------//
 
   setPage(selectedPage) {
+
     this.currentPage=selectedPage;
-    this.setStartIndexForPagesForNextAndSet();
+    this.paginationService.setCurrentPage(selectedPage);
+    this.startIndexForPages = this.paginationService.getStartIndexForPagesNextAndSet();
+    this.selection.emit({currentPage: this.currentPage, selectedSetOfItems: this.selectedSetOfItems});
   }
 
   //------------------------------------------------------------------------------//
 
   prevPage() {
+
     if(this.currentPage > 0)
       this.currentPage--;
 
-    if(this.currentPage < 3) this.startIndexForPages = 0;
-    else if(this.currentPage==this.numberOfPages-2) this.startIndexForPages=this.currentPage-3;
-    else this.startIndexForPages=this.currentPage-2;
+    this.paginationService.setCurrentPage(this.currentPage);
+    this.startIndexForPages = this.paginationService.getStartIndexForPagesPrev();
+    this.selection.emit({currentPage: this.currentPage, selectedSetOfItems: this.selectedSetOfItems});
   }
 
   //------------------------------------------------------------------------------//
@@ -48,27 +58,10 @@ export class PaginationComponent implements OnInit {
     if(this.currentPage < this.numberOfPages-1)
       this.currentPage++;
 
-    this.setStartIndexForPagesForNextAndSet();
+    this.paginationService.setCurrentPage(this.currentPage);
+    this.startIndexForPages = this.paginationService.getStartIndexForPagesNextAndSet();
+    this.selection.emit({currentPage: this.currentPage, selectedSetOfItems: this.selectedSetOfItems});
   }
-
-  //------------------------------------------------------------------------------//
-
-  setStartIndexForPagesForNextAndSet() {
-
-    if(this.currentPage<=2) this.startIndexForPages=0;
-    else if(this.currentPage+1>this.numberOfPages) this.startIndexForPages=this.numberOfPages-5 >= 0 ? this.numberOfPages-5 : 0;
-    else this.startIndexForPages=this.currentPage-2;
-  }
-
-  //------------------------------------------------------------------------------//
-
-  computePages() {
-    this.pages=[];
-    this.numberOfPages = Math.ceil(this.count/this.selectedSetOfItems.number);
-
-    var i=0;
-    while(i < this.numberOfPages)
-      this.pages.push(i++);  }
 
   //------------------------------------------------------------------------------//
 
@@ -76,12 +69,17 @@ export class PaginationComponent implements OnInit {
 
     this.currentPage=0;
     this.selectedSetOfItems={number: selected};
-    this.computePages();
     this.startIndexForPages=0;
+
+    this.paginationService.setCurrentPage(0);
+    this.paginationService.setSelectedSetOfItems(this.selectedSetOfItems);
+    this.paginationService.setStartIndexForPages(0);
+    this.pages = this.paginationService.getPages();
+    this.selection.emit({currentPage: this.currentPage, selectedSetOfItems: this.selectedSetOfItems});
   }
 
   //------------------------------------------------------------------------------/
 
-  constructor() { }
+  constructor(private paginationService: PaginationService) { }
 
 }

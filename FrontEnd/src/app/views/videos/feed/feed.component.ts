@@ -23,28 +23,32 @@ export class FeedComponent implements OnInit {
 
   //------------------------------------------------------------------------------//
 
-  criteriaHandler() {
-
-    return {
-      filter: {
-        criteria: "",
-        searchedContent: ""
-      },
-      pagination: {
-        limit: 10,
-        skip: 0,
-        sort: -1
-      }
+  criteria = {
+    filter: {
+      criteria: "",
+      searchedContent: ""
+    },
+    pagination: {
+      limit: 10,
+      skip: 0,
+      sort: -1
     }
-
   }
 
-count;
   //------------------------------------------------------------------------------//
 
+  requestItems(event) {
+    this.criteria.pagination.limit = event.selectedSetOfItems.number;
+    this.criteria.pagination.skip = event.selectedSetOfItems.number * event.currentPage;
+    this.feedHandler();
+  }
+
+  //------------------------------------------------------------------------------//
+
+  count;
   feedHandler() {
-    var criteria = this.criteriaHandler();
-    this.videoService.getVideoFeed(criteria).subscribe(res=>{
+
+    this.videoService.getVideoFeed(this.criteria).subscribe(res=>{
       this.feed=res.videos.results;
       this.count=res.count;
     });
@@ -58,9 +62,7 @@ count;
 
   //------------------------------------------------------------------------------//
 
-  constructor(private router: Router,
-              private route: ActivatedRoute,
-              private videoService: VideoService,
+  constructor(private videoService: VideoService,
               private userService: UserService
   ) { }
 

@@ -1,8 +1,18 @@
-<div style="margin: auto" *ngFor="let video of feed">
-    <app-video [video]="video"></app-video>
+<div class="container">
+
+  <div class="row">
+    <div *ngFor="let video of feed" style="text-align: center;">
+      <app-video [video]="video"></app-video>
+    </div>
+  </div>
+
+
+ <div class="row" style="text-align: center;">
+   <div *ngIf="feed" style="margin: auto">
+     <app-pagination [count]="count" (selection)="requestItems($event)" ></app-pagination>
+   </div>
+ </div>
+
+
 </div>
 
-<!--Pagination here-->
-<div *ngIf="feed" style="margin: auto">
-  <app-pagination [count]="count" ></app-pagination>
-</div>
