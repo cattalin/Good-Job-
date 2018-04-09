@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 
 import { PaginationService } from 'app/core/services/pagination.service';
 
@@ -8,7 +8,7 @@ import { PaginationService } from 'app/core/services/pagination.service';
   styleUrls: ['pagination.component.css'],
   providers: [ PaginationService ]
 })
-export class PaginationComponent implements OnInit {
+export class PaginationComponent implements OnInit, OnChanges {
 
   @Input() count;
   @Output() selection: EventEmitter<any> = new EventEmitter<any>();
@@ -28,6 +28,13 @@ export class PaginationComponent implements OnInit {
     this.pages = this.paginationService.getPages();
     this.numberOfPages = this.pages.length;
 
+  }
+
+  ngOnChanges() {
+
+    this.paginationService.setNumberOfItems(this.count);
+    this.pages = this.paginationService.getPages();
+    this.numberOfPages = this.pages.length;
   }
 
   //------------------------------------------------------------------------------//

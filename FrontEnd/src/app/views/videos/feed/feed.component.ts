@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component, OnChanges, OnInit} from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { VideoService } from 'app/core/api/video.service';
 import { UserService } from 'app/core/api/user.service';
 
@@ -17,6 +17,14 @@ export class FeedComponent implements OnInit {
   ngOnInit() {
 
     this.currentUser = this.getCurrentUser();
+
+    var paramId = this.route.snapshot.queryParams['search'];
+    if (paramId) {
+      this.criteria.filter.searchedContent = paramId;
+      this.criteria.filter.criteria = 'search';
+      console.log(this.criteria)
+
+    }
     this.feedHandler();
 
   }
@@ -63,7 +71,22 @@ export class FeedComponent implements OnInit {
   //------------------------------------------------------------------------------//
 
   constructor(private videoService: VideoService,
-              private userService: UserService
-  ) { }
+              private userService: UserService,
+              private router: Router,
+              private route: ActivatedRoute
+  ) {
+    router.events.subscribe(res=> {
+
+      if(res instanceof NavigationEnd) {
+        var paramId = this.route.snapshot.queryParams['search'];
+
+        if (paramId) {
+          this.criteria.filter.searchedContent = paramId;
+          this.criteria.filter.criteria = 'search';
+          this.feedHandler();
+        }
+      }
+    })
+  }
 
 }

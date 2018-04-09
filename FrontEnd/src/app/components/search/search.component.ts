@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { PaginationService } from 'app/core/services/pagination.service';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.css'],
+  providers: [ PaginationService ]
 })
 export class SearchComponent implements OnInit {
   public data;
-   constructor(private router: Router) {
+   constructor(private router: Router, private paginationService: PaginationService) {
      this.data = {
        val: ''
      };
@@ -18,18 +19,9 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
   }
 
-
   onSubmit(){
-    let SearchQuery;
-    SearchQuery = this.data.val;
-    if(SearchQuery!=null)
-    {
-      //this.searchService.GetRequest(this.SearchQuery);
-      this.router.navigate(['/search'], {queryParams:{title:SearchQuery}});
-    }
-    else
-    {
-      console.log("EMPTY");
-    }
+
+    this.paginationService.setSearchFor(this.data.val);
+    this.router.navigate([`/videos`], {queryParams:{search:this.data.val}});
   }
 }

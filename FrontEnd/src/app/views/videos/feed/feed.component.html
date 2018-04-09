@@ -1,6 +1,6 @@
 <div class="container">
 
-  <div class="row">
+  <div *ngIf="feed && feed.length>0" class="row">
     <div *ngFor="let video of feed" style="text-align: center;">
       <app-video [video]="video"></app-video>
     </div>
@@ -8,8 +8,11 @@
 
 
  <div class="row" style="text-align: center;">
-   <div *ngIf="feed" style="margin: auto">
+   <div *ngIf="feed && feed.length>0" style="margin: auto">
      <app-pagination [count]="count" (selection)="requestItems($event)" ></app-pagination>
+   </div>
+   <div *ngIf="feed && feed.length==0" style="margin: auto">
+      <h3 style="color: gray">No results</h3>
    </div>
  </div>
 

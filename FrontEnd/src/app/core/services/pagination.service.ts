@@ -11,6 +11,8 @@ export class PaginationService {
   private numberOfPages;
   private pages = [];
 
+  private searchFor;
+
   //------------------------------------------------------------------------------//
 
   computePages() {
@@ -92,6 +94,18 @@ export class PaginationService {
 
   getSelectedSetOfItems() {
     return this.selectedSetOfItems;
+  }
+
+  //------------------------------------------------------------------------------//
+
+  setSearchFor(searchFor) {
+    this.searchFor = searchFor;
+  }
+
+  //------------------------------------------------------------------------------//
+
+  getSearchFor(searchFor) {
+    return this.searchFor;
   }
 
 }
