@@ -26,13 +26,18 @@ export class VideoComponent implements OnInit {
   selectedRateButton: String = "none";
   exists = true;
   isPostComment=false;
+  videoUrl:SafeUrl = null;
 
   ngOnInit() {
-
+    console.log('Initing video');
     this.currentUser = this.userService.currentUser;
     this.ratingManager(); //TODO: refactor
 
     this.isPostComment = false; //TODO: rename
+
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/"
+      +this.video.link);
+
   }
 
   ratingManager() {
@@ -46,8 +51,8 @@ export class VideoComponent implements OnInit {
   }
 
   public getVideoSrc() : SafeUrl{
-    return this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/"
-           +this.video.link);
+    console.log('Sanitizing URL');
+    return this.videoUrl
   }
 
   getTimestamp(){
@@ -146,7 +151,10 @@ export class VideoComponent implements OnInit {
 
   constructor(private sanitizer: DomSanitizer,
               private router: Router,
-              private userService: UserService){ }
+              private userService: UserService){
+
+    console.log('Constructing video');
+  }
 
 
 }

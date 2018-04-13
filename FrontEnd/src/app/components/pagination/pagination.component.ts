@@ -24,9 +24,11 @@ export class PaginationComponent implements OnInit, OnChanges {
 
   ngOnInit() {
 
+    console.log('Initing Pagination');
     this.paginationService.setNumberOfItems(this.count);
     this.pages = this.paginationService.getPages();
     this.numberOfPages = this.pages.length;
+
 
   }
 
@@ -41,22 +43,27 @@ export class PaginationComponent implements OnInit, OnChanges {
 
   setPage(selectedPage) {
 
-    this.currentPage=selectedPage;
-    this.paginationService.setCurrentPage(selectedPage);
-    this.startIndexForPages = this.paginationService.getStartIndexForPagesNextAndSet();
-    this.selection.emit({currentPage: this.currentPage, selectedSetOfItems: this.selectedSetOfItems});
+
+    if (this.currentPage !== 0) {
+      this.currentPage = selectedPage;
+      this.paginationService.setCurrentPage(selectedPage);
+      this.startIndexForPages = this.paginationService.getStartIndexForPagesNextAndSet();
+      this.selection.emit({currentPage: this.currentPage, selectedSetOfItems: this.selectedSetOfItems});
+    }
   }
 
   //------------------------------------------------------------------------------//
 
   prevPage() {
 
-    if(this.currentPage > 0)
-      this.currentPage--;
+    if(this.currentPage !== 0){
+      if(this.currentPage > 0)
+        this.currentPage--;
 
-    this.paginationService.setCurrentPage(this.currentPage);
-    this.startIndexForPages = this.paginationService.getStartIndexForPagesPrev();
-    this.selection.emit({currentPage: this.currentPage, selectedSetOfItems: this.selectedSetOfItems});
+      this.paginationService.setCurrentPage(this.currentPage);
+      this.startIndexForPages = this.paginationService.getStartIndexForPagesPrev();
+      this.selection.emit({currentPage: this.currentPage, selectedSetOfItems: this.selectedSetOfItems});
+    }
   }
 
   //------------------------------------------------------------------------------//
