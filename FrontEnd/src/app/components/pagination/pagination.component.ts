@@ -43,32 +43,35 @@ export class PaginationComponent implements OnInit, OnChanges {
 
   setPage(selectedPage) {
 
+      if(selectedPage==0) return;
+      if(this.currentPage == this.numberOfPages-1 ) return;
 
-    if (this.currentPage !== 0) {
       this.currentPage = selectedPage;
       this.paginationService.setCurrentPage(selectedPage);
       this.startIndexForPages = this.paginationService.getStartIndexForPagesNextAndSet();
       this.selection.emit({currentPage: this.currentPage, selectedSetOfItems: this.selectedSetOfItems});
-    }
   }
 
   //------------------------------------------------------------------------------//
 
   prevPage() {
 
-    if(this.currentPage !== 0){
+      if(this.currentPage == 0) return;
+
       if(this.currentPage > 0)
         this.currentPage--;
 
       this.paginationService.setCurrentPage(this.currentPage);
       this.startIndexForPages = this.paginationService.getStartIndexForPagesPrev();
       this.selection.emit({currentPage: this.currentPage, selectedSetOfItems: this.selectedSetOfItems});
-    }
   }
 
   //------------------------------------------------------------------------------//
 
   nextPage() {
+
+    if(this.currentPage == this.numberOfPages-1) return;
+
     if(this.currentPage < this.numberOfPages-1)
       this.currentPage++;
 
