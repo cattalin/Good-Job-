@@ -41,10 +41,17 @@
 
     <div style="margin-top: 2%;">
       <div class="row">
-        <div class="col-sm-6" style="text-align: left;">
+
+        <div class="col-sm-4" style="text-align: left;">
           <p class="rating">Rating: {{video.rating}}</p>
         </div>
-        <div class="col-sm-6" style="text-align: right;">
+
+        <div class="col-sm-4" style="text-align: center;">
+          <a (click)="toggleComments()" style="color: darkslategray;"><i class="far fa-2x fa-comments"></i> 7 comments</a>
+          <a *ngIf="displayComments" (click)="toggleNewComment()" style="color: darkslategray;margin-left: 5px;"><i class="fas fa-plus"></i> {{displayNewComment ? 'Cancel':'Add New'}}</a>
+        </div>
+
+        <div class="col-sm-4" style="text-align: right;">
           <div style="margin-right: 5px;">
             <i class="fas fa-2x fa-smile"></i>
             <i class="fas fa-2x fa-meh"></i>
@@ -54,8 +61,28 @@
       </div>
     </div>
 
+    <div *ngIf="displayComments" id="container-comments" style="margin-top: 2%;">
+      <new-comment *ngIf="displayNewComment" [video]="video"></new-comment>
+      <comment-feed [video]="video"></comment-feed>
+    </div>
+
   </div>
+
 </div>
+
+
+<!--<div class="row center-block text-center">-->
+<!--<div class="container-fluid row center-block text-center comment-btn">-->
+<!--<app-comment-feed class="row comment-btn" [videoId]="data._id" [newComment] = "this.newComment" [user]="currentUser"></app-comment-feed>-->
+<!--</div>-->
+<!--<div class="container-fluid"  *ngIf="isPostComment">-->
+<!--<app-comment-submit [videoId]="data._id" [user]="currentUser" (newCommentData)="getNewComment($event)"></app-comment-submit>-->
+<!--<div class="input-group container-fluid"><button class="btn btn-primary cancelCustom" type="button" (click)="cancelComment()">Cancel</button></div>-->
+<!--</div>-->
+
+<!--<button class="btn btn-warning btn-md comment-btn" *ngIf="!isPostComment" type="button" (click)="postComment()" id="commentB">Comment</button>-->
+<!--</div>-->
+<!--</div>-->
 
 
 <!--<div *ngIf = "exists">-->
@@ -105,16 +132,5 @@
   <!--  POST COMMENT  -->
 
 
-<!--<div class="row center-block text-center">-->
-  <!--<div class="container-fluid row center-block text-center comment-btn">-->
-  <!--<app-comment-feed class="row comment-btn" [videoId]="data._id" [newComment] = "this.newComment" [user]="currentUser"></app-comment-feed>-->
-  <!--</div>-->
-   <!--<div class="container-fluid"  *ngIf="isPostComment">-->
-          <!--<app-comment-submit [videoId]="data._id" [user]="currentUser" (newCommentData)="getNewComment($event)"></app-comment-submit>-->
-          <!--<div class="input-group container-fluid"><button class="btn btn-primary cancelCustom" type="button" (click)="cancelComment()">Cancel</button></div>-->
-    <!--</div>-->
 
-  <!--<button class="btn btn-warning btn-md comment-btn" *ngIf="!isPostComment" type="button" (click)="postComment()" id="commentB">Comment</button>-->
-  <!--</div>-->
-<!--</div>-->
 

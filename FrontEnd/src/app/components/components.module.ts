@@ -8,6 +8,9 @@ import { RouterModule } from '@angular/router';
 import { SearchComponent } from './search/search.component';
 import { SafePipe, VideoComponent } from './video/video.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { CommentComponent } from './comment/comment.component';
+import { CommentFeedComponent } from './comment-feed/comment-feed.component';
+import { NewCommentComponent } from './new-comment/new-comment.component';
 
 @NgModule({
   imports: [
@@ -20,7 +23,10 @@ import { PaginationComponent } from './pagination/pagination.component';
     SafePipe,
     SearchComponent,
     VideoComponent,
-    PaginationComponent
+    PaginationComponent,
+    CommentComponent,
+    CommentFeedComponent,
+    NewCommentComponent
   ],
   exports: [
     FormsModule,
@@ -28,7 +34,10 @@ import { PaginationComponent } from './pagination/pagination.component';
 
     SearchComponent,
     VideoComponent,
-    PaginationComponent
+    PaginationComponent,
+    CommentComponent,
+    CommentFeedComponent,
+    NewCommentComponent
   ],
   providers: [],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

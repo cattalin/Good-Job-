@@ -1,10 +1,10 @@
 // Angular
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Rx';
+import { Injectable }     from '@angular/core';
+import { HttpClient }     from '@angular/common/http';
+import { Observable }     from 'rxjs/Rx';
 
 // Services
-import { JwtService } from 'app/core/services/jwt.service';
+import { JwtService }     from 'app/core/services/jwt.service';
 
 @Injectable()
 export class ApiService {
@@ -13,8 +13,8 @@ export class ApiService {
 
     //-----------------------------------------------------------------------------//
 
-    delete(path):Observable<any> {
-        return this.http.delete(`${this.apiUrl}${path}`, {headers: this.setHeaders()})
+    delete(path, body: Object = {}):Observable<any> {
+        return this.http.delete(`${this.apiUrl}${path}`,{ headers: this.setHeaders()})
             .catch(err => this.errorHandler(err)
         );
     }
