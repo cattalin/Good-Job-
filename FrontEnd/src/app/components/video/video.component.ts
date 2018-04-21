@@ -1,32 +1,44 @@
 // Angular
-import { Component, Input, OnInit }     from '@angular/core';
-import { Router }                       from '@angular/router';
-import { DomSanitizer, SafeUrl}         from '@angular/platform-browser';
-
+import {
+  Component, Input, OnInit,
+  Pipe, PipeTransform
+}                                from '@angular/core';
+import { Router }                from '@angular/router';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // Services
 import { UserService } from 'app/core/api/user.service';
 
 
-import { VideoFeedService } from '../../services/videofeed/video-feed.service';
+@Pipe({name: 'safe'})
+export class SafePipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) {
+    console.log('Constructing Pipe')
+  }
+
+  transform(url): SafeUrl {
+    console.log('Sanitizing URL: ' + url);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+}
+
 
 @Component({
   selector: 'app-video',
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.css']
 })
+
 export class VideoComponent implements OnInit {
 
   @Input() video;
   currentUser;
 
 
-
   newComment: any = null;
   selectedRateButton: String = "none";
   exists = true;
-  isPostComment=false;
-  videoUrl:SafeUrl = null;
+  isPostComment = false;
 
   ngOnInit() {
     console.log('Initing video');
@@ -35,10 +47,8 @@ export class VideoComponent implements OnInit {
 
     this.isPostComment = false; //TODO: rename
 
-    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/"
-      +this.video.link);
-
   }
+
 
   ratingManager() {
     let target = {
@@ -50,37 +60,30 @@ export class VideoComponent implements OnInit {
     // });
   }
 
-  public getVideoSrc() : SafeUrl{
-    console.log('Sanitizing URL');
-    return this.videoUrl
-  }
-
   getTimestamp(){
     let date = new Date(parseInt(this.video._id.toString().slice(0,8), 16)*1000);
     return date;
-    // return "on " + date.toLocaleDateString()+" at "+date.toLocaleTimeString();
   }
 
-  hasRated(value){
-    switch (value){
+  hasRated(value) {
+    switch (value) {
       case 5:
         this.selectedRateButton = "gj";
-      break;
+        break;
       case 3:
         this.selectedRateButton = "cool";
-      break;
+        break;
       case 1:
         this.selectedRateButton = "meh";
-      break;
+        break;
       case 0:
         this.selectedRateButton = "none";
-      break;
+        break;
     }
   }
 
 
-
-  rate(event){
+  rate(event) {
     const rate = {
       _id: this.video._id,
       userId: this.currentUser._id,
@@ -89,19 +92,19 @@ export class VideoComponent implements OnInit {
     }
 
 
-    switch (event.currentTarget.id){
+    switch (event.currentTarget.id) {
       case 'gj':
         this.selectedRateButton = "gj";
-        rate.rating=5;
-      break;
+        rate.rating = 5;
+        break;
       case 'cool':
         this.selectedRateButton = "cool";
-        rate.rating=3;
-      break;
+        rate.rating = 3;
+        break;
       case 'meh':
         this.selectedRateButton = "meh";
-        rate.rating=1;
-      break;
+        rate.rating = 1;
+        break;
     }
 
     // this.videoService.rate(rate).subscribe(res =>{
@@ -115,27 +118,25 @@ export class VideoComponent implements OnInit {
   }
 
 
-
-
   postComment() {
-    this.isPostComment=true;
+    this.isPostComment = true;
   }
 
   cancelComment() {
-    this.isPostComment=false;
+    this.isPostComment = false;
   }
-  redirect(){
+
+  redirect() {
     this.router.navigate(['/user-profile'], {queryParams: {username: this.video.username}})
   }
 
 
-  getNewComment(event){
-    if(event!=null){
-      this.isPostComment=false;
+  getNewComment(event) {
+    if (event != null) {
+      this.isPostComment = false;
       this.newComment = event;
     }
   }
-
 
 
   deleteVideo() {
@@ -152,7 +153,7 @@ export class VideoComponent implements OnInit {
 
   constructor(private sanitizer: DomSanitizer,
               private router: Router,
-              private userService: UserService){
+              private userService: UserService) {
 
     console.log('Constructing video');
   }
