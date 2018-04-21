@@ -49,7 +49,7 @@ export class PaginationService {
   getStartIndexForPagesNextAndSet() {
 
     if(this.currentPage<=2) this.startIndexForPages=0;
-    else if(this.currentPage+1>this.numberOfPages) this.startIndexForPages=this.numberOfPages-5 >= 0 ? this.numberOfPages-5 : 0;
+    else if(this.currentPage+1>=this.numberOfPages) this.startIndexForPages=this.numberOfPages-5 >= 0 ? this.numberOfPages-5 : 0;
     else this.startIndexForPages=this.currentPage-2;
 
     return this.startIndexForPages;

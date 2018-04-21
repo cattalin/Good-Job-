@@ -44,7 +44,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   setPage(selectedPage) {
 
       if(selectedPage==0) return;
-      if(this.currentPage == this.numberOfPages-1 ) return;
+      if(this.currentPage == this.numberOfPages-1 && selectedPage == this.numberOfPages-1 ) return;
 
       this.currentPage = selectedPage;
       this.paginationService.setCurrentPage(selectedPage);
