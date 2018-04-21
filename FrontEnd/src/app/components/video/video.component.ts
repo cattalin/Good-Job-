@@ -57,7 +57,8 @@ export class VideoComponent implements OnInit {
 
   getTimestamp(){
     let date = new Date(parseInt(this.video._id.toString().slice(0,8), 16)*1000);
-    return "on " + date.toLocaleDateString()+" at "+date.toLocaleTimeString();
+    return date;
+    // return "on " + date.toLocaleDateString()+" at "+date.toLocaleTimeString();
   }
 
   hasRated(value){

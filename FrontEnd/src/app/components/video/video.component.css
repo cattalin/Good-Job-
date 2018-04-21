@@ -12,6 +12,57 @@
   margin-right: 10px;
 }
 
+.desc {
+  border-bottom: 1px solid #cacaca;
+  border-top: 1px solid #cacaca;
+  margin-top: 2%;
+}
+
+.desc-p {
+  text-align: left;
+  color: #3a3939;
+  margin-top: 10px;
+  font-size: 1em;
+}
+
+.rating {
+  font-size: 1.2em;
+  color: #2f5bbf;
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+.fa-smile {
+  color: green;
+}
+
+.fa-smile:hover {
+  color: darkgreen;
+}
+
+.fa-meh {
+  color: #cbcb00;
+}
+
+.fa-meh:hover {
+  color: #a0a000;
+}
+
+.fa-frown, .fa-trash-alt {
+  color: red;
+}
+
+.fa-frown:hover, .fa-trash-alt:hover  {
+  color: darkred;
+}
+
+.disabled-icon {
+  color: gray;
+}
+
+.disabled-icon:hover {
+  color: darkslategray;
+}
 
 #vR{
   background-color: #498cc6;

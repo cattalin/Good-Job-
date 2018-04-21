@@ -1,41 +1,103 @@
+<div *ngIf="exists">
+  <div id="containerVideo" class="jumbotron responsive" style="margin: auto;margin-top: 2%;">
 
-<div *ngIf = "exists">
+    <div class="row">
+      <div class="col-sm-12" *ngIf="video.ownVideo" style="text-align: right;margin-bottom: 10px;">
+        <i class="fas fa-trash-alt" style="margin-right: 5px;" (click)="deleteVideo()"></i>
+      </div>
+    </div>
 
- <div id="containerVideo" class="jumbotron responsive" style="margin: auto;margin-top: 2%;">
-   <div class="text-left-align">
-    <h3>{{this.video.title}}</h3>
-    <p [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
-        <a (click)="redirect()" class = "link-cursor">by {{video.username}}</a>
-    </p>
-    <h6 class="text-muted time"><p>{{getTimestamp()}}</p></h6>
 
-<div *ngIf="video.ownVideo">
-  <button class="btn btn-danger btn-md"  type="button" (click)="deleteVideo()" id="commentB">Delete</button>
+    <div class="row">
+      <div class="col-sm-6" style="text-align: left;">
+        <h3 style="margin: 0;">{{this.video.title}}</h3>
+      </div>
+      <div class="col-sm-6">
+        <p style="margin: 0;text-align: right;" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+          <a (click)="redirect()" class = "link-cursor">by {{video.username}}</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12" style="text-align: left;">
+        <span class="text-muted time"><p style="font-size: 1em;">posted on {{getTimestamp() | date:'short'}}</p></span>
+      </div>
+    </div>
+
+    <div class="row" style="padding-right: 15px;padding-left: 15px;">
+      <div class="embed-responsive embed-responsive-16by9">
+        <iframe width="560" height="315" [src]='getVideoSrc()' frameborder="0" allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    <div class="desc" *ngIf="video.description">
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="desc-p"> {{video.description}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 2%;">
+      <div class="row">
+        <div class="col-sm-6" style="text-align: left;">
+          <p class="rating">Rating: {{video.rating}}</p>
+        </div>
+        <div class="col-sm-6" style="text-align: right;">
+          <div style="margin-right: 5px;">
+            <i class="fas fa-2x fa-smile"></i>
+            <i class="fas fa-2x fa-meh"></i>
+            <i class="fas fa-2x fa-frown"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<div class="embed-responsive embed-responsive-16by9">
-    <iframe width="560" height="315" [src]='getVideoSrc()' frameborder="0" allowfullscreen>
-    </iframe>
-    </div>
-      <!--<video width="560" height="315" src='https://www.youtube.com/watch?v=k2bOl_x1dXM' controlsList='nodownload' html5=True></video>!
-    <object [data]="getCode"
-   width="560" height="315"></object>-->
-        <div id="vR" class="row voteraiting responsive" role="group">
-            <p class="description row"> {{video.description}}</p>
-                <div>
-                  <div id="raiting"><p>Rating: {{video.rating}}</p></div>
-                  <div class="btn-group" id="votingButtons">
-                    <button type="button" (click)="rate($event)" [ngClass]="{'btn-warning': selectedRateButton === 'gj'}" class="btn btn-primary custom-rate" id = "gj">~GJ~</button>
-                    <button type="button" (click)="rate($event)" [ngClass]="{'btn-warning': selectedRateButton === 'cool'}" class="btn btn-primary custom-rate" id = "cool">Cool</button>     <!-- doua clase btn-primary si btn-warning !!!-->
-                    <button type="button" (click)="rate($event)" [ngClass]="{'btn-warning': selectedRateButton === 'meh'}" class="btn btn-primary custom-rate" id = "meh">Meh</button>
 
-                  </div>
-                </div>
+<!--<div *ngIf = "exists">-->
+
+ <!--<div id="containerVideo" class="jumbotron responsive" style="margin: auto;margin-top: 2%;">-->
+   <!--<div class="text-left-align">-->
+    <!--<h3>{{this.video.title}}</h3>-->
+    <!--<p [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">-->
+        <!--<a (click)="redirect()" class = "link-cursor">by {{video.username}}</a>-->
+    <!--</p>-->
+    <!--<h6 class="text-muted time"><p>{{getTimestamp()}}</p></h6>-->
+
+<!--<div *ngIf="video.ownVideo">-->
+  <!--<button class="btn btn-danger btn-md"  type="button" (click)="deleteVideo()" id="commentB">Delete</button>-->
+<!--</div>-->
+
+<!--<div class="embed-responsive embed-responsive-16by9">-->
+    <!--<iframe width="560" height="315" [src]='getVideoSrc()' frameborder="0" allowfullscreen>-->
+    <!--</iframe>-->
+    <!--</div>-->
+      <!--&lt;!&ndash;<video width="560" height="315" src='https://www.youtube.com/watch?v=k2bOl_x1dXM' controlsList='nodownload' html5=True></video>!-->
+    <!--<object [data]="getCode"-->
+   <!--width="560" height="315"></object>&ndash;&gt;-->
+        <!--<div id="vR" class="row voteraiting responsive" role="group">-->
+            <!--<p class="description row"> {{video.description}}</p>-->
+                <!--<div>-->
+                  <!--<div id="raiting"><p>Rating: {{video.rating}}</p></div>-->
+                  <!--<div class="btn-group" id="votingButtons">-->
+                    <!--<button type="button" (click)="rate($event)" [ngClass]="{'btn-warning': selectedRateButton === 'gj'}" class="btn btn-primary custom-rate" id = "gj">~GJ~</button>-->
+                    <!--<button type="button" (click)="rate($event)" [ngClass]="{'btn-warning': selectedRateButton === 'cool'}" class="btn btn-primary custom-rate" id = "cool">Cool</button>     &lt;!&ndash; doua clase btn-primary si btn-warning !!!&ndash;&gt;-->
+                    <!--<button type="button" (click)="rate($event)" [ngClass]="{'btn-warning': selectedRateButton === 'meh'}" class="btn btn-primary custom-rate" id = "meh">Meh</button>-->
+
+                  <!--</div>-->
+                <!--</div>-->
 
 
-        </div>
+        <!--</div>-->
 
 
+   <!--</div>-->
+ <!--</div></div>-->
 
 
 
@@ -57,4 +119,3 @@
   <!--</div>-->
 <!--</div>-->
 
- </div>
