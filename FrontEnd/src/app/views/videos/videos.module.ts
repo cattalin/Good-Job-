@@ -2,6 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { FlashMessagesModule } from 'angular2-flash-messages';
 
 // Modules
 import { ComponentsModule } from 'app/components/components.module';
@@ -18,6 +19,8 @@ import { VideosRoutingModule } from './videos-routing.module';
   imports: [
     CommonModule,
     ComponentsModule,
+
+    FlashMessagesModule,
     // CoreModule,
     FormsModule,
     VideosRoutingModule,

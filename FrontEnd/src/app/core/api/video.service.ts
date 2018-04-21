@@ -22,6 +22,18 @@ export class VideoService {
 
   //-----------------------------------------------------------------------------//
 
+  uploadVideo(video) {
+
+    video.link=video.link.replace("https://www.youtube.com/watch?v=","");
+    return this.apiService.post(`${this.resourceUrl}`, video)
+      .map(res => {
+        if(res.success) return res;
+        else throw res.status;
+      });
+  }
+
+  //-----------------------------------------------------------------------------//
+
   constructor(
     private apiService: ApiService
   ) { }
