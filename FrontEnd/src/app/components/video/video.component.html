@@ -14,12 +14,9 @@
 </div>
 
 <div class="embed-responsive embed-responsive-16by9">
-    <iframe width="560" height="315" [src]='getVideoSrc()' frameborder="0" allowfullscreen>
+    <iframe width="560" height="315" [src]="('https://www.youtube.com/embed/' + this.video.link) | safe" frameborder="0" allowfullscreen>
     </iframe>
     </div>
-      <!--<video width="560" height="315" src='https://www.youtube.com/watch?v=k2bOl_x1dXM' controlsList='nodownload' html5=True></video>!
-    <object [data]="getCode"
-   width="560" height="315"></object>-->
         <div id="vR" class="row voteraiting responsive" role="group">
             <p class="description row"> {{video.description}}</p>
                 <div>

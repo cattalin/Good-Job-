@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 
 // Components
 import { SearchComponent } from './search/search.component';
-import { VideoComponent } from './video/video.component';
+import { SafePipe, VideoComponent } from './video/video.component';
 import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
@@ -17,6 +17,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     RouterModule,
   ],
   declarations: [
+    SafePipe,
     SearchComponent,
     VideoComponent,
     PaginationComponent
@@ -32,4 +33,8 @@ import { PaginationComponent } from './pagination/pagination.component';
   providers: [],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
-export class ComponentsModule { }
+export class ComponentsModule {
+  cosntructor(){
+    console.warn('Constructing ComponentsModule');
+  }
+}
