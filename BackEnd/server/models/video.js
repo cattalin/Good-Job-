@@ -49,7 +49,7 @@ Video.getVideos = function(q, callback) {
             Video
                 .find( searchQuery )
                 .populate( 'userId' )
-                .sort( [[q.sort, -1]] )
+                .sort( [['_id', 'desc']] )
                 .limit( parseInt( q.limit ) )
                 .skip( parseInt( q.skip ) )
                 .exec( (err, results) => {

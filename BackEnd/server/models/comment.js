@@ -11,22 +11,15 @@ CommentSchema = mongoose.Schema( {
 
 let Comment = module.exports = mongoose.model( 'Comment', CommentSchema );
 
-Comment.searchByVideo = function(query, callback) {
-
-    Comment.find( {videoId: query._id}, callback );
-
-};
-
-Comment.searchByBoth = function(query, callback) {//video and user
-
-    Comment.findOne( {videoId: query._id, voterId: query.voterId}, callback );
-
-};
 
 
 Comment.getComments = function(query, callback) {
 
-    Comment.find( query, callback );
+    Comment.find( query )
+        .sort([['_id', 'desc']])
+        .exec( (err, results) => {
+            callback( err, results );
+        } );
 
 };
 
@@ -55,3 +48,14 @@ Comment.addComment = function(data, callback) {
 };
 
 
+Comment.searchByVideo = function(query, callback) {
+
+    Comment.find( {videoId: query._id}, callback );
+
+};
+
+Comment.searchByBoth = function(query, callback) {//video and user
+
+    Comment.findOne( {videoId: query._id, voterId: query.voterId}, callback );
+
+};

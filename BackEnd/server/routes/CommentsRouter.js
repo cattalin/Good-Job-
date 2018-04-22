@@ -26,7 +26,13 @@ router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =
             res.json( {success: false, code: 404, status: 'resource_not_available'} );
         }
         else {
-            res.json( {success: true, code: 200, status: 'comment_added', newComment:newComment} );
+
+            let timestampedComment = newComment.toJSON();
+
+            timestampedComment.timestamp = newComment._id.getTimestamp().getTime() / 1000;
+
+
+            res.json( {success: true, code: 200, status: 'comment_added', newComment:timestampedComment} );
         }
     } )
 
@@ -42,12 +48,23 @@ router.get( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =>
     Comment.getComments( query, (err, comments) => {
 
         if(err) {
-            res.json( {success: false, code: 404, status: 'resource_not_available'} );
+            return res.json( {success: false, code: 404, status: 'resource_not_available'} );
         }
 
         if(!comments || comments.length === 0) {
             return res.json( {success: false, code: 400, status: 'no_comments_found'} );
         }
+
+        comments = comments.map(comment => {
+
+            let timestampedComment = comment.toJSON();
+
+            timestampedComment.timestamp = comment._id.getTimestamp().getTime() / 1000;
+            return timestampedComment;
+
+        });
+
+        console.log(comments);
 
         res.json( {success: true, code: 200, status: 'comments_found', comments: comments} );
     } )
