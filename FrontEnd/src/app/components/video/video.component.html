@@ -63,7 +63,7 @@
 
     <div *ngIf="displayComments" id="container-comments" style="margin-top: 2%;">
       <new-comment *ngIf="displayNewComment" [video]="video"></new-comment>
-      <comment-feed [video]="video"></comment-feed>
+      <comment-feed [newComment]="comment" [video]="video"></comment-feed>
     </div>
 
   </div>

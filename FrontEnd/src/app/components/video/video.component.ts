@@ -6,9 +6,13 @@ import {
 import { Router }                from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
+//rxjs
+import { Subscription }          from 'rxjs/Subscription';
+
 // Services
-import { UserService } from 'app/core/api/user.service';
-import { VideoService } from 'app/core/api/video.service';
+import { UserService }           from 'app/core/api/user.service';
+import { VideoService }          from 'app/core/api/video.service';
+import { CommentHandlerService } from 'app/core/services/comment-handler.service';
 
 
 @Pipe({name: 'safe'})
@@ -157,13 +161,20 @@ export class VideoComponent implements OnInit {
   }
 
   //------------------------------------------------------------------------------//
+  subscription: Subscription;
+  comment: any;
 
   constructor(private sanitizer: DomSanitizer,
               private router: Router,
+              private commentHandlerService: CommentHandlerService,
               private videoService: VideoService,
               private userService: UserService) {
-
     console.log('Constructing video');
+
+    this.subscription = commentHandlerService.newComment$.subscribe(
+      comment => {
+        this.comment = comment;
+      });
   }
 
 
