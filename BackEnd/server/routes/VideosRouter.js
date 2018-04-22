@@ -75,6 +75,7 @@ router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =
         link:        req.body.link,
         title:       req.body.title,
 
+        username: req.user.username,
         class:    req.user.class,
         userId:   req.user,
     };

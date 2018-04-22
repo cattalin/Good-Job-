@@ -17,7 +17,7 @@ const VideoSchema = mongoose.Schema( {
         required: true
     },
     rating:      Number,
-    username:    String,
+    username:    String,//It's almost impossible to search by username from userId.username, so here the username should get updated upon update in user model
     votes:       Number,
     userId:      {
         type: mongoose.Schema.Types.ObjectId,
@@ -38,17 +38,22 @@ Video.getVideoById = function(id, callback) {
 
 Video.getVideos = function(q, callback) {
 
-    console.log( buildSearchConditionsFromQuery( q ) );
+    let searchQuery = buildSearchConditionsFromQuery( q );
+    console.log( 'Custom lookup ' + JSON.stringify( searchQuery ) );
 
-    Video.find( buildSearchConditionsFromQuery( q ) )
-        .count( (err, count) => {//can't do the fucking count differently
+    Video
+        .find( searchQuery )
+        .count()
+        .exec( (err, count) => {//can't do the fucking count differently
 
-            Video.find( buildSearchConditionsFromQuery( q ) )
+            Video
+                .find( searchQuery )
                 .populate( 'userId' )
                 .sort( [[q.sort, -1]] )
                 .limit( parseInt( q.limit ) )
                 .skip( parseInt( q.skip ) )
                 .exec( (err, results) => {
+                    console.log( 'ia pl ' + results.length );
                     callback( err, {results: results, count: count} );
                 } );
 
@@ -57,6 +62,17 @@ Video.getVideos = function(q, callback) {
 
 
 function buildSearchConditionsFromQuery(q) {
+
+    let populate = {//attempt to custom filter in populate
+        path:   "userId",
+        select: 'username',
+        match:  {username: q.searchedContent}
+
+    };
+
+    if(q.searchedContent) {
+        q.searchedContent = q.searchedContent.toLowerCase();
+    }
 
     switch(q.criteria) {
 
@@ -72,9 +88,9 @@ function buildSearchConditionsFromQuery(q) {
 
             return {
                 $or: [
-                    {'description': {$regex: ".*" + q.searchedContent + ".*"}},
+                    {'description': {$regex: ".*" + q.searchedContent + ".*",$options:'i'}},
                     {'username': {$regex: ".*" + q.searchedContent + ".*"}},
-                    {'title': {$regex: ".*" + q.searchedContent + ".*"}}
+                    {'title': {$regex: ".*" + q.searchedContent + ".*",$options:'i'}}
                 ]
             };
 

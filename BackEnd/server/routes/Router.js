@@ -12,10 +12,6 @@ module.exports = function(app) {
 
 
     // app.use( '/api/2.0/videos', VideosRouter );
-    app.use( '/api/2.0/videos', VideosRouter );
-    app.use( '/api/2.0/users', UsersRouter );
-    app.use( '/api/2.0/routes', oldRouter );
-
     app.use( (err, req, res, next) => {
         if(err) {
             console.log( 'Invalid Request data' );
@@ -25,5 +21,11 @@ module.exports = function(app) {
             next()
         }
     } );
+
+    app.use( '/api/2.0/videos', VideosRouter );
+    app.use( '/api/2.0/users', UsersRouter );
+    app.use( '/api/2.0/routes', oldRouter );
+
+
 
 };
