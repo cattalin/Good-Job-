@@ -13,7 +13,8 @@ export class ApiService {
 
     //-----------------------------------------------------------------------------//
 
-    delete(path, body: Object = {}):Observable<any> {
+    delete(path):Observable<any> {
+      console.log(path);
         return this.http.delete(`${this.apiUrl}${path}`,{ headers: this.setHeaders()})
             .catch(err => this.errorHandler(err)
         );

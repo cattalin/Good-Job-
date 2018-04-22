@@ -138,22 +138,22 @@ export class VideoComponent implements OnInit {
   }
 
   //------------------------------------------------------------------------------//
-  //TODO:
+
   deleteVideo() {
 
     window.confirm("Are you sure you want to delete this video?");
     if (confirm) {
-
+      this.videoService.delete(this.video._id).subscribe(res =>{
+        if (res.success){
+          this.exists = false;
+          console.log("Video deleted.");
+        }
+      })
     } else {
 
     }
 
-    // this.videoService.delete(this.video._id).subscribe(res =>{
-    //   if (res.success){
-    //     this.exists = false;
-    //     console.log("success");
-    //   }
-    // })
+
   }
 
   //------------------------------------------------------------------------------//
