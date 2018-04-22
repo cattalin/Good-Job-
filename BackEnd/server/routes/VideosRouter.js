@@ -121,8 +121,10 @@ router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =
     } )
 } );
 
-router.delete( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
-    let videoId = req.query._id;
+router.delete( '/:videoId', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
+    let videoId = req.params.videoId;
+
+    console.log(videoId);
 
     Video.removeVideo( videoId, (err, removedVideosCount) => {
 
