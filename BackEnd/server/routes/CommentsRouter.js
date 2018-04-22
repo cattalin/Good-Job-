@@ -21,12 +21,12 @@ router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =
     console.log(JSON.stringify(req.params));
     console.log( newComment );
 
-    Comment.addComment( new Comment( newComment ), (err, success) => {
+    Comment.addComment( new Comment( newComment ), (err, newComment) => {
         if(err) {
             res.json( {success: false, code: 404, status: 'resource_not_available'} );
         }
         else {
-            res.json( {success: true, code: 200, status: 'comment_added'} );
+            res.json( {success: true, code: 200, status: 'comment_added', newComment:newComment} );
         }
     } )
 
@@ -50,6 +50,27 @@ router.get( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =>
         }
 
         res.json( {success: true, code: 200, status: 'comments_found', comments: comments} );
+    } )
+
+} );
+
+router.get( '/count', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
+
+    let query = {
+        videoId: req.params.videoId
+    };
+
+    Comment.countComments( query, (err, commentsCount) => {
+
+        if(err) {
+            res.json( {success: false, code: 404, status: 'resource_not_available'} );
+        }
+
+        if(!commentsCount || commentsCount === 0) {
+            return res.json( {success: false, code: 400, count: 0, status: 'no_comments_found'} );
+        }
+
+        res.json( {success: true, code: 200, status: 'comments_found', count: commentsCount} );
     } )
 
 } );

@@ -26,7 +26,17 @@ Comment.searchByBoth = function(query, callback) {//video and user
 
 Comment.getComments = function(query, callback) {
 
-    Comment.find( {videoId: query.videoId}, callback );
+    Comment.find( query, callback );
+
+};
+
+Comment.countComments = function(query, callback) {
+
+    Comment.find( query )
+        .count()
+        .exec( (err, resultsCount) => {
+            callback( err, resultsCount );
+        } );
 
 };
 
