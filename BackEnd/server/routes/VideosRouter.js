@@ -122,7 +122,7 @@ router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =
 } );
 
 router.delete( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
-    let videoId = req.body._id;
+    let videoId = req.query._id;
 
     Video.removeVideo( videoId, (err, removedVideosCount) => {
 
