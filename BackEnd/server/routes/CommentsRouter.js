@@ -6,28 +6,6 @@ const Video   = require( '../models/video' );
 const Comment = require( '../models/comment' );
 
 
-router.delete( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
-    let videoId = req.query._id;
-
-    Video.removeVideo( videoId, (err, removedVideosCount) => {
-
-        if(err) {
-            res.json( {success: false, code: 400, status: 'invalid_id'} );
-        }
-        else {
-
-            if(removedVideosCount.n === 0) {
-                res.json( {success: false, code: 404, status: 'video_not_found'} );
-            }
-            else {
-                res.json( {success: false, code: 200, status: 'remove_ok'} );
-            }
-
-        }
-
-    } )
-} );
-
 //post a comment
 router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
 
@@ -50,37 +28,53 @@ router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =
             res.json( {success: true, code: 200, status: 'comment_added'} );
         }
     } )
+
 } );
 
 
-router.get( '/comments', (req, res) => {
-    let query = {
-        videoId: req.query.videoId
-    }
-    Comment.getComments( query, (err, comments) => {
-        if(err) throw err;
-        if(!comments) {
-            return res.json( {success: false, msg: 'comments not found'} );
-        }
-        comments.forEach( function(element) {
-            console.log( element );
-        }, this );
+router.get( '/:videoId', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
 
-        res.json( {success: true, comments: comments} );
+    let query = {
+        videoId: req.params.videoId
+    };
+
+    Comment.getComments( query, (err, comments) => {
+
+        if(err) {
+            res.json( {success: false, code: 404, status: 'resource_not_available'} );
+        }
+
+        if(!comments || comments.length === 0) {
+            return res.json( {success: false, code: 400, status: 'no_comments_found'} );
+        }
+
+        res.json( {success: true, code: 200, status: 'comments_found', comments: comments} );
     } )
 
-} )
+} );
 
-router.post( '/deletecomm', (req, res, next) => {
-    let todel = req.body._id;
-    Comment.removeComment( todel, (err, user) => {
+router.delete( '/:commentId', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
+
+    let commentId = req.params.commentId;
+
+    Comment.removeComment( commentId, (err, removedEntriesCount) => {
+
         if(err) {
-            res.json( {success: false, msg: 'Failed to remove'} );
+            res.json( {success: false, code: 400, status: 'invalid_id'} );
         }
         else {
-            res.json( {success: true, msg: 'removed'} );
+
+            if(removedEntriesCount.n === 0) {
+                res.json( {success: false, code: 404, status: 'comment_not_found'} );
+            }
+            else {
+                res.json( {success: false, code: 200, status: 'remove_ok'} );
+            }
+
         }
+
     } )
+
 } );
 
 
