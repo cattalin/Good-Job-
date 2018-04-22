@@ -5,13 +5,13 @@ import { Subject }    from 'rxjs/Subject';
 export class CommentHandlerService {
 
   // Observable string sources
-  private newCommentSource = new Subject<string>();
+  private newCommentSource = new Subject<any>();
 
   // Observable string streams
-  newComment$ = this.addNewComment.asObservable();
+  newComment$ = this.newCommentSource.asObservable();
 
   // Service message commands
-  addNewComment(mission: string) {
+  addNewComment(mission: any) {
     this.newCommentSource.next(mission);
   }
 }
