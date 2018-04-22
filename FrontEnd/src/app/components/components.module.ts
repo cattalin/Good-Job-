@@ -10,9 +10,9 @@ import { SafePipe, VideoComponent } from './video/video.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { CommentComponent } from './comment/comment.component';
 import { CommentFeedComponent } from './comment-feed/comment-feed.component';
-import { NewCommentComponent } from './new-comment/new-comment.component';
+import { NewCommentComponent } from './comment-new/new-comment.component';
 
-@NgModule({
+@NgModule({ 
   imports: [
     CommonModule,
     FormsModule,
