@@ -32,9 +32,26 @@ export class CommentService {
 
   //-----------------------------------------------------------------------------//
 
-
+  getNumberOfComments(videoId) {
+    return this.apiService.get(`${this.videosUrl+videoId+this.resourceUrl}/count`)
+      .map(res => {
+        return res; //TODO:
+        //else throw res.status;
+      });
+  }
 
   //-----------------------------------------------------------------------------//
+
+  deleteComment(videoId, commentId) {
+    return this.apiService.delete(`${this.videosUrl+videoId+this.resourceUrl}/`+commentId)
+      .map(res => {
+        if(res.code==200) return res;
+        else throw res.status;
+      });
+  }
+
+  //-----------------------------------------------------------------------------//
+
 
   constructor(
     private apiService: ApiService

@@ -13,7 +13,7 @@ export class CommentFeedComponent implements OnInit, OnChanges {
 
   @Input() video;
   @Input() newComment;
-  comments: any;
+  comments: any = [];
 
   //-----------------------------------------------------------------------------//
 
@@ -28,7 +28,7 @@ export class CommentFeedComponent implements OnInit, OnChanges {
   //-----------------------------------------------------------------------------//
 
   ngOnChanges() {
-    if(this.newComment) this.comments.push(this.newComment);
+    if(this.newComment) this.comments.unshift(this.newComment);
   }
 
   //-----------------------------------------------------------------------------//
