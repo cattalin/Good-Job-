@@ -33,7 +33,7 @@ Comment.getComments = function(query, callback) {
 
 Comment.removeComment = function(query, callback) {
 
-    Comment.remove( {_id: query}, callback );
+    Comment.remove( query, callback );
 
 };
 

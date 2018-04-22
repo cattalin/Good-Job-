@@ -23,7 +23,7 @@ module.exports = function(app) {
         }
     } );
 
-    app.use( '/api/2.0/comments', CommentsRouter );
+    app.use( '/api/2.0/videos/:videoId/comments', CommentsRouter );
     app.use( '/api/2.0/videos', VideosRouter );
     app.use( '/api/2.0/users', UsersRouter );
     app.use( '/api/2.0/routes', oldRouter );

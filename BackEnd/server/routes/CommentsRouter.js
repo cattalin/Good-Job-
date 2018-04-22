@@ -1,6 +1,6 @@
 const passport = require( 'passport' );
 const express  = require( 'express' );
-const router   = express.Router();
+const router   = express.Router({ mergeParams: true });
 
 const Video   = require( '../models/video' );
 const Comment = require( '../models/comment' );
@@ -15,9 +15,10 @@ router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =
         class:    req.user.class,
 
         text:    req.body.text,
-        videoId: req.body.videoId
+        videoId: req.params.videoId
     };
 
+    console.log(JSON.stringify(req.params));
     console.log( newComment );
 
     Comment.addComment( new Comment( newComment ), (err, success) => {
@@ -32,7 +33,7 @@ router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =
 } );
 
 
-router.get( '/:videoId', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
+router.get( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
 
     let query = {
         videoId: req.params.videoId
@@ -55,9 +56,12 @@ router.get( '/:videoId', passport.authenticate( 'jwt', {session: false} ), (req,
 
 router.delete( '/:commentId', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
 
-    let commentId = req.params.commentId;
+    let query = {
+        videoId:   req.params.videoId,
+        _id: req.params.commentId
+    };
 
-    Comment.removeComment( commentId, (err, removedEntriesCount) => {
+    Comment.removeComment( query, (err, removedEntriesCount) => {
 
         if(err) {
             res.json( {success: false, code: 400, status: 'invalid_id'} );

@@ -137,7 +137,7 @@ router.delete( '/:videoId', passport.authenticate( 'jwt', {session: false} ), (r
                 res.json( {success: false, code: 404, status: 'video_not_found'} );
             }
             else {
-                res.json( {success: false, code: 200, status: 'remove_ok'} );
+                res.json( {success: true, code: 200, status: 'remove_ok'} );
             }
 
         }
