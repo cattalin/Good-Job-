@@ -1,56 +1,25 @@
-<div class="container" id="commentbox">
-    <div class="row">
-      <div class="col-sm-8">
-        <div class="panel panel-white post panel-shadow"  style="width:155%;">
-          
-          
-          
-          <div class="post-heading">
-            <div class="pull-left image">
-              <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
-            </div>
-            <div class="pull-left meta">
+<div class="container comment">
 
-              
+  <div class="row">
+    <div class="col-sm-10" style="text-align: left;">
+      <p style="margin-top: 10px;font-size: 1em;" [routerLinkActive]="['active']"
+         [routerLinkActiveOptions] = "{exact:true}">
 
-              <div class="title h5">
-                    <p class="text-left" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
-                        <a (click)="redirect()" class = "link-cursor text-left">by {{comment.username}}</a>
-                    </p>
+        <a (click)="goToProfile()" class = "link-cursor">by {{comment.username}}</a>
+        <span style="color: gray;">on {{comment.date | date:'medium'}}</span>
 
-              </div>
-              <h6 class="text-muted customDate"><p>{{getTimestamp()}}</p></h6>
-            </div>
-          </div>
-
-
-
-          <div class="post-description text-left commentText">
-            <p>{{comment.text}}</p>
-            <!--<div class="stats">
-              <a href="#" class="btn btn-default stat-item">
-                <i class="fa fa-thumbs-up icon"></i>2
-              </a>
-              <a href="#" class="btn btn-default stat-item">
-                <i class="fa fa-thumbs-down icon"></i>12
-              </a>
-            </div>-->
-            <div class="pull-right" style = "margin-top:-5%;" *ngIf="isMyComment">
-                <button class="btn btn-danger btn-md" type="button" (click)="deleteComment()" id="commentB">Delete</button>
-            </div>
-          </div>
-
-          
-        </div>
-      </div>
+      </p>
     </div>
+
+    <div *ngIf="comment.ownComment" class="col-sm-2" style="text-align: right;margin-top: 10px;">
+      <i class="fas fa-trash-alt" style="margin-right: 5px;" (click)="delete()"></i>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12" style="margin-bottom: 10px;">
+      <p class="text">{{comment.text}}</p>
+    </div>
+  </div>
+
 </div>
-<!--
-<div class="jumbotron">
-  <p>{{comment.text}}</p>
-  <p [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
-    <a (click)="redirect()">by {{comment.username}}</a>
-  </p>
-  <p>{{getTimestamp()}}</p>
-</div>
--->

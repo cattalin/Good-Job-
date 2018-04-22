@@ -1,9 +1,3 @@
-
-
-<button class="btn btn-warning btn-md comment-btn" *ngIf="!isShowComments && comments.length!=0" type="button" (click)="toggleComments()" id="commentB">Show Comments</button>
-<button class="btn btn-warning btn-md comment-btn" *ngIf="isShowComments && comments.length!=0" type="button" (click)="toggleComments()" id="commentB">Hide Comments</button>
-<div *ngIf="isShowComments">
-  <div *ngFor="let comm of comments">
-    <app-comment  [comment]="comm" [user]="user"></app-comment>
-  </div>
+<div *ngFor="let comment of comments; let i=index;">
+  <comment [comment]="comment"></comment>
 </div>

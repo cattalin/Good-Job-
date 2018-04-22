@@ -8,6 +8,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // Services
 import { UserService } from 'app/core/api/user.service';
+import { VideoService } from 'app/core/api/video.service';
 
 
 @Pipe({name: 'safe'})
@@ -137,22 +138,38 @@ export class VideoComponent implements OnInit {
       this.newComment = event;
     }
   }
+  //------------------------------------------------------------------------------//
 
+  displayNewComment: boolean = false;
+  toggleNewComment() {
+    this.displayNewComment=!this.displayNewComment;
+  }
 
+  //------------------------------------------------------------------------------//
+
+  displayComments: boolean = false;
+  toggleComments() {
+    this.displayComments=!this.displayComments;
+    if(!this.displayComments) this.displayNewComment=false;
+  }
+
+  //------------------------------------------------------------------------------//
+  //TODO:
   deleteVideo() {
 
-    // this.videoService.remove(this.video).subscribe(res =>{
-    //   if (res.success){
-    //     this.exists = false;
-    //     console.log("success");
-    //   }
-    // })
+    this.videoService.delete(this.video._id).subscribe(res =>{
+      if (res.success){
+        this.exists = false;
+        console.log("success");
+      }
+    })
   }
 
   //------------------------------------------------------------------------------//
 
   constructor(private sanitizer: DomSanitizer,
               private router: Router,
+              private videoService: VideoService,
               private userService: UserService) {
 
     console.log('Constructing video');
