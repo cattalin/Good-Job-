@@ -47,7 +47,8 @@
         </div>
 
         <div class="col-sm-4" style="text-align: center;">
-          <a (click)="toggleComments()" style="color: darkslategray;"><i class="far fa-2x fa-comments"></i> 7 comments</a>
+          <a *ngIf="displayComments" (click)="toggleComments()" style="color: darkslategray;"><i class="far fa-2x fa-comments"></i> Hide</a>
+          <a *ngIf="!displayComments" (click)="toggleComments()" style="color: darkslategray;"><i class="far fa-2x fa-comments"></i> {{numberOfComments}} {{numberOfComments==1 ? 'comment':'comments'}}</a>
           <a *ngIf="displayComments" (click)="toggleNewComment()" style="color: darkslategray;margin-left: 5px;"><i class="fas fa-plus"></i> {{displayNewComment ? 'Cancel':'Add New'}}</a>
         </div>
 

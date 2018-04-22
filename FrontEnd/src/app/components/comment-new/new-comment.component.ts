@@ -9,8 +9,7 @@ import { UserService }                    from 'app/core/api/user.service';
 @Component({
   selector: 'new-comment',
   templateUrl: './new-comment.component.html',
-  styleUrls: ['./new-comment.component.css'],
-  providers: [CommentHandlerService]
+  styleUrls: ['./new-comment.component.css']
 })
 export class NewCommentComponent implements OnInit {
 
@@ -30,6 +29,7 @@ export class NewCommentComponent implements OnInit {
 
     this.commentService.newComment({text: this.text, videoId: this.video._id})
       .subscribe(res=>{
+        this.text='';
           this.commentHandlerService.addNewComment(res.newComment);
       },err=>{
 

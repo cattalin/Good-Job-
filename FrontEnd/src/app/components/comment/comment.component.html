@@ -1,4 +1,4 @@
-<div class="container comment">
+<div *ngIf="exists" class="container comment">
 
   <div class="row">
     <div class="col-sm-10" style="text-align: left;">
@@ -11,7 +11,7 @@
       </p>
     </div>
 
-    <div *ngIf="comment.ownComment" class="col-sm-2" style="text-align: right;margin-top: 10px;">
+    <div *ngIf="comment.username == currentUser.username" class="col-sm-2" style="text-align: right;margin-top: 10px;">
       <i class="fas fa-trash-alt" style="margin-right: 5px;" (click)="delete()"></i>
     </div>
   </div>

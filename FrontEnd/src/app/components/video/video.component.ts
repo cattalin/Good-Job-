@@ -13,6 +13,7 @@ import { Subscription }          from 'rxjs/Subscription';
 import { UserService }           from 'app/core/api/user.service';
 import { VideoService }          from 'app/core/api/video.service';
 import { CommentHandlerService } from 'app/core/services/comment-handler.service';
+import { CommentService }        from 'app/core/api/comment.service';
 
 
 @Pipe({name: 'safe'})
@@ -27,17 +28,18 @@ export class SafePipe implements PipeTransform {
   }
 }
 
-
 @Component({
   selector: 'app-video',
   templateUrl: './video.component.html',
-  styleUrls: ['./video.component.css']
+  styleUrls: ['./video.component.css'],
+  providers: [CommentHandlerService]
 })
 
 export class VideoComponent implements OnInit {
 
   @Input() video;
   currentUser;
+  numberOfComments;
 
 
   newComment: any = null;
@@ -48,8 +50,13 @@ export class VideoComponent implements OnInit {
   ngOnInit() {
     console.log('Initing video');
     this.currentUser = this.userService.currentUser;
-    this.ratingManager(); //TODO: refactor
+    this.commentService.getNumberOfComments(this.video._id).subscribe(res=>{
+      this.numberOfComments = res.count;
+    }, err=>{
+      //TODO:
+    })
 
+    this.ratingManager(); //TODO: refactor
     this.isPostComment = false; //TODO: rename
 
   }
@@ -154,10 +161,8 @@ export class VideoComponent implements OnInit {
         }
       })
     } else {
-
+      //TODO:
     }
-
-
   }
 
   //------------------------------------------------------------------------------//
@@ -168,6 +173,7 @@ export class VideoComponent implements OnInit {
               private router: Router,
               private commentHandlerService: CommentHandlerService,
               private videoService: VideoService,
+              private commentService: CommentService,
               private userService: UserService) {
     console.log('Constructing video');
 
