@@ -1,8 +1,9 @@
 module.exports = function(app) {
 
-    const VideosRouter = require( './VideosRouter' );
-    const UsersRouter  = require( './UsersRouter' );
-    const oldRouter    = require( './routes' );
+    const CommentsRouter = require( './CommentsRouter' );
+    const VideosRouter   = require( './VideosRouter' );
+    const UsersRouter    = require( './UsersRouter' );
+    const oldRouter      = require( './routes' );
 
 
     // let swaggerUi       = require( 'swagger-ui-express' );
@@ -22,10 +23,10 @@ module.exports = function(app) {
         }
     } );
 
+    app.use( '/api/2.0/comments', CommentsRouter );
     app.use( '/api/2.0/videos', VideosRouter );
     app.use( '/api/2.0/users', UsersRouter );
     app.use( '/api/2.0/routes', oldRouter );
-
 
 
 };
