@@ -118,26 +118,10 @@ export class VideoComponent implements OnInit {
     // })
   }
 
-
-  postComment() {
-    this.isPostComment = true;
-  }
-
-  cancelComment() {
-    this.isPostComment = false;
-  }
-
   redirect() {
     this.router.navigate(['/user-profile'], {queryParams: {username: this.video.username}})
   }
 
-
-  getNewComment(event) {
-    if (event != null) {
-      this.isPostComment = false;
-      this.newComment = event;
-    }
-  }
   //------------------------------------------------------------------------------//
 
   displayNewComment: boolean = false;
@@ -157,12 +141,19 @@ export class VideoComponent implements OnInit {
   //TODO:
   deleteVideo() {
 
-    this.videoService.delete(this.video._id).subscribe(res =>{
-      if (res.success){
-        this.exists = false;
-        console.log("success");
-      }
-    })
+    window.confirm("Are you sure you want to delete this video?");
+    if (confirm) {
+
+    } else {
+
+    }
+
+    // this.videoService.delete(this.video._id).subscribe(res =>{
+    //   if (res.success){
+    //     this.exists = false;
+    //     console.log("success");
+    //   }
+    // })
   }
 
   //------------------------------------------------------------------------------//

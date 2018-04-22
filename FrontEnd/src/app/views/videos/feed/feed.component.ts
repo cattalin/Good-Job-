@@ -17,7 +17,7 @@ export class FeedComponent implements OnInit {
   ngOnInit() {
 
     this.currentUser = this.getCurrentUser();
-    
+
   }
 
   //------------------------------------------------------------------------------//
@@ -50,6 +50,10 @@ export class FeedComponent implements OnInit {
     this.videoService.getVideoFeed(this.criteria).subscribe(res=>{
       this.feed=res.videos.results;
       this.count=res.count;
+      let x = document.querySelector ( "#top" );
+      if ( x ) {
+        x.scrollIntoView ();
+      }
     });
   }
 
