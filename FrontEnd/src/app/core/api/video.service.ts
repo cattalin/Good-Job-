@@ -35,9 +35,9 @@ export class VideoService {
   //-----------------------------------------------------------------------------//
 
   delete(videoId) {
-    return this.apiService.delete(`${this.resourceUrl}/_`+videoId)
+    return this.apiService.delete(`${this.resourceUrl}/`+videoId)
       .map(res => {
-      if(res.success) return res;
+      if(res.code==200) return res;
       else throw res.status;
     });
   }

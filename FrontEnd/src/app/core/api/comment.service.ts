@@ -10,7 +10,7 @@ export class CommentService {
   private readonly resourceUrl: string = '/comments';
 
   //-----------------------------------------------------------------------------//
- 
+
   newComment(comment) {
    return this.apiService.post(`${this.resourceUrl}`, comment)
       .map(res => {

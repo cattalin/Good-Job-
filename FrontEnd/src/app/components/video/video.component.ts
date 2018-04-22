@@ -144,7 +144,7 @@ export class VideoComponent implements OnInit {
     window.confirm("Are you sure you want to delete this video?");
     if (confirm) {
       this.videoService.delete(this.video._id).subscribe(res =>{
-        if (res.success){
+        if (res.code==200){
           this.exists = false;
           console.log("Video deleted.");
         }
