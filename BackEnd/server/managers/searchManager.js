@@ -37,23 +37,33 @@ function getQueryFromReq(req) {//todo move this to search manager
 function retrieveVideos(query, res) {
     Video.getVideos( query, (err, videos) => {
 
-        if(err) return res.json( {success: false, code: 404, status: 'resource_unavailable'} );
+        if(err) {
+            console.log( 'Error found searching videos: ' + JSON.stringify( err ) );
+            return res.json( {success: false, code: 404, status: 'resource_unavailable'} );
+        }
         if(!videos) return res.json( {success: false, code: 404, status: 'no_videos_found'} );
 
 
         videos.results = videos.results.map(//mark the ones belonging to the current user
             (userVideo) => {
 
+
                 let parsedVideo = JSON.parse( JSON.stringify( userVideo ) );//dupe a mongoose object
 
-                parsedVideo.username = parsedVideo.userId.username;//TODO these are here just to keep the old data structure
-                parsedVideo.userId   = parsedVideo.userId._id;
+                if(parsedVideo.userId) {//todo delete this after database drop
 
-                if(parsedVideo.userId.toString() === query.userId.toString()) {
-                    parsedVideo.ownVideo = true;
-                }
-                else {
-                    parsedVideo.ownVideo = false;
+                    console.log( JSON.stringify( userVideo.userId ) );
+
+                    // parsedVideo.username = parsedVideo.userId.username;//TODO these are here just to keep the old data structure
+
+                    parsedVideo.userId = parsedVideo.userId._id;
+
+                    if(parsedVideo.userId.toString() === query.userId.toString()) {
+                        parsedVideo.ownVideo = true;
+                    }
+                    else {
+                        parsedVideo.ownVideo = false;
+                    }
                 }
 
                 return parsedVideo;
