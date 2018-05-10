@@ -1,4 +1,5 @@
-const Video = require( '../models/video' );
+const Video         = require( '../models/video' );
+const RatingManager = require( '../managers/ratingManager' );
 
 
 function getQueryFromReq(req) {//todo move this to search manager
@@ -47,15 +48,13 @@ function retrieveVideos(query, res) {
         videos.results = videos.results.map(//mark the ones belonging to the current user
             (userVideo) => {
 
-
                 let parsedVideo = JSON.parse( JSON.stringify( userVideo ) );//dupe a mongoose object
 
                 if(parsedVideo.userId) {//todo delete this after database drop
 
                     console.log( JSON.stringify( userVideo.userId ) );
 
-                    // parsedVideo.username = parsedVideo.userId.username;//TODO these are here just to keep the old data structure
-
+                    // parsedVideo.username = parsedVideo.userId.username;//TODO these is here just to keep the old data structure
                     parsedVideo.userId = parsedVideo.userId._id;
 
                     if(parsedVideo.userId.toString() === query.userId.toString()) {
@@ -64,6 +63,11 @@ function retrieveVideos(query, res) {
                     else {
                         parsedVideo.ownVideo = false;
                     }
+
+                    // let xxx = await RatingManager.hasRated( {userId: parsedVideo.userId, videoId: parsedVideo._id} ).then((resDoc) =>{
+                    //         console.log('FULFILLED ' + resDoc.rating);
+                    //     }
+                    // )
                 }
 
                 return parsedVideo;
@@ -73,17 +77,6 @@ function retrieveVideos(query, res) {
 
     } )
 }
-
-
-// module.exports.getVideosAndUsers = function(query, callback)
-// {
-//     Video.searchVideos(query,callback);
-// };
-//
-// module.exports.countVideosAndUsers = function(query, callback)
-// {
-//     Video.countByTitleOrDescriptionOrUsername(query, callback);
-// }
 
 
 let searchManager = {};

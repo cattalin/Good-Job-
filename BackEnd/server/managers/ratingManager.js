@@ -1,123 +1,134 @@
-const mongoose = require('mongoose');
-const config = require('../config/database');
-const User = require('../models/user');
-const Video = require('../models/video');
-const Voter = require('../models/voter');
 
+const Video    = require( '../models/video' );
+const Voter    = require( '../models/voter' );
 
 
 //Conditions: identify the video    Update:vote the video   Options:unique update
-module.exports.rateVideo = function(data, callback){
+module.exports.rateVideo = function(data, callback) {
 
-    let query= {
+    let query = {
         videoId: data.videoId,
         voterId: data.voterId
     };
 
-    Voter.searchByBoth(query, (err, voter) => {//we search for the vote of the user on that video
-        if(!err)
-            if(voter){
-                if(isSameVote(voter, data))//if it's the same it means we need to remove it
-                {
-                    Voter.removeVote(query, (err, res) => {
-                        if(!err){
-                            this.recalculateRating(query, (err, newRating) => {
-                                Video.updateVideo(query, newRating, (err, x) => {
-                                    callback(null, {rating:newRating.rating, votes:newRating.votes, 
-                                        currentVote:0})})//custom callback with our needed parameters that we sent to the frontend
-                            });
-                        }
-                    });
-                }
-                else{//different vote found by the same user -> we update it
-                    Voter.updateVote(query, data, (err, res) => {
-                        if(!err){
-                            this.recalculateRating(query, (err, newRating) => {
-                                Video.updateVideo(query, newRating, (err, x) => {
-                                    callback(null, {rating:newRating.rating, votes:newRating.votes, 
-                                        currentVote:data.rating})})//custom callback with our needed parameters that we sent to the frontend
-                            });
-                        }
-                    });
-                }
-            }
-            else{//a vote doesn t exist so we need to insert it
-                Voter.addVote(data, (err, res) => {
-                    if(!err){
-                        this.recalculateRating(query, (err, newRating) => {
-                            Video.updateVideo(query, newRating, (err, x) => {
-                                callback(null, {rating:newRating.rating, votes:newRating.votes, 
-                                    currentVote:data.rating})})//custom callback with our needed parameters that we sent to the frontend
-                        });
+    Voter.searchByBoth( query, (err, currentVote) => {//we search for the vote of the user on that video
+        if(!err && currentVote) {
+            if(isSameVote( currentVote, data ))//if it's the same it means we need to remove it
+            {
+                Voter.removeVote( query, (err, res) => {
+                    console.log( 'Removing vote' );
+                    if(!err) {
+                        this.recalculateRating( query, (newRating) => {
+                            Video.rateVideo( query, newRating, (err, x) => {
+                                callback( err, {
+                                    rating:      newRating.rating, votes: newRating.votes,
+                                    currentVote: 0
+                                } )
+                            } )
+                        } );
                     }
-                });
+                } );
             }
-        else
-        ;
-    });
+            else {//different vote found by the same user -> we update it
+                Voter.updateVote( query, data, (err, res) => {
+                    console.log( 'Updating vote' );
+                    if(!err) {
+                        this.recalculateRating( query, (newRating) => {
+                            Video.rateVideo( query, newRating, (err, x) => {
+                                callback( err, {
+                                    rating:      newRating.rating, votes: newRating.votes,
+                                    currentVote: data.rating
+                                } )
+                            } )
+                        } );
+                    }
+                } );
+            }
+        }
+        else {//a vote doesn t exist so we need to insert it
+            Voter.addVote( data, (err, res) => {
+                console.log( 'Adding vote' );
+                if(!err) {
+                    this.recalculateRating( query, (newRating) => {
+                        Video.rateVideo( query, newRating, (err, x) => {
+                            callback( err, {
+                                rating:      newRating.rating, votes: newRating.votes,
+                                currentVote: data.rating
+                            } )
+                        } )
+                    } );
+                }
+            } );
+        }
+    } );
 }
 
-module.exports.hasRated = function(query, callback){
-    let q = {
-        videoId: query.videoId,
-        voterId: query.userId
-    }
-    Voter.searchByBoth(q, (err, result) =>{
-        if(err)
-            callback(err, 0);
-        else if(result == null)
-            callback(null, 0);
-        else callback(null, result.rating);
-    });
+module.exports.hasRated = function(query, callback) {
+    Voter.searchByBoth( query, (err, result) => {
+        if(err || result == null) {
+            callback( 0 );
+        }
+        else {
+            callback( result.rating );
+        }
+    } );
+};
 
-}
+// module.exports.hasRated = async function(query){
+//     let q = {
+//         videoId: query.videoId,
+//         voterId: query.userId
+//     };
+//
+//     return Voter.searchByBoth(q);
+// };
 
 //TODO: MUST BE CHANGED: RECALCULATES RATING FROM SCRATCH 
-module.exports.recalculateRating = function(query, callback){
-    Voter.searchByVideo(query, (err, result) => {
-        if(!err){
-            let voters=result;
+module.exports.recalculateRating = function(query, callback) {
+    Voter.searchByVideo( query, (err, result) => {
+        if(!err && result) {
+
+            let voters = result;
             let update = {
                 rating: 1,
-                votes: 0
-            }
-            let sum = 0;
-            let err = null;
-            voters.map(x => {
-                switch (x.class) {
-                case 'A':
-                    update.votes++;
-                    sum += x.rating;
-                    break;
-                case 'B':
-                    update.votes += 3;
-                    sum += x.rating*3;
-                    break;
-                case 'C':
-                    update.votes += 5;
-                    sum += x.rating*5;
-                    break;
-                case 'D':
-                    update.votes += 7;
-                    sum += x.rating*7;
-                    break;
-                case 'E':
-                    update.votes += 10;
-                    sum += x.rating*10;
-                    break;
+                votes:  0
+            };
+            let sum    = 0;
+            voters.map( x => {
+                let increasingFactor = 1;
+                switch(x.class) {
+                    case 'A':
+                        increasingFactor = 1;
+                        break;
+                    case 'B':
+                        increasingFactor = 3;
+                        break;
+                    case 'C':
+                        increasingFactor = 5;
+                        break;
+                    case 'D':
+                        increasingFactor = 7;
+                        break;
+                    case 'E':
+                        increasingFactor = 10;
+                        break;
                 }
-            })
-            update.rating = (sum/update.votes).toFixed(2);
-            callback(err, update);
+
+                update.votes += increasingFactor;
+                sum += x.rating * increasingFactor;
+            } );
+            update.rating = (sum / update.votes).toFixed( 2 );
+
+            callback( update );
         }
-    })
-}
+        else {
+            callback( {rating: 0} );
+        }
+    } )
+};
 
 
 //compares 2 votes by rating
-function isSameVote(vote1, vote2){
-
-    if (vote1.rating == vote2.rating&&vote1.voterId == vote2.voterId)
-        return true;
-    return false;
+function isSameVote(vote1, vote2) {
+    return (vote1.rating.toString() === vote2.rating.toString() && vote1.voterId.toString() === vote2.voterId.toString())
 } 

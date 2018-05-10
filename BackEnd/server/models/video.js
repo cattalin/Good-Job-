@@ -53,7 +53,7 @@ Video.getVideos = function(q, callback) {
                 .limit( parseInt( q.limit ) )
                 .skip( parseInt( q.skip ) )
                 .exec( (err, results) => {
-                    console.log( 'ia pl ' + results.length );
+                    console.log( 'Results count: ' + results.length );
                     callback( err, {results: results, count: count} );
                 } );
 
@@ -117,7 +117,7 @@ Video.removeVideo = function(query, callback) {
 
 };
 
-Video.updateVideo = function(query, data, callback) {
+Video.rateVideo = function(query, data, callback) {
 
     let newVideo = {
         rating: data.rating,
@@ -128,7 +128,7 @@ Video.updateVideo = function(query, data, callback) {
         upsert: false
     };
 
-    Video.update( {_id: query._id}, newVideo, options, callback );
+    Video.update( {_id: query.videoId}, newVideo, options, callback );
 };
 
 Video.addVideo = function(newVideo, callback) {

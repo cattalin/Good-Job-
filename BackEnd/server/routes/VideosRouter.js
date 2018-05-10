@@ -35,35 +35,72 @@ router.post( '/search', passport.authenticate( 'jwt', {session: false} ), (req, 
 } );
 
 //rate a video
-router.post( '/rate', (req, res) => {
+router.post( '/:videoId/rate', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
 
-    let conditions = {
-        _id: req.body._id
-    };
+    console.log( 'Voting user_id: ' + req.user._id );
 
     let data = {
-        voterId: req.body.userId,//todo get from auth token
-        rating:  req.body.rating
+        videoId: req.params.videoId,
+        voterId: req.user._id,
+        rating:  req.body.rating,
+        class:   req.user.class
     };
 
-    User.getClassById( data.voterId, (err, cls) => {
-        if(err) return res.json( {success: false, msg: 'Failed'} );
+    console.log( JSON.stringify( data ) + " ---- " );
 
-        data.class = cls.class;
+    RatingManager.rateVideo( data, (err, result) => {
 
-        RatingManager.rateVideo( conditions, data, (err, result) => {
+        if(err) {
+            return res.json( {success: false, code: 400, status: 'failed_to_rate'} );
+        }
+        else {
+            return res.json( {success: true, code: 200, status: 'rating_saved', result:result} );
+        }
 
-            if(err) {
-                return res.json( {success: false, msg: 'Failed to upload video', result: result} );
+    } )
+
+} );
+
+router.get( '/hasRated', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
+    let query = {
+        videoId: req.query.videoId,
+        voterId:  req.user._id,
+    };
+
+    // query = Object.assign({}, req.query);
+
+
+    console.log( JSON.stringify( query ) + " ---- " );
+
+    RatingManager.hasRated( query, (rating) => {
+        res.json( {success: true, code: 200, userRating: rating} );
+
+    } )
+} );
+
+
+router.delete( '/:videoId', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
+    let videoId = req.params.videoId;
+
+    console.log( videoId );
+
+    Video.removeVideo( videoId, (err, removedVideosCount) => {
+
+        if(err) {
+            res.json( {success: false, code: 400, status: 'invalid_id'} );
+        }
+        else {
+
+            if(removedVideosCount.n === 0) {
+                res.json( {success: false, code: 404, status: 'video_not_found'} );
             }
             else {
-                return res.json( {success: true, msg: 'Video saved', result: result} );
+                res.json( {success: true, code: 200, status: 'remove_ok'} );
             }
 
-        } )
+        }
 
-    } );
-
+    } )
 } );
 
 //post a video
@@ -118,30 +155,6 @@ router.post( '/', passport.authenticate( 'jwt', {session: false} ), (req, res) =
 
             } )
         }
-    } )
-} );
-
-router.delete( '/:videoId', passport.authenticate( 'jwt', {session: false} ), (req, res) => {
-    let videoId = req.params.videoId;
-
-    console.log(videoId);
-
-    Video.removeVideo( videoId, (err, removedVideosCount) => {
-
-        if(err) {
-            res.json( {success: false, code: 400, status: 'invalid_id'} );
-        }
-        else {
-
-            if(removedVideosCount.n === 0) {
-                res.json( {success: false, code: 404, status: 'video_not_found'} );
-            }
-            else {
-                res.json( {success: true, code: 200, status: 'remove_ok'} );
-            }
-
-        }
-
     } )
 } );
 

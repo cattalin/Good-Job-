@@ -59,7 +59,7 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
 
 router.get('/find', (req, res) => {
 
-    let query = object.assign({}, req.query);
+    let query = Object.assign({}, req.query);
 
     console.log('Requested -> User profile of: ' + JSON.stringify(query));
 
@@ -145,7 +145,7 @@ router.post('/register', (req, res) => {
         email: req.body.email,
         username: req.body.username,
         password: req.body.password,
-        class: req.body.class
+        class: req.body.class? req.body.class: 'A'
     });
 
     User.addUser(newUser, (err) => {
@@ -161,3 +161,4 @@ router.post('/register', (req, res) => {
 });
 
 module.exports = router;
+
