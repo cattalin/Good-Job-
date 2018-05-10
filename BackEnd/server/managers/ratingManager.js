@@ -130,5 +130,6 @@ module.exports.recalculateRating = function(query, callback) {
 
 //compares 2 votes by rating
 function isSameVote(vote1, vote2) {
+    console.log(JSON.stringify(vote1) + '====' + JSON.stringify(vote2));
     return (vote1.rating.toString() === vote2.rating.toString() && vote1.voterId.toString() === vote2.voterId.toString())
 } 

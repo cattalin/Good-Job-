@@ -50,10 +50,25 @@ export class FeedComponent implements OnInit {
     this.videoService.getVideoFeed(this.criteria).subscribe(res=>{
       this.feed=res.videos.results;
       this.count=res.count;
+      this.getUserRating(res.videos.results);
       let x = document.querySelector ( "#top" );
       if ( x ) {
         x.scrollIntoView ();
       }
+    });
+  }
+
+  //------------------------------------------------------------------------------//
+
+  getUserRating(videoFeed) {
+    console.warn(videoFeed);
+
+    videoFeed.forEach(video=>{
+        this.videoService.hasRated(video._id).subscribe(res=>{
+          video.userRating=res.userRating;
+        }, err=>{
+          console.error("Error. Get hasRated failed.");
+        })
     });
   }
 

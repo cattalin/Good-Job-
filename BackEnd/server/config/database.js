@@ -1,6 +1,6 @@
 
 module.exports = {
-  database: 'mongodb://localhost:27017/fromscratch',    //dev
+  database: 'mongodb://86.124.196.67:27017/fromscratch',    //dev
   secret: 'yoursecret'
 };
 

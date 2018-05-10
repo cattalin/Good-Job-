@@ -1,6 +1,7 @@
 // Angular
 import {
   Component, Input, OnInit,
+  OnChanges,
   Pipe, PipeTransform
 }                                from '@angular/core';
 import { Router }                from '@angular/router';
@@ -35,7 +36,7 @@ export class SafePipe implements PipeTransform {
   providers: [CommentHandlerService]
 })
 
-export class VideoComponent implements OnInit {
+export class VideoComponent implements OnInit, OnChanges {
 
   @Input() video;
   currentUser;
@@ -47,8 +48,15 @@ export class VideoComponent implements OnInit {
   exists = true;
   isPostComment = false;
 
+  ngOnChanges() {
+    console.warn(this.video);
+  }
+
   ngOnInit() {
     console.log('Initing video');
+
+    if(this.video.userRating==null) this.video.userRating = 0;
+
     this.currentUser = this.userService.currentUser;
     this.commentService.getNumberOfComments(this.video._id).subscribe(res=>{
       this.numberOfComments = res.count;
@@ -58,6 +66,16 @@ export class VideoComponent implements OnInit {
 
     this.ratingManager(); //TODO: refactor
     this.isPostComment = false; //TODO: rename
+
+  }
+
+  rateVideo(value) {
+
+
+    this.videoService.rate(this.video._id, value).subscribe(res=>{ 
+      this.video.userRating==value ? this.video.userRating=0:this.video.userRating = value;
+      this.video.rating = res.result.rating;
+    });
 
   }
 

@@ -54,9 +54,9 @@
 
         <div class="col-sm-4" style="text-align: right;">
           <div style="margin-right: 5px;">
-            <i class="fas fa-2x fa-smile"></i>
-            <i class="fas fa-2x fa-meh"></i>
-            <i class="fas fa-2x fa-frown"></i>
+            <i (click)="rateVideo(5)" [ngClass]="(video.userRating!=5 || video.userRating==0) ? 'disabled-icon':''" class="fas fa-2x fa-smile"></i>
+            <i (click)="rateVideo(3)" [ngClass]="(video.userRating!=3 || video.userRating==0) ? 'disabled-icon':''" class="fas fa-2x fa-meh"></i>
+            <i (click)="rateVideo(1)" [ngClass]="(video.userRating!=1 || video.userRating==0) ? 'disabled-icon':''" class="fas fa-2x fa-frown"></i>
           </div>
         </div>
       </div>

@@ -23,7 +23,7 @@ module.exports.searchByUser = function(){//for further in time
 }
 
 module.exports.searchByBoth = function(query, callback){//video and user
-    Voters.findOne( {videoId:query.videoId, voterId:query.voterId}, callback).select('rating');
+    Voters.findOne( {videoId:query.videoId, voterId:query.voterId}, callback);
 };
 
 // module.exports.searchByBoth = function(query){

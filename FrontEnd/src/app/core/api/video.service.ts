@@ -12,6 +12,28 @@ export class VideoService {
 
   //-----------------------------------------------------------------------------//
 
+  rate(videoId, rating) {
+
+    return this.apiService.post(`${this.resourceUrl}/${videoId}/rate`, {rating: rating})
+      .map(res=> {
+        if (res.success) return res;
+        else throw res.code;
+      });
+  }
+
+  //-----------------------------------------------------------------------------//
+
+  hasRated(videoId) {
+
+    return this.apiService.get(`${this.resourceUrl}/hasRated`, {videoId: videoId, v:`${new Date().getTime()}`})
+      .map(res=>{
+        if(res.success) return res;
+        else throw res.code;
+      });
+  }
+
+  //-----------------------------------------------------------------------------//
+
   getVideoFeed(criteria) {
     return this.apiService.post(`${this.resourceUrl}/search`, criteria)
       .map(res => {

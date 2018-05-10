@@ -1,7 +1,6 @@
 //Angular
 import { NgModule } from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {FeedComponent} from "./feed/feed.component";
 
 //Resolvers
 
@@ -9,6 +8,7 @@ import {FeedComponent} from "./feed/feed.component";
 import { AuthGuard } from 'app/core';
 
 //Components
+import { FeedComponent } from "./feed/feed.component";
 import { UploadComponent } from './upload/upload.component';
 
 const routes: Routes = [
