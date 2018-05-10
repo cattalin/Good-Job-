@@ -1,1 +1,71 @@
-<p>UserProfile</p>
+<div class="container">
+
+  <div *ngIf="viewUser==null" class="panel panel-default">
+    <div class="panel-heading"><h3 style="font-weight: bold;">Hello, {{currentUser.name}}!</h3></div>
+    <div class="panel-body">
+
+      <div class="row">
+
+        <div class="col-sm-12">
+          <p><span style="font-weight: bold;">Class: </span> {{currentUser.class}}</p>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-12">
+          <p><span style="font-weight: bold;">Email: </span> {{currentUser.email}}</p>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-12">
+          <p><span style="font-weight: bold;">Username: </span> {{currentUser.username}}</p>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+  <div *ngIf="viewUser!=null" class="panel panel-default"> 
+    <div class="panel-heading"><h3 style="font-weight: bold;"> {{viewUserInfo.name}}'s Profile!</h3></div>
+    <div class="panel-body">
+
+      <div class="row">
+
+        <div class="col-sm-12">
+          <p><span style="font-weight: bold;">Class: </span> {{viewUserInfo.class}}</p>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-12">
+          <p><span style="font-weight: bold;">Email: </span> {{viewUserInfo.email}}</p>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-12">
+          <p><span style="font-weight: bold;">Username: </span> {{viewUserInfo.username}}</p>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+
+  <h3 style="text-align: center; font-weight: bold; margin-top: 3%;">{{viewUser==null ? 'Your Videos:':'Posted Videos'}}</h3>
+  <app-feed [userName]="viewUser!=null ? viewUser : currentUser.username"></app-feed>
+
+</div>

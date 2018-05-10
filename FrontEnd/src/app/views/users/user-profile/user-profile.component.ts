@@ -9,11 +9,21 @@ import { UserService } from 'app/core/api/user.service';
 export class UserProfileComponent implements OnInit {
 
   currentUser: any;
+  viewUser: any;
+  viewUserInfo: any;
 
   //------------------------------------------------------------------------------//
 
   ngOnInit() {
     this.currentUser=this.userService.currentUser;
+
+    var paramId = this.route.snapshot.paramMap.get('username');
+    if(paramId) {
+      this.viewUser=paramId;
+      this.userService.getUserByUsername(this.viewUser).subscribe(res=>{
+        this.viewUserInfo=res.user;
+      })
+    }
   }
 
   //------------------------------------------------------------------------------//

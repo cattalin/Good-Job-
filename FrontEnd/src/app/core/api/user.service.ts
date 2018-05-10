@@ -8,7 +8,16 @@ import { ApiService } from 'app/core/api/api.service';
 export class UserService {
 
   currentUser: any;
-  private readonly resourceUrl: string = '';
+  private readonly resourceUrl: string = '/users';
+
+  //-----------------------------------------------------------------------------//
+
+  getUserByUsername(username) {
+    return this.apiService.get(`${this.resourceUrl}/find`,{username: username})
+      .map(res=>{
+        return res;
+      })
+  }
 
   //-----------------------------------------------------------------------------//
 

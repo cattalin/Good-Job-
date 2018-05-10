@@ -49,7 +49,7 @@ export class VideoComponent implements OnInit, OnChanges {
   isPostComment = false;
 
   ngOnChanges() {
-    console.warn(this.video);
+
   }
 
   ngOnInit() {
@@ -69,10 +69,15 @@ export class VideoComponent implements OnInit, OnChanges {
 
   }
 
+  redirect() {
+
+    this.router.navigate([`/users/profile/${this.video.username}`]);
+  }
+
   rateVideo(value) {
 
 
-    this.videoService.rate(this.video._id, value).subscribe(res=>{ 
+    this.videoService.rate(this.video._id, value).subscribe(res=>{
       this.video.userRating==value ? this.video.userRating=0:this.video.userRating = value;
       this.video.rating = res.result.rating;
     });
@@ -147,8 +152,8 @@ export class VideoComponent implements OnInit, OnChanges {
     // })
   }
 
-  redirect() {
-    this.router.navigate(['/user-profile'], {queryParams: {username: this.video.username}})
+  redirect2() {
+    this.router.navigate(['/user/profile'], {queryParams: {username: this.video.username}})
   }
 
   //------------------------------------------------------------------------------//

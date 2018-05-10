@@ -26,7 +26,7 @@ import { VideosRoutingModule } from './videos-routing.module';
     VideosRoutingModule,
   ],
   declarations: [
-    FeedComponent,
+    //FeedComponent,
     UploadComponent
   ]
 })

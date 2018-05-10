@@ -1,13 +1,16 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, Input} from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { VideoService } from 'app/core/api/video.service';
 import { UserService } from 'app/core/api/user.service';
 
 @Component({
+  selector: 'app-feed',
   templateUrl: 'feed.component.html',
   styleUrls: ['feed.component.css']
 })
 export class FeedComponent implements OnInit {
+
+  @Input() userName?;
 
   currentUser: any;
   feed: any;
@@ -17,6 +20,9 @@ export class FeedComponent implements OnInit {
   ngOnInit() {
 
     this.currentUser = this.getCurrentUser();
+    if(this.userName) {
+      this.requestItemsByUsername();
+    }
 
   }
 
@@ -32,6 +38,14 @@ export class FeedComponent implements OnInit {
       skip: 0,
       sort: -1
     }
+  }
+
+  //------------------------------------------------------------------------------//
+
+  requestItemsByUsername() {
+    this.criteria.filter.criteria="username";
+    this.criteria.filter.searchedContent=this.userName;
+    this.feedHandler();
   }
 
   //------------------------------------------------------------------------------//
@@ -61,7 +75,6 @@ export class FeedComponent implements OnInit {
   //------------------------------------------------------------------------------//
 
   getUserRating(videoFeed) {
-    console.warn(videoFeed);
 
     videoFeed.forEach(video=>{
         this.videoService.hasRated(video._id).subscribe(res=>{

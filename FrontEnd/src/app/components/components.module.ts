@@ -11,6 +11,7 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { CommentComponent } from './comment/comment.component';
 import { CommentFeedComponent } from './comment-feed/comment-feed.component';
 import { NewCommentComponent } from './comment-new/new-comment.component';
+import { FeedComponent } from '../views/videos/feed/feed.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { NewCommentComponent } from './comment-new/new-comment.component';
     PaginationComponent,
     CommentComponent,
     CommentFeedComponent,
-    NewCommentComponent
+    NewCommentComponent,
+    FeedComponent
   ],
   exports: [
     FormsModule,
@@ -37,7 +39,8 @@ import { NewCommentComponent } from './comment-new/new-comment.component';
     PaginationComponent,
     CommentComponent,
     CommentFeedComponent,
-    NewCommentComponent
+    NewCommentComponent,
+    FeedComponent
   ],
   providers: [],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
