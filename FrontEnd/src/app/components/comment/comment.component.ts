@@ -1,5 +1,6 @@
 // Angular
 import { Component, OnInit, Input }       from '@angular/core';
+import { Router } from "@angular/router";
 
 // Services
 import { UserService }                    from 'app/core/api/user.service';
@@ -51,7 +52,8 @@ export class CommentComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private commentService: CommentService
+    private commentService: CommentService,
+    private router: Router
   ) { }
 
 }
