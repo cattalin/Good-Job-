@@ -25,6 +25,7 @@ export class CommentComponent implements OnInit {
 
   goToProfile() {
 
+      this.router.navigate([`/users/profile/${this.comment.username}`]);
   }
 
   //------------------------------------------------------------------------------//
